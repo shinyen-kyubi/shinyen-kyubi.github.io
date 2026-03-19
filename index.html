@@ -3,91 +3,597 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>九尾の暗号 - 81の審判</title>
+    <title>心炎九尾（しんえんきゅうび） | 心理テスト</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Hiragino Kaku Gothic ProN', sans-serif; background-color: #0d0d0d; color: #e0e0e0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background: #1a1a1a; padding: 40px; border-radius: 20px; box-shadow: 0 0 30px rgba(211, 47, 47, 0.3); width: 90%; max-width: 550px; text-align: center; border: 1px solid #333; }
-        h1 { color: #ff5252; font-size: 28px; letter-spacing: 4px; margin-bottom: 30px; text-shadow: 2px 2px 4px #000; }
-        .question { font-size: 20px; margin-bottom: 40px; min-height: 80px; line-height: 1.8; color: #fff; }
-        .btn-group { display: flex; flex-direction: column; gap: 20px; }
-        button { background: #262626; color: #fff; border: 1px solid #d32f2f; padding: 18px; border-radius: 10px; cursor: pointer; font-size: 18px; transition: all 0.3s; }
-        button:hover { background: #d32f2f; transform: scale(1.02); box-shadow: 0 0 15px rgba(211, 47, 47, 0.5); }
-        #result-screen { display: none; }
-        .result-title { font-size: 26px; color: #ffd700; margin-bottom: 20px; font-weight: bold; border-bottom: 2px solid #d32f2f; padding-bottom: 10px; }
-        .result-desc { text-align: left; line-height: 2; font-size: 15px; background: #252525; padding: 20px; border-radius: 12px; color: #ccc; }
-        .progress { font-size: 12px; color: #666; margin-bottom: 10px; }
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background-color: #f7fafc;
+            /* スマホでの横揺れ防止 */
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+        .font-serif {
+            font-family: 'Shippori Mincho', serif;
+        }
+        .fox-icon {
+            display: inline-block;
+            line-height: 1;
+        }
+        .trait-box {
+            transition: all 0.3s ease;
+        }
+        .trait-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .grid-item {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .grid-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
-<body>
-    <div class="container" id="quiz-screen">
-        <div class="progress" id="progress-text">第 1 / 9 段階</div>
-        <h1>九尾の暗号</h1>
-        <div id="question-text" class="question"></div>
-        <div class="btn-group">
-            <button onclick="answer(1)">強くそう思う</button>
-            <button onclick="answer(0)">そう思わない</button>
-        </div>
-    </div>
+<body class="bg-gray-50 min-h-screen text-gray-800 flex flex-col items-center">
 
-    <div class="container" id="result-screen">
-        <h1>解読完了</h1>
-        <div id="result-name" class="result-title"></div>
-        <div id="result-desc" class="result-desc"></div>
-        <br>
-        <button onclick="location.reload()">再び暗号を紡ぐ</button>
+    <div class="w-full max-w-4xl bg-white shadow-2xl rounded-none sm:rounded-xl p-6 sm:p-10 border-t-8 border-red-600 min-h-screen sm:min-h-0 sm:my-8 flex flex-col">
+        <header class="text-center mb-8 sm:mb-10 cursor-pointer flex-none" onclick="location.reload()">
+            <span class="fox-icon text-5xl mb-2">🦊</span>
+            <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800 mt-2 mb-1 tracking-tight font-serif">心炎九尾<span class="text-lg sm:text-2xl ml-2 font-normal text-gray-500 font-sans">（しんえんきゅうび）</span></h1>
+            <p class="text-base font-bold text-red-600 tracking-widest uppercase mb-4">Foxfire Blueprint</p>
+            <p class="text-sm sm:text-lg text-gray-600 font-semibold mt-4">
+                九尾の炎が照らすあなたの魂の煌は？
+            </p>
+        </header>
+
+        <!-- コンテンツエリア (flex-growで高さを確保) -->
+        <main class="flex-grow w-full">
+            <!-- 質問表示セクション -->
+            <section id="quiz-section" class="mb-8 fade-in">
+                <div id="start-screen" class="text-center py-6 sm:py-10">
+                    <p class="mb-8 text-gray-700 leading-relaxed text-sm sm:text-base">
+                        9つの側面からあなたの深層心理を分析し、<br>
+                        もっとも強く現れている「特性」と、<br>
+                        もっとも不足している「潜在色」を導き出します。
+                    </p>
+                    <button onclick="startQuiz()" class="px-10 py-4 bg-red-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-red-700 transition transform hover:scale-105 active:scale-95 touch-manipulation">
+                        診断を開始する
+                    </button>
+                </div>
+
+                <div id="quiz-content" class="hidden">
+                    <h2 class="text-lg sm:text-xl font-bold text-gray-700 border-b-2 border-gray-200 pb-2 mb-6 flex justify-between items-end">
+                        <span>内なる声に答える</span>
+                        <span id="progress-text" class="text-sm font-normal text-gray-500">1 / 81 問</span>
+                    </h2>
+                    
+                    <!-- 進行度バー -->
+                    <div class="mb-6 sm:mb-8">
+                        <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                            <div id="progress-bar" class="bg-gradient-to-r from-yellow-500 to-red-600 h-2.5 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- 質問コンテナ -->
+                    <div id="question-container" class="min-h-[160px] p-6 sm:p-10 border-4 border-yellow-400 bg-yellow-50 rounded-xl shadow-inner flex items-center justify-center text-center mb-8">
+                        <p id="current-question-text" class="text-lg sm:text-2xl font-bold text-gray-800 leading-relaxed">質問内容読み込み中...</p>
+                    </div>
+                    
+                    <!-- 回答ボタン -->
+                    <div id="answer-options" class="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto pb-8">
+                        <button type="button" onclick="handleAnswer(true)" class="w-full sm:w-1/2 py-4 bg-red-600 text-white font-bold rounded-lg shadow-md hover:bg-red-700 transition duration-200 transform active:scale-95 text-lg touch-manipulation">
+                            はい
+                        </button>
+                        <button type="button" onclick="handleAnswer(false)" class="w-full sm:w-1/2 py-4 bg-gray-200 text-gray-700 font-bold rounded-lg shadow-md hover:bg-gray-300 transition duration-200 transform active:scale-95 text-lg touch-manipulation">
+                            いいえ
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 結果表示セクション -->
+            <section id="result-section" class="hidden fade-in pb-10">
+                <div class="p-6 sm:p-10 bg-yellow-50 border-4 border-yellow-300 rounded-xl shadow-lg relative overflow-hidden">
+                    <!-- 背景装飾 -->
+                    <div class="absolute top-0 right-0 text-9xl opacity-5 pointer-events-none select-none">🦊</div>
+
+                    <h2 class="text-xl sm:text-2xl font-bold text-yellow-800 mb-6 text-center border-b-2 border-yellow-300 pb-3">
+                        心炎九尾 解析完了
+                    </h2>
+                    
+                    <div id="result-header" class="text-center mb-10">
+                        <div class="mb-4">
+                            <span class="text-xs text-gray-500 font-bold tracking-widest uppercase">FOXFIRE BLUEPRINT</span>
+                        </div>
+                        
+                        <!-- 上段：特性の尻尾：潜在色 -->
+                        <h3 class="text-lg sm:text-2xl font-bold text-gray-600 mb-2">
+                            <span id="result-trait-name" class="text-gray-800"></span>の尻尾：<span id="result-color-name" class="text-gray-800"></span>
+                        </h3>
+                        
+                        <!-- 下段：ユニークな組み合わせ名（大きく） -->
+                        <h2 class="text-4xl sm:text-6xl font-extrabold text-red-700 mb-6 leading-tight font-serif drop-shadow-sm py-2">
+                            <span id="combo-name-display"></span>
+                        </h2>
+
+                        <!-- 魂の核心（キャッチコピー） -->
+                        <p class="text-lg sm:text-xl font-bold text-gray-800 mb-2 tracking-wider">
+                            "<span id="soul-core"></span>"
+                        </p>
+                    </div>
+
+                    <!-- 総合的な特徴 -->
+                    <div id="overall-description" class="p-6 mb-10 bg-white border-l-4 border-yellow-500 rounded-r-lg shadow-sm text-gray-700 leading-loose text-lg font-serif">
+                        <!-- JSで挿入 -->
+                    </div>
+                    
+                    <!-- スコア詳細分析 (自分の結果の時のみ表示) -->
+                    <div id="score-analysis-block" class="mb-10">
+                        <h3 class="text-xl font-bold text-gray-800 mb-6 border-b-2 border-gray-200 pb-2">全パート詳細分析</h3>
+                        <div id="full-analysis-container" class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4 md:space-y-0">
+                            <!-- 9つの分析ブロックがここに挿入されます -->
+                        </div>
+                    </div>
+
+                    <!-- アクションボタン -->
+                    <div class="flex flex-col items-center space-y-4 pb-4">
+                        <button id="show-all-button" type="button" onclick="showAllResults()" class="w-full sm:w-auto px-8 py-3 bg-gray-800 text-white font-bold rounded-lg shadow-lg hover:bg-gray-700 transition transform hover:scale-105 flex items-center justify-center touch-manipulation">
+                            <span class="mr-2">💡</span> 全81種の『魂の煌』を見る
+                        </button>
+                        
+                        <button id="return-from-detail" type="button" onclick="showMyResult()" class="hidden w-full sm:w-auto px-8 py-3 bg-red-600 text-white font-bold rounded-lg shadow-lg hover:bg-red-700 transition transform hover:scale-105 touch-manipulation">
+                            自分の診断結果に戻る
+                        </button>
+
+                        <button id="back-to-list-button" type="button" onclick="showAllResults()" class="hidden w-full sm:w-auto px-8 py-3 bg-gray-600 text-white font-bold rounded-lg shadow-lg hover:bg-gray-700 transition transform hover:scale-105 touch-manipulation">
+                            一覧に戻る
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 全81種の結果一覧セクション -->
+            <section id="all-results-section" class="hidden fade-in mt-4 mb-10 pb-10">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-xl border border-gray-200">
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2 font-serif">全81種の【心炎九尾】</h2>
+                        <p class="text-gray-500 text-sm">Foxfire Blueprint Archive</p>
+                    </div>
+                    
+                    <!-- フィルタボタン -->
+                    <div class="flex flex-wrap justify-center gap-2 mb-8" id="trait-filters">
+                        <button onclick="filterResults('ALL')" class="px-4 py-2 bg-gray-800 text-white rounded-full text-sm font-bold shadow hover:bg-gray-700 transition touch-manipulation">ALL</button>
+                        <!-- JSで各系統のボタンを生成 -->
+                    </div>
+
+                    <div id="full-name-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- 81個のボタンがここに挿入されます -->
+                    </div>
+
+                    <div class="mt-10 text-center">
+                        <button id="back-to-my-result-btn" type="button" onclick="showMyResult()" class="hidden px-8 py-3 bg-red-600 text-white font-bold rounded-lg shadow-lg hover:bg-red-700 transition duration-200 transform hover:scale-105 touch-manipulation">
+                            自分の診断結果に戻る
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="mt-auto pt-6 border-t text-center text-xs sm:text-sm text-gray-400 pb-4 w-full">
+            <p class="mb-2">心炎九尾 - Foxfire Blueprint</p>
+            <p>※ この診断はエンターテイメントであり、心理学的な確定診断ではありません。</p>
+        </footer>
     </div>
 
     <script>
-        const parts = ["奔流", "灼熱", "静寂", "疾風", "豊穣", "閃光", "深淵", "慈愛", "輪廻"];
-        const colors = ["紅", "蒼", "翠", "琥珀", "漆黒", "純白", "菫", "黄金", "灰"];
+        // --- データ定義 ---
         
-        // 以前作成した81通りの「色の読み」と「意味」のデータ構造
-        const colorMeanings = {
-            "紅": "情熱と破壊、そして再生の力。",
-            "蒼": "冷静沈着な知性と、底知れぬ慈愛。",
-            "翠": "生命の輝きと、調和をもたらす安らぎ。",
-            "琥珀": "時を超えた経験と、揺るぎない意志。",
-            "漆黒": "全てを包み込む包容力と、未知なる可能性。",
-            "純白": "無垢な魂と、未来を描き直す創造性。",
-            "菫": "高貴な精神と、直感に導かれる神秘。",
-            "黄金": "至高の輝きと、人々を導くカリスマ。",
-            "灰": "中庸の美徳と、終わりから始まる新たな旅。"
+        // 9つのパートの定義と質問（合計81問）
+        const quizData = [
+            { id: 'I', name: '奔流（実行）', questions: [
+                "新しいアイデアを思いついたら、すぐに実行に移す方だ。", "決定を下す際、深く考え込むより直感を重視する。", "障害にぶつかっても、ほとんど躊躇なく乗り越えようとする。", "自分の意見や計画を、周囲に力強く主張できる。", "リスクを伴う挑戦を、むしろ楽しむ傾向がある。", "会議やグループ作業で、自ら進んで主導権を握る。", "困難な状況でも、ポジティブな姿勢を失わない。", "過去の失敗を気にせず、すぐに次の行動に移れる。", "待つことが苦手で、物事を迅速に進めたがる。"
+            ]},
+            { id: 'II', name: '円環（調和）', questions: [
+                "グループの意見が対立した際、仲裁役を買って出ることが多い。", "周囲の人々がリラックスできる、居心地の良い雰囲気作りを意識している。", "自分の感情よりも、集団の和を優先して行動する。", "異なる意見を持つ人とも、円滑なコミュニケーションを保てる。", "チームで働くことの方が、一人で働くよりも好きだ。", "誰かの助けが必要な時、すぐに察知して手を差し伸べられる。", "自分のルールを押し付けず、周囲に合わせて柔軟に対応する。", "自分の役割を認識し、それを謙虚に果たすことに満足感を得る。", "他人から頼られるよりも、協力し合う関係を大切にする。"
+            ]},
+            { id: 'III', name: '慈愛（感性）', questions: [
+                "映画や小説の登場人物に感情移入して涙を流すことがある。", "他人の喜びや悲しみを、自分のことのように感じやすい。", "芸術作品や自然の美しさを見て、深い感動を覚える。", "人の話を聞くとき、その人の非言語的なサイン（表情や声のトーン）に気づきやすい。", "困っている人を見ると、助けずにはいられない衝動に駆られる。", "自分の感情を言葉で表現するのが得意だ。", "感情の起伏が激しく、気分が変わりやすい。", "小さな優しさや親切に、深く感謝できる心を持っている。", "人生において、論理よりも感情的な繋がりを重視する。"
+            ]},
+            { id: 'IV', name: '叡智（論理）', questions: [
+                "物事を判断する際、感情よりも客観的なデータや事実を重視する。", "複雑なシステムや仕組みを理解することに喜びを感じる。", "計画を立てる際、細部にわたる論理的な検証を行う。", "議論では、筋道を立てて矛盾なく話すことを心がけている。", "パズルや論理ゲームを解くのが好きだ。", "未知の事象に対して、まずその原因と結果を分析しようとする。", "感情的な意見を述べる人に対して、やや懐疑的になる。", "誤りや非効率な点を見つけると、それを改善せずにいられない。", "自分の信念よりも、証明された知識を信頼する。"
+            ]},
+            { id: 'V', name: '幻影（独創）', questions: [
+                "既存の方法にとらわれず、常に新しいやり方を模索している。", "規則や制約の多い環境よりも、自由な環境を好む。", "自分の個性や考えを、ユニークな方法で表現したいと思う。", "時に「変わっている」「独特だ」と言われることがある。", "暇な時間があると、頭の中で空想や物語を作ってしまう。", "仕事や趣味において、量よりも質、特に独創性を重視する。", "自分のアイデアが受け入れられなくても、気にせず創作を続ける。", "変化のない日常よりも、予測不能な出来事がある方が楽しい。", "誰にも真似できない、自分だけの世界観を持っている。"
+            ]},
+            { id: 'VI', name: '深淵（思索）', questions: [
+                "一人で静かに考える時間を、とても大切にしている。", "自分の内面や心の動きについて深く探求することが好きだ。", "表面的な人間関係よりも、深い精神的な繋がりを求める。", "賑やかなパーティーよりも、静かな読書や散歩を好む。", "自分の行動の動機や、人生の意味について考えることが多い。", "他人から理解されなくても、自分の信念を曲げない。", "重要な決断は、周囲の意見ではなく、内なる声に従って行う。", "流行や世間一般の価値観に流されることは少ない。", "真実は言葉よりも沈黙の中にあると感じることがある。"
+            ]},
+            { id: 'VII', name: '覇道（達成）', questions: [
+                "困難な目標ほど、達成した時に大きな喜びを感じる。", "競争に負けることを、非常に悔しいと感じる。", "自分のスキルや能力を、常に最高のレベルまで高めたい。", "人生において、明確な成功の証や地位を求めている。", "チーム内でも、誰よりも優れた結果を出そうと努力する。", "常に具体的な目標を設定し、それをクリアするための計画を立てる。", "目標達成のためなら、個人的な犠牲を払うこともいとわない。", "困難に直面したとき、それを乗り越えることに燃える。", "評価や報酬など、自分の努力に見合った対価を強く求める。"
+            ]},
+            { id: 'VIII', name: '堅牢（基盤）', questions: [
+                "将来の不安に備えて、貯金や資産形成を欠かさない。", "予測不能な事態よりも、安定した日常を好む。", "契約や約束事は、必ず守るべき重要なものだと考えている。", "質の良いものやブランド品など、物質的な豊かさに価値を見出す。", "衝動買いをすることは少なく、購入前に十分検討する。", "住居や職場など、自分の居場所は確固たる基盤の上に築きたい。", "現実的な問題解決が得意で、空想論はあまり信じない。", "計画通りに物事が進まないと、強いストレスを感じる。", "変化の少ない、確実性の高い仕事や環境を選ぶ傾向がある。"
+            ]},
+            { id: 'IX', name: '自由（自在）', questions: [
+                "新しい環境やルールに、すぐに慣れることができる。", "予期せぬ変更があっても、楽しんで対応できる。", "様々な分野の新しい知識やスキルを学ぶことに熱心だ。", "決まりきった日常よりも、変化に富んだ毎日を望む。", "状況に応じて、自分の意見や方針を柔軟に変えられる。", "過去の成功体験に固執せず、常に改善点を模索する。", "計画に縛られるよりも、その場の流れに身を任せる方が好きだ。", "飽きっぽい方で、一つのことに長く集中し続けるのが苦手だ。", "異なる文化や価値観を持つ人との交流を歓迎する。"
+            ]}
+        ];
+
+        // 81通りの結果データ（ユニーク名＋CSVテキスト反映版）
+        const soulNarratives = {
+            "I-I": { trait: "奔流（実行）", color: "紅玉（熱意）", name: "炎の開拓者", narrative: "実行力と初期熱意が統合。計画よりも行動を優先し、情熱をもって障害を突破します。自己の炎が最も純粋に燃え盛っています。", core: "燃え盛る突進。" },
+            "I-II": { trait: "奔流（実行）", color: "瑠璃（連帯）", name: "孤高の航海士", narrative: "強力な実行力を持つ一方、内面では深い連帯感と信頼を求めています。強引な行動が摩擦を生むことに無意識に苦しみます。", core: "単独の船団長。" },
+            "I-III": { trait: "奔流（実行）", color: "琥珀（情動）", name: "陽だまりの突破", narrative: "実行力は満ちていますが、その行動には情動的な深さが欠けがち。心の温かさを学ぶことで、真の優しさを伴う行動に変わります。", core: "無自覚な優しさ。" },
+            "I-IV": { trait: "奔流（実行）", color: "白銀（客観）", name: "真実の戦略家", narrative: "瞬発的な実行力に優れますが、その行動に客観性や裏付けを欠きがち。真実を追求する姿勢が加わることで、確信に変わります。", core: "無敵の戦略家。" },
+            "I-V": { trait: "奔流（実行）", color: "漆黒（独創）", name: "無型の先駆者", narrative: "枠を破る実行力を持ちつつも、発想自体は独創性に欠けがち。孤高の創造性を獲得することで、革新的なパイオニアとなります。", core: "型を壊す者。" },
+            "I-VI": { trait: "奔流（実行）", color: "翡翠（静謐）", name: "静かなる暴風", narrative: "考える前に行動するため、立ち止まって静謐の中で自己と対話する時間がありません。内省を養うことで、衝動が深い洞察に基づく実行へと進化します。", core: "思考する疾風。" },
+            "I-VII": { trait: "奔流（実行）", color: "黄金（栄光）", name: "勝利への直行", narrative: "実行力と栄光への渇望が一体化。目標設定から達成まで一直線に進む、生まれながらの勝者。", core: "王者の突き進み。" },
+            "I-VIII": { trait: "奔流（実行）", color: "鋼鉄（確実）", name: "堅固な推進力", narrative: "常に実行し結果を出しますが、その確実な基盤に不安を感じやすい。堅実さを学ぶことで、真の安心を得ます。", core: "安定を求める奔走。" },
+            "I-IX": { trait: "奔流（実行）", color: "蒼空（自在）", name: "自由な風の先導者", narrative: "変化を恐れず実行しますが、それは自在な変化への憧れの裏返し。柔軟な適応力を学ぶことで、完璧な遊牧民となります。", core: "変わることを恐れる剛直。" },
+            "II-I": { trait: "浸透（受容）", color: "紅玉（熱意）", name: "情熱を映す鏡", narrative: "調和を重んじる性格ですが、内側では熱意ある自己主張や実行への渇望があります。平和を乱さずに主張する方法を学ぶことが課題です。", core: "遠慮深い調停者。" },
+            "II-II": { trait: "浸透（受容）", color: "瑠璃（連帯）", name: "信頼の結節点", narrative: "調和と連帯が統合され、周囲に安心感を与えます。深い信頼を基盤としたコミュニティの要です。", core: "信頼の結界。" },
+            "II-III": { trait: "浸透（受容）", color: "琥珀（情動）", name: "共感の温もり", narrative: "他者の情動に共感した上で、それを調和のエネルギーに変換できます。心の温かさを基盤とした強固な関係を築きます。", core: "共感の調律師。" },
+            "II-IV": { trait: "浸透（受容）", color: "白銀（客観）", name: "真理の濾過器", narrative: "集団の調和を優先するため、客観的な真実や論理が犠牲になりがち。公平性を身につけることで、真に公平な決定を下せます。", core: "公平を願う感情。" },
+            "II-V": { trait: "浸透（受容）", color: "漆黒（独創）", name: "無意識の創造主", narrative: "集団の調和を大切にするため、独創的な表現が抑圧されやすい。自身の創造性を解放することが、より豊かな調和を生む鍵です。", core: "枠の中の芸術家。" },
+            "II-VI": { trait: "浸透（受容）", color: "翡翠（静謐）", name: "静寂の海", narrative: "常に周囲に意識が向くため、静謐な思索の時間が不足しています。孤独な時間を愛し、自己理解を深めることで、他者へのより深い奉仕が可能になります。", core: "集団の中の孤独。" },
+            "II-VII": { trait: "浸透（受容）", color: "黄金（栄光）", name: "栄光の反映", narrative: "栄光や達成を避ける傾向があるため、自分の才能を活かしきれないことがあります。他者との協力の中で、健全な目標達成を目指します。", core: "謙虚すぎる才能。" },
+            "II-VIII": { trait: "浸透（受容）", color: "鋼鉄（確実）", name: "絶対的な基盤", narrative: "調和の安定性と、確実な基盤を重視。組織の土台を、精神的・物理的両面から強固に守り続けます。", core: "強固な安息地。" },
+            "II-IX": { trait: "浸透（受容）", color: "蒼空（自在）", name: "変容の器", narrative: "自在な変化や不確実性を嫌い、集団の現状維持を望みがち。柔軟な適応力を養うことで、グループを停滞から守り、新しい時代へ導きます。", core: "変化を嫌う舵取り。" },
+            "III-I": { trait: "慈愛（共感）", color: "紅玉（熱意）", name: "熱意の灯火", narrative: "感性が鋭敏なため、熱意をもって実行する前に、迷いや不安に駆られやすい。行動力を学ぶことで、共感が現実的な支援に繋がります。", core: "立ちすくむ感受性。" },
+            "III-II": { trait: "慈愛（共感）", color: "瑠璃（連帯）", name: "連帯の守護者", narrative: "感性と連帯が深く結びつき、他者のニーズを理解し、それを満たすことに喜びを感じます。包容力のある人間関係の要です。", core: "愛のコミュニティ。" },
+            "III-III": { trait: "慈愛（共感）", color: "琥珀（情動）", name: "純粋な温かさ", narrative: "感性が情動として純粋に燃え上がり、芸術や人間関係において圧倒的な情緒的表現力を持ちます。深く、温かく、人を惹きつける魅力の持ち主です。", core: "生命の鼓動。" },
+            "III-IV": { trait: "慈愛（共感）", color: "白銀（客観）", name: "公平な裁定者", narrative: "豊かな感性を論理的に整理することが苦手で、情緒的な混乱に陥りやすい。客観的な分析力を身につけることで、感情を創造的に使えます。", core: "整理されない感性。" },
+            "III-V": { trait: "慈愛（共感）", color: "漆黒（独創）", name: "創造的な献身", narrative: "情動的な感性が独創性の源となり、情緒的で独創的な作品を生み出します。感情というレンズを通して世界観を表現します。", core: "魂の表現者。" },
+            "III-VI": { trait: "慈愛（共感）", color: "翡翠（静謐）", name: "静かなる慈悲", narrative: "静謐な思索の中で感性を深く見つめ、哲学的なレベルでの理解に到達。精神性の高い愛を体現します。", core: "内なる真実の愛。" },
+            "III-VII": { trait: "慈愛（共感）", color: "黄金（栄光）", name: "輝く献身", narrative: "栄光や達成に抵抗感があります。共感力を達成意欲と結びつけ、他者の幸福のための目標を掲げます。", core: "勝利を避ける才能。" },
+            "III-VIII": { trait: "慈愛（共感）", color: "鋼鉄（確実）", name: "揺るぎない信頼", narrative: "情動的な感性のエネルギーが、確実な基盤を軽視しがち。堅実さを学ぶことで、自分自身と愛する人を守る力が得られます。", core: "現実を見ない夢想家。" },
+            "III-IX": { trait: "慈愛（共感）", color: "蒼空（自在）", name: "自由な流動愛", narrative: "感性の波が激しいため、自在な変化に対応できず感情的に不安定になりやすい。柔軟性を学ぶことで、変化の中でも落ち着いて感情を制御できます。", core: "変化に怯える感情。" },
+            "IV-I": { trait: "探究（真実）", color: "紅玉（熱意）", name: "真理を焼く炎", narrative: "論理的な分析に時間をかけすぎて、実行のタイミングを逸しがち。即断即決の実行力を学ぶことで、思考が現実を動かす力となります。", core: "実行を待つ頭脳。" },
+            "IV-II": { trait: "探究（真実）", color: "瑠璃（連帯）", name: "共に探る真実", narrative: "客観的な論理を重視するため、人間関係において冷淡に見られがちです。連帯感を学ぶことで、その分析力が人々の役に立つ知恵となります。", core: "孤立した賢者。" },
+            "IV-III": { trait: "探究（真実）", color: "琥珀（情動）", name: "温かい知識", narrative: "論理的思考が、情動的な機微を理解することを妨げる。心の温かさを学ぶことで、その知識が深い理解へと変わります。", core: "心を持たない理性。" },
+            "IV-IV": { trait: "探究（真実）", color: "白銀（客観）", name: "純粋な真理", narrative: "論理と客観性が最高潮に達しており、極めて合理的な問題解決のプロ。真実と効率性を追求します。", core: "完全なるシステム。" },
+            "IV-V": { trait: "探究（真実）", color: "漆黒（独創）", name: "真理の創造", narrative: "規則や論理に囚われすぎて、独創的な発想を抑圧しがち。遊び心を受け入れることで、革新的なアイデアを生み出します。", core: "自由を縛る理屈。" },
+            "IV-VI": { trait: "探究（真実）", color: "翡翠（静謐）", name: "静かなる洞察", narrative: "思索と論理が合わさり、自己の思考プロセスや世界の真理を体系化。哲学的な合理主義者です。", core: "論理的な探求。" },
+            "IV-VII": { trait: "探究（真実）", color: "黄金（栄光）", name: "栄光の知識", narrative: "達成意欲が論理的に計画され、無駄のない最高の効率で目標を追及。計算し尽くされた勝利を収める戦略家です。", core: "最適化された勝利。" },
+            "IV-VIII": { trait: "探究（真実）", color: "鋼鉄（確実）", name: "確固たる知識", narrative: "確実な基盤を、論理とデータによって裏付けます。計画通りに物事を進め、揺るぎない安定を築きます。", core: "不動の設計図。" },
+            "IV-IX": { trait: "探究（真実）", color: "蒼空（自在）", name: "流動的な真理", narrative: "過去の論理に固執し、自在な変化に対応できない。適応力を学ぶことで、思考が環境に適応し、常に最適解を導きます。", core: "変化を嫌う絶対性。" },
+            "V-I": { trait: "凝縮（創造）", color: "紅玉（熱意）", name: "情熱の創造主", narrative: "発想力を、即座の実行力で形にします。アイデアマンであり、同時にその実行者。予測不能な変化を生み出します。", core: "創造的な破壊。" },
+            "V-II": { trait: "凝縮（創造）", color: "瑠璃（連帯）", name: "連帯の芸術家", narrative: "独創的な世界観が、深い連帯感や調和に反し、孤立しやすい。他者との繋がりを学ぶことで、そのアイデアを社会に還元できます。", core: "孤高の傍観者。" },
+            "V-III": { trait: "凝縮（創造）", color: "琥珀（情動）", name: "温かい創作", narrative: "表現を優先しがちで、情動的な深さが欠けやすい。心の温かさを養うことで、感情に訴えかける力のある芸術を生み出します。", core: "未完成の芸術。" },
+            "V-IV": { trait: "凝縮（創造）", color: "白銀（客観）", name: "論理の建築家", narrative: "自由な発想が、客観的な裏付けや論理性を欠き、空想で終わることがある。論理を学ぶことで、夢が現実となります。", core: "現実を欠いた理想。" },
+            "V-V": { trait: "凝縮（創造）", color: "漆黒（独創）", name: "孤高の創造", narrative: "発想と独創性が極めて高く、無限の可能性を秘めたアイデアを生み出し続けます。誰にも真似できない独自の軌跡を辿ります。", core: "無限の可能性。" },
+            "V-VI": { trait: "凝縮（創造）", color: "翡翠（静謐）", name: "静寂の彫刻家", narrative: "常に外へ向かって表現するため、静謐な思索の時間が不足。孤独な静謐の中で、創造性の源泉を見つけます。", core: "静寂を嫌う表現者。" },
+            "V-VII": { trait: "凝縮（創造）", color: "黄金（栄光）", name: "達成の芸術", narrative: "栄光や達成よりも、創作の過程や自在を重視。達成意欲を学ぶことで、作品を世に送り出す力を得ます。", core: "勝利を拒む自由。" },
+            "V-VIII": { trait: "凝縮（創造）", color: "鋼鉄（確実）", name: "堅実な芸術", narrative: "安定や確実な基盤を軽視し、生活基盤が不安定になりがち。堅実さを学ぶことで、長く創作活動を続けられる基盤を築けます。", core: "不安定な天才。" },
+            "V-IX": { trait: "凝縮（創造）", color: "蒼空（自在）", name: "流動的な形", narrative: "自在な適応力と発想力が融合し、即座に状況に合わせたクリエイティブなアイデアを生み出す天才です。", core: "流れる創造性。" },
+            "VI-I": { trait: "洞察（思索）", color: "紅玉（熱意）", name: "情熱的な賢者", narrative: "思索に時間をかけすぎて、実行の機を逸しやすい。行動力を学ぶことで、その洞察が現実世界に影響を与える力となります。", core: "座して待つ哲学者。" },
+            "VI-II": { trait: "洞察（思索）", color: "瑠璃（連帯）", name: "連帯の戦略家", narrative: "孤独を好むため、集団との深い連帯感を築くのが苦手。調和性を学ぶことで、深い洞察を他者に共有し、貢献できます。", core: "集団に背を向けた真理。" },
+            "VI-III": { trait: "洞察（思索）", color: "琥珀（情動）", name: "温かい理解", narrative: "情動を深く分析し、哲学的なレベルでの理解に到達します。他者の苦悩を、静謐に受け止める深い包容力があります。", core: "精神的な包容力。" },
+            "VI-IV": { trait: "洞察（思索）", color: "白銀（客観）", name: "純粋な論理", narrative: "思索と論理が合わさり、自己の思考プロセスや世界の真理を体系化。哲学的な合理主義者です。", core: "論理的な探求。" },
+            "VI-V": { trait: "洞察（思索）", color: "漆黒（独創）", name: "孤高の思想家", narrative: "内省的すぎて、自己の独創的な発想を表現する大胆さに欠ける。創造性を解放することで、その深い思考が独自の芸術となります。", core: "内側に閉じ込めた思想。" },
+            "VI-VI": { trait: "洞察（思索）", color: "翡翠（静謐）", name: "絶対的な静寂", narrative: "思索と静謐への希求が強く、真理と自己の内面世界を深く探求。揺るぎない自己基準と精神的な深さを持っています。", core: "静寂の泉。" },
+            "VI-VII": { trait: "洞察（思索）", color: "黄金（栄光）", name: "成功の哲学", narrative: "栄光や達成を避けるため、社会的な成果に繋がりにくい。達成意欲を学ぶことで、その知恵を世に示し、評価を得ることができます。", core: "世捨て人の叡智。" },
+            "VI-VIII": { trait: "洞察（思索）", color: "鋼鉄（確実）", name: "確固たる信念", narrative: "思索と基盤が結びつき、自己の価値観や信念を確固たるものとして築きます。精神的な安定感が極めて高いです。", core: "自己の不動の土台。" },
+            "VI-IX": { trait: "洞察（思索）", color: "蒼空（自在）", name: "流動的な思考", narrative: "一つの真理を深く思索するため、自在な変化を受け入れるのが苦手。適応力を学ぶことで、新しい視点を取り込み、思考をアップデートできます。", core: "固定された哲学。" },
+            "VII-I": { trait: "昇華（達成）", color: "紅玉（熱意）", name: "勝利の火花", narrative: "達成意欲と実行力が融合し、目的達成に向けて最も迅速に行動。成果を生み出すことに特化したエネルギーです。", core: "目標への最短距離。" },
+            "VII-II": { trait: "昇華（達成）", color: "瑠璃（連帯）", name: "共鳴する成功", narrative: "達成を優先しすぎるあまり、周囲との摩擦や連帯感の欠如が生じやすい。調和を学ぶことで、チーム全体の成功を導く真のリーダーとなります。", core: "孤高の勝者。" },
+            "VII-III": { trait: "昇華（達成）", color: "琥珀（情動）", name: "温かい成功", narrative: "目的のために情動を排除しがちで、他者の気持ちを考慮しないことがある。温かい情動を学ぶことで、カリスマ性のある人間味あふれるリーダーとなります。", core: "冷徹な指導者。" },
+            "VII-IV": { trait: "昇華（達成）", color: "白銀（客観）", name: "論理的な勝利", narrative: "達成意欲が論理に裏付けられ、目標達成のプロセスが緻密に計画されています。無駄のない最高のビジネスパーソンです。", core: "合理的な成功。" },
+            "VII-V": { trait: "昇華（達成）", color: "漆黒（独創）", name: "革新的な達成", narrative: "成果を出すために、既存の成功パターンに固執し、独創性を犠牲にしがち。発想力を学ぶことで、誰も到達できない新しい分野での達成を目指せます。", core: "型にはまった勝利。" },
+            "VII-VI": { trait: "昇華（達成）", color: "翡翠（静謐）", name: "静かなる偉業", narrative: "常に結果を求め外へ向かうため、静謐な思索が浅く、自己の真の動機を見失いやすい。内省を学ぶことで、持続可能な真の成功を見つけます。", core: "立ち止まらない原動力。" },
+            "VII-VII": { trait: "昇華（達成）", color: "黄金（栄光）", name: "絶対的な栄光", narrative: "達成意欲と栄光への渇望が最高潮に達し、自己実現を何よりも重視。最高の地位と成果を渇望する、揺るぎない野心の持ち主です。", core: "輝かしき栄光。" },
+            "VII-VIII": { trait: "昇華（達成）", color: "鋼鉄（確実）", name: "確実な成果", narrative: "達成意欲が確実な基盤に裏打ちされ、長期的な安定した成功を目指します。計画的な大成功者です。", core: "確実な成功。" },
+            "VII-IX": { trait: "昇華（達成）", color: "蒼空（自在）", name: "自由な成功者", narrative: "勝利の方程式に固執し、自在な変化への適応が遅れがち。柔軟性を学ぶことで、時代の変化に対応し、常にトップであり続けます。", core: "変化を嫌う絶対王者。" },
+            "VIII-I": { trait: "堅牢（基盤）", color: "紅玉（熱意）", name: "熱意を支える大地", narrative: "基盤の安定を重視するあまり、実行が遅くなり、チャンスを逃しやすい。行動力を学ぶことで、その堅実さが現実を動かします。", core: "動きを恐れる安定。" },
+            "VIII-II": { trait: "堅牢（基盤）", color: "瑠璃（連帯）", name: "信頼の城", narrative: "基盤の安定と深い連帯感を重視し、長期的な信頼を築きます。安心感を与える組織の土台です。", core: "揺るがぬ信頼関係。" },
+            "VIII-III": { trait: "堅牢（基盤）", color: "琥珀（情動）", name: "温かい土台", narrative: "基盤の安定性ばかりに意識が向き、情動的なニーズを軽視しがち。温かい情動を学ぶことで、真に温かい安定を提供できます。", core: "温もりを欠いた基盤。" },
+            "VIII-IV": { trait: "堅牢（基盤）", color: "白銀（客観）", name: "論理的な土壌", narrative: "基盤と客観的な論理が結びつき、リスク管理と計画性に優れます。物事を確実かつ効率的に進めることができます。", core: "完璧なリスク管理。" },
+            "VIII-V": { trait: "堅牢（基盤）", color: "漆黒（独創）", name: "革新的な基盤", narrative: "現実的な制約に縛られ、独創的な発想を抑圧しがち。創造性を学ぶことで、安定の中に革新を生み出します。", core: "革新を恐れる堅実。" },
+            "VIII-VI": { trait: "堅牢（基盤）", color: "翡翠（静謐）", name: "自己の不動の土台", narrative: "思索と基盤が結びつき、自己の価値観や信念を確固たるものとして築きます。精神的な安定感が極めて高いです。", core: "自己の不動の土台。" },
+            "VIII-VII": { trait: "堅牢（基盤）", color: "黄金（栄光）", name: "栄光の土台", narrative: "確実性を求めすぎるため、達成目標が控えめになりがち。栄光への意欲を学ぶことで、安全な成功から大きな成功へとシフトします。", core: "安全圏の目標。" },
+            "VIII-VIII": { trait: "堅牢（基盤）", color: "鋼鉄（確実）", name: "絶対的な基盤", narrative: "基盤と確実性が統合され、生活や仕事において揺るぎない土台を築きます。信頼できる、絶対的な安心感の源です。", core: "絶対的な安心感。" },
+            "VIII-IX": { trait: "堅牢（基盤）", color: "蒼空（自在）", name: "流動的な土台", narrative: "現状の基盤維持に固執するため、自在な変化への適応を恐れがち。柔軟性を学ぶことで、環境の変化に耐えうる真の安定を得ます。", core: "変化を拒む基盤。" },
+            "IX-I": { trait: "自由（自在）", color: "紅玉（熱意）", name: "炎の舞い手", narrative: "適応力と実行力が融合し、新しい状況での実行力に優れます。常に動き、新しい挑戦を続けます。", core: "絶え間ない前進。" },
+            "IX-II": { trait: "自由（自在）", color: "瑠璃（連帯）", name: "流動的な連帯", narrative: "常に変化し続けるため、深い連帯感や調和を築きにくい。協調性を学ぶことで、変化の中でも人を繋ぐ人脈を形成できます。", core: "根無し草の旅人。" },
+            "IX-III": { trait: "自由（自在）", color: "琥珀（情動）", name: "温かい変化", narrative: "情動が変化に追いつかず、情緒的な浅薄さや不安定さを見せやすい。心の温かさを学ぶことで、変化の中でも人を思いやる情動を保てます。", core: "変化に流される感情。" },
+            "IX-IV": { trait: "自由（自在）", color: "白銀（客観）", name: "客観的な解放", narrative: "常に新しい情報を取り込むため、論理的な一貫性に欠ける。客観性を学ぶことで、変化の中で真実を見抜きます。", core: "浅い知恵。" },
+            "IX-V": { trait: "自由（自在）", color: "漆黒（独創）", name: "純粋な独創", narrative: "自在な適応力と独創的な発想力が融合。即座に状況に合わせたクリエイティブなアイデアを生み出す天才です。", core: "環境適応の天才。" },
+            "IX-VI": { trait: "自由（自在）", color: "翡翠（静謐）", name: "静かなる流動", narrative: "外的な変化に意識が向くため、静謐な思索が不足し、自己の真の目的を見失いやすい。内省を学ぶことで、変化の中でも自己を保てます。", core: "自分を見失う順応。" },
+            "IX-VII": { trait: "自由（自在）", color: "黄金（栄光）", name: "栄光の踊り手", narrative: "変化を好みすぎて、一つの目標達成に集中し、粘り強さに欠ける。栄光への意欲を学ぶことで、成果を出す柔軟なプロセスを確立できます。", core: "集中力を欠く器用さ。" },
+            "IX-VIII": { trait: "自由（自在）", color: "鋼鉄（確実）", name: "確実な変化", narrative: "安定や確実な基盤を軽視しすぎるため、生活基盤が不安定になりやすい。堅実さを学ぶことで、変化を楽しみながらも安心して活動できます。", core: "不安定を楽しむ冒険家。" },
+            "IX-IX": { trait: "自由（自在）", color: "蒼空（自在）", name: "絶対的な自由", narrative: "適応力と自在への渇望が最高潮。どのような状況も楽しんで乗り越えます。柔軟性と楽観性で未来を切り開くパイオニアです。", core: "無限の可能性。" }
         };
 
-        let currentStep = 0;
-        let score = 0;
+        // 詳細解説データ
+        const partInterpretations = {
+            'I': { high: { title: '【特性】圧倒的な実行力', desc: '即座に行動に移し、目標達成まで立ち止まりません。' }, medium: { title: '【柔軟性】場面に応じた行動力', desc: 'リスクと機会を比較検討し、必要な時にアクセルを踏めます。' }, low: { title: '【潜在色】慎重さが勝る傾向', desc: '行動する前に分析や計画に時間をかけすぎるかもしれません。' } },
+            'II': { high: { title: '【特性】調和のスペシャリスト', desc: '集団の心理を深く理解し、常に平和な環境を作り出します。' }, medium: { title: '【柔軟性】柔軟な協調性', desc: '人間関係を円滑に保ちつつ、自分の意見も適切に表現できます。' }, low: { title: '【潜在色】対人関係の消極性', desc: '集団での議論や衝突を避ける傾向があります。' } },
+            'III': { high: { title: '【特性】豊かな共感力', desc: '他者の感情を鏡のように映し出し、深いレベルで寄り添うことができます。' }, medium: { title: '【柔軟性】バランスの取れた感受性', desc: '他者を思いやりながらも、感情に振り回されることなく冷静な判断ができます。' }, low: { title: '【潜在色】論理優先の傾向', desc: '感情的な要素よりも事実や論理を優先しがちです。' } },
+            'IV': { high: { title: '【特性】鋭い分析力', desc: '感情を排除し、事実に基づいた論理的な思考で問題の本質を見抜きます。' }, medium: { title: '【柔軟性】状況に応じた合理的思考', desc: '必要な時にデータを参照し、論理的な裏付けを取ることができます。' }, low: { title: '【潜在色】直感や感覚を優先する傾向', desc: '理論やデータよりも、経験や直感を頼りにしがちです。' } },
+            'V': { high: { title: '【特性】無限の創造性', desc: '既存の枠に収まらない独自のアイデアと美意識を持っています。' }, medium: { title: '【柔軟性】閃きを活かすバランス', desc: 'ルーティンをこなしつつも、時に大胆な創造性を発揮します。' }, low: { title: '【潜在色】保守的・現実的な傾向', desc: '失敗を恐れて、無難な選択肢を選びがちかもしれません。' } },
+            'VI': { high: { title: '【特性】深い洞察力', desc: '自己と世界に対し、深く思索する時間が必要です。真実を見抜く賢者です。' }, medium: { title: '【柔軟性】必要な時に内省', desc: '対外的な活動と内面的な探求のバランスが取れています。' }, low: { title: '【潜在色】外向的・現実的な志向', desc: '内省的な時間を持つことを苦手とし、活動や外部からの刺激を求めがちです。' } },
+            'VII': { high: { title: '【特性】圧倒的な達成意欲', desc: '高い目標を設定し、それを実現するために粘り強く努力します。' }, medium: { title: '【柔軟性】健全な競争意識', desc: '目標達成に向けて努力しますが、過度な競争は避けません。' }, low: { title: '【潜在色】目標設定への抵抗', desc: '競争やプレッシャーを嫌い、目標を低く設定しがちかもしれません。' } },
+            'VIII': { high: { title: '【特性】揺るぎない安定志向', desc: '計画的で現実的。確実性と信頼性を重視する、土台となる存在です。' }, medium: { title: '【柔軟性】柔軟な現実対応', desc: '安定性を保ちつつも、変化への適応も可能です。' }, low: { title: '【潜在色】変化への恐れ', desc: '安定を求めすぎるあまり、新しい機会を見過ごしてしまうかもしれません。' } },
+            'IX': { high: { title: '【特性】驚異的な対応力', desc: '環境の変化や不測の事態に対して、瞬時に順応できます。' }, medium: { title: '【柔軟性】適度な変化への対応', desc: '安定と変化のバランスが取れており、ルーティンを新しい試みを効果的に組み合わせています。' }, low: { title: '【潜在色】現状維持を好む傾向', desc: '慣れた環境から出ることを避けたり、変化を面倒に感じたりするかもしれません。' } }
+        };
 
-        function updateQuestion() {
-            document.getElementById("progress-text").innerText = `第 ${currentStep + 1} / 9 段階`;
-            document.getElementById("question-text").innerText = `【${parts[currentStep]}の試練】\nあなたは「${parts[currentStep]}」のような性質を自分の中に感じますか？`;
+        // --- 状態管理 ---
+        let currentPartIndex = 0; 
+        let currentQIndex = 0;
+        const totalQuestions = quizData.reduce((sum, part) => sum + part.questions.length, 0);
+        let answers = {};
+        let myResultTraitId = '';
+        let myResultColorId = '';
+        let calculatedScores = {};
+        let isQuizCompleted = false;
+
+        // --- 関数 ---
+
+        function startQuiz() {
+            answers = {};
+            currentPartIndex = 0;
+            currentQIndex = 0;
+            calculatedScores = {};
+            isQuizCompleted = false;
+            
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-content').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // スクロール位置リセット
+            renderQuestion();
         }
 
-        function answer(val) {
-            if (val === 1) score += Math.pow(2, currentStep);
-            currentStep++;
-            if (currentStep < 9) {
-                updateQuestion();
+        function renderQuestion() {
+            const globalQIndex = currentPartIndex * 9 + currentQIndex;
+
+            if (globalQIndex >= totalQuestions) {
+                analyze();
+                return;
+            }
+
+            const part = quizData[currentPartIndex];
+            const qText = part.questions[currentQIndex];
+
+            document.getElementById('current-question-text').textContent = qText;
+            
+            const progress = ((globalQIndex + 1) / totalQuestions) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = `${globalQIndex + 1} / ${totalQuestions} 問`;
+        }
+
+        function handleAnswer(isYes) {
+            const partId = quizData[currentPartIndex].id;
+            if (!answers[partId]) answers[partId] = [];
+            answers[partId][currentQIndex] = isYes;
+
+            currentQIndex++;
+            if (currentQIndex >= quizData[currentPartIndex].questions.length) {
+                currentQIndex = 0;
+                currentPartIndex++;
+            }
+            renderQuestion();
+        }
+
+        function getScoreLevel(score) {
+            if (score >= 7) return 'high';
+            if (score >= 4) return 'medium';
+            return 'low';
+        }
+
+        // 決定論的な分析ロジック
+        function analyze() {
+            calculatedScores = {};
+            // スコア集計
+            quizData.forEach(part => {
+                const partAnswers = answers[part.id] || [];
+                const score = partAnswers.filter(a => a).length;
+                calculatedScores[part.id] = score;
+            });
+
+            let maxScore = -1;
+            let minScore = 10;
+            let traitId = 'I';
+            let colorId = 'I';
+
+            quizData.forEach(part => {
+                const id = part.id;
+                const score = calculatedScores[id];
+                
+                if (score > maxScore) {
+                    maxScore = score;
+                    traitId = id;
+                }
+                if (score < minScore) {
+                    minScore = score;
+                    colorId = id;
+                }
+            });
+
+            myResultTraitId = traitId;
+            myResultColorId = colorId;
+            isQuizCompleted = true;
+
+            renderResultView(traitId, colorId, true);
+        }
+
+        /**
+         * 文字列から括弧と中身を取り除くヘルパー関数
+         */
+        function removeParentheses(str) {
+            return str.replace(/（.*?）/g, '');
+        }
+
+        /**
+         * 結果詳細画面を描画する
+         */
+        function renderResultView(traitId, colorId, isMyResult) {
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('all-results-section').classList.add('hidden');
+            const resultSection = document.getElementById('result-section');
+            resultSection.classList.remove('hidden');
+            
+            // 重要: 画面切り替え時にスクロールトップへ
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'auto' });
+            }, 10);
+
+            // 基本情報セット
+            const resultKey = `${traitId}-${colorId}`;
+            const soulData = soulNarratives[resultKey];
+
+            // 上段：〇〇の尻尾：〇〇（括弧なしで表示）
+            document.getElementById('result-trait-name').textContent = removeParentheses(soulData.trait);
+            document.getElementById('result-color-name').textContent = removeParentheses(soulData.color);
+
+            // 下段：ユニークな組み合わせ名
+            document.getElementById('combo-name-display').textContent = soulData.name;
+            
+            // 魂の核心（キャッチコピー）
+            document.getElementById('soul-core').textContent = soulData.core;
+            // 物語
+            document.getElementById('overall-description').textContent = soulData.narrative;
+
+            // ボタンの表示制御
+            const backToListBtn = document.getElementById('back-to-list-button');
+            const myResultBtn = document.getElementById('return-from-detail');
+            const scoreAnalysisBlock = document.getElementById('score-analysis-block');
+
+            if (isMyResult) {
+                backToListBtn.classList.add('hidden');
+                myResultBtn.classList.add('hidden');
+                scoreAnalysisBlock.classList.remove('hidden');
+                renderScoreAnalysis(calculatedScores);
             } else {
-                showResult();
+                backToListBtn.classList.remove('hidden');
+                if (isQuizCompleted) {
+                    myResultBtn.classList.remove('hidden');
+                } else {
+                    myResultBtn.classList.add('hidden');
+                }
+                scoreAnalysisBlock.classList.add('hidden');
             }
         }
 
-        function showResult() {
-            document.getElementById("quiz-screen").style.display = "none";
-            document.getElementById("result-screen").style.display = "block";
+        function renderScoreAnalysis(scores) {
+            const container = document.getElementById('full-analysis-container');
+            container.innerHTML = '';
             
-            // 81通りのロジック: score(0-511)をベースに属性と色を決定
-            const partIdx = score % 9;
-            const colorIdx = Math.floor((score / 511) * 8); // 全体スコアから色を算出
-            
-            const p = parts[partIdx];
-            const c = colors[colorIdx];
-            
-            document.getElementById("result-name").innerText = `${p}の尻尾：${c}`;
-            document.getElementById("result-desc").innerText = `あなたの本質は「${p}」の性質を持ち、その輝きは「${c}」の色を放っています。${colorMeanings[c]} あなたの選択した道は、この九尾の暗号によって肯定されました。`;
+            quizData.forEach(part => {
+                const s = scores[part.id];
+                const level = getScoreLevel(s);
+                const info = partInterpretations[part.id][level];
+                
+                let barColorClass = '';
+                let borderColorClass = '';
+                let bgColorClass = '';
+                let badgeClass = '';
+
+                if (level === 'high') {
+                    barColorClass = 'bg-red-500';
+                    borderColorClass = 'border-red-500';
+                    bgColorClass = 'bg-red-50';
+                    badgeClass = 'bg-red-200 text-red-800';
+                } else if (level === 'medium') {
+                    barColorClass = 'bg-yellow-500';
+                    borderColorClass = 'border-yellow-500';
+                    bgColorClass = 'bg-yellow-50';
+                    badgeClass = 'bg-yellow-200 text-yellow-800';
+                } else {
+                    barColorClass = 'bg-blue-500';
+                    borderColorClass = 'border-blue-500';
+                    bgColorClass = 'bg-blue-50';
+                    badgeClass = 'bg-blue-200 text-blue-800';
+                }
+
+                const html = `
+                    <div class="trait-box ${bgColorClass} border-l-4 ${borderColorClass} p-4 rounded shadow-sm">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="font-bold text-gray-800">${part.name}</h4>
+                            <span class="text-xs font-bold px-2 py-1 rounded ${badgeClass}">
+                                ${level.toUpperCase()}
+                            </span>
+                        </div>
+                        <p class="text-sm font-bold text-gray-700 mb-1">${info.title}</p>
+                        <p class="text-xs text-gray-600 leading-relaxed">${info.desc}</p>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
         }
 
-        updateQuestion();
+        // --- 一覧表示機能 ---
+
+        function showAllResults() {
+            document.getElementById('result-section').classList.add('hidden');
+            document.getElementById('all-results-section').classList.remove('hidden');
+            
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'auto' });
+            }, 10);
+
+            const backBtn = document.getElementById('back-to-my-result-btn');
+            if (isQuizCompleted) {
+                backBtn.classList.remove('hidden');
+            } else {
+                backBtn.classList.add('hidden');
+            }
+
+            renderFilterButtons();
+            filterResults('ALL');
+        }
+
+        function renderFilterButtons() {
+            const container = document.getElementById('trait-filters');
+            container.innerHTML = `<button onclick="filterResults('ALL')" class="px-4 py-2 bg-gray-800 text-white rounded-full text-sm font-bold shadow hover:bg-gray-700 transition touch-manipulation">ALL</button>`;
+            
+            quizData.forEach(part => {
+                const btn = document.createElement('button');
+                btn.className = "px-3 py-2 bg-white border border-gray-300 text-gray-700 rounded-full text-xs font-bold shadow-sm hover:bg-gray-100 transition m-1 touch-manipulation";
+                btn.textContent = `${part.name.split('（')[0]}`;
+                btn.onclick = () => filterResults(part.id);
+                container.appendChild(btn);
+            });
+        }
+
+        function filterResults(filterTraitId) {
+            const listContainer = document.getElementById('full-name-list');
+            listContainer.innerHTML = '';
+
+            Object.keys(soulNarratives).forEach(key => {
+                const [tId, cId] = key.split('-');
+                
+                if (filterTraitId !== 'ALL' && tId !== filterTraitId) return;
+
+                const data = soulNarratives[key];
+
+                const card = document.createElement('div');
+                card.className = "grid-item p-4 border border-gray-200 rounded-lg bg-gray-50 hover:bg-white text-left shadow-sm touch-manipulation";
+                card.onclick = () => renderResultView(tId, cId, false);
+
+                card.innerHTML = `
+                    <div class="text-xs text-gray-400 mb-1 font-bold">${removeParentheses(data.trait)} × ${removeParentheses(data.color)}</div>
+                    <div class="text-lg font-bold text-gray-800 mb-1 font-serif">【<span class="text-red-700">${data.name}</span>】</div>
+                    <div class="text-xs text-gray-500 line-clamp-2">${data.core}</div>
+                `;
+                listContainer.appendChild(card);
+            });
+        }
+
+        function showMyResult() {
+            if (!isQuizCompleted) return;
+            renderResultView(myResultTraitId, myResultColorId, true);
+        }
+
     </script>
 </body>
 </html>
