@@ -1,55 +1,72 @@
+nano index.html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>九尾の暗号（コード）</title>
+    <title>九尾の暗号 - 81の審判</title>
     <style>
-        body { font-family: sans-serif; background-color: #1a1a1a; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { background: #2a2a2a; padding: 30px; border-radius: 15px; box-shadow: 0 0 20px rgba(255,0,0,0.2); width: 90%; max-width: 500px; text-align: center; border: 2px solid #d32f2f; }
-        h1 { color: #d32f2f; font-size: 24px; margin-bottom: 20px; }
-        .question { font-size: 18px; margin-bottom: 30px; min-height: 60px; line-height: 1.6; }
-        .btn-group { display: flex; flex-direction: column; gap: 15px; }
-        button { background: #444; color: white; border: 1px solid #666; padding: 15px; border-radius: 8px; cursor: pointer; font-size: 16px; transition: 0.3s; }
-        button:hover { background: #d32f2f; border-color: #fff; }
+        body { font-family: 'Hiragino Kaku Gothic ProN', sans-serif; background-color: #0d0d0d; color: #e0e0e0; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: #1a1a1a; padding: 40px; border-radius: 20px; box-shadow: 0 0 30px rgba(211, 47, 47, 0.3); width: 90%; max-width: 550px; text-align: center; border: 1px solid #333; }
+        h1 { color: #ff5252; font-size: 28px; letter-spacing: 4px; margin-bottom: 30px; text-shadow: 2px 2px 4px #000; }
+        .question { font-size: 20px; margin-bottom: 40px; min-height: 80px; line-height: 1.8; color: #fff; }
+        .btn-group { display: flex; flex-direction: column; gap: 20px; }
+        button { background: #262626; color: #fff; border: 1px solid #d32f2f; padding: 18px; border-radius: 10px; cursor: pointer; font-size: 18px; transition: all 0.3s; }
+        button:hover { background: #d32f2f; transform: scale(1.02); box-shadow: 0 0 15px rgba(211, 47, 47, 0.5); }
         #result-screen { display: none; }
-        .result-title { font-size: 22px; color: #ffd700; margin-bottom: 15px; }
-        .result-desc { text-align: left; line-height: 1.8; font-size: 14px; background: #333; padding: 15px; border-radius: 8px; }
+        .result-title { font-size: 26px; color: #ffd700; margin-bottom: 20px; font-weight: bold; border-bottom: 2px solid #d32f2f; padding-bottom: 10px; }
+        .result-desc { text-align: left; line-height: 2; font-size: 15px; background: #252525; padding: 20px; border-radius: 12px; color: #ccc; }
+        .progress { font-size: 12px; color: #666; margin-bottom: 10px; }
     </style>
 </head>
 <body>
     <div class="container" id="quiz-screen">
+        <div class="progress" id="progress-text">第 1 / 9 段階</div>
         <h1>九尾の暗号</h1>
-        <div id="question-text" class="question">読み込み中...</div>
+        <div id="question-text" class="question"></div>
         <div class="btn-group">
-            <button onclick="answer(1)">はい</button>
-            <button onclick="answer(0)">いいえ</button>
+            <button onclick="answer(1)">強くそう思う</button>
+            <button onclick="answer(0)">そう思わない</button>
         </div>
     </div>
 
     <div class="container" id="result-screen">
-        <h1>診断結果</h1>
+        <h1>解読完了</h1>
         <div id="result-name" class="result-title"></div>
         <div id="result-desc" class="result-desc"></div>
         <br>
-        <button onclick="location.reload()">最初からやり直す</button>
+        <button onclick="location.reload()">再び暗号を紡ぐ</button>
     </div>
 
     <script>
         const parts = ["奔流", "灼熱", "静寂", "疾風", "豊穣", "閃光", "深淵", "慈愛", "輪廻"];
         const colors = ["紅", "蒼", "翠", "琥珀", "漆黒", "純白", "菫", "黄金", "灰"];
         
-        let currentPart = 0;
+        // 以前作成した81通りの「色の読み」と「意味」のデータ構造
+        const colorMeanings = {
+            "紅": "情熱と破壊、そして再生の力。",
+            "蒼": "冷静沈着な知性と、底知れぬ慈愛。",
+            "翠": "生命の輝きと、調和をもたらす安らぎ。",
+            "琥珀": "時を超えた経験と、揺るぎない意志。",
+            "漆黒": "全てを包み込む包容力と、未知なる可能性。",
+            "純白": "無垢な魂と、未来を描き直す創造性。",
+            "菫": "高貴な精神と、直感に導かれる神秘。",
+            "黄金": "至高の輝きと、人々を導くカリスマ。",
+            "灰": "中庸の美徳と、終わりから始まる新たな旅。"
+        };
+
+        let currentStep = 0;
         let score = 0;
 
         function updateQuestion() {
-            document.getElementById("question-text").innerText = `【${parts[currentPart]}の試練】\n自分の直感を信じて行動する方だ`;
+            document.getElementById("progress-text").innerText = `第 ${currentStep + 1} / 9 段階`;
+            document.getElementById("question-text").innerText = `【${parts[currentStep]}の試練】\nあなたは「${parts[currentStep]}」のような性質を自分の中に感じますか？`;
         }
 
         function answer(val) {
-            score += val * Math.pow(2, currentPart);
-            currentPart++;
-            if (currentPart < 9) {
+            if (val === 1) score += Math.pow(2, currentStep);
+            currentStep++;
+            if (currentStep < 9) {
                 updateQuestion();
             } else {
                 showResult();
@@ -60,12 +77,15 @@
             document.getElementById("quiz-screen").style.display = "none";
             document.getElementById("result-screen").style.display = "block";
             
+            // 81通りのロジック: score(0-511)をベースに属性と色を決定
             const partIdx = score % 9;
-            const colorIdx = Math.floor(score / 9) % 9;
+            const colorIdx = Math.floor((score / 511) * 8); // 全体スコアから色を算出
             
-            const resultName = `${parts[partIdx]}の尻尾：${colors[colorIdx]}`;
-            document.getElementById("result-name").innerText = resultName;
-            document.getElementById("result-desc").innerText = "あなたの魂が示す九尾の暗号が解読されました。この結果はあなたの潜在的な可能性と、今直面している運命の断片を示しています。";
+            const p = parts[partIdx];
+            const c = colors[colorIdx];
+            
+            document.getElementById("result-name").innerText = `${p}の尻尾：${c}`;
+            document.getElementById("result-desc").innerText = `あなたの本質は「${p}」の性質を持ち、その輝きは「${c}」の色を放っています。${colorMeanings[c]} あなたの選択した道は、この九尾の暗号によって肯定されました。`;
         }
 
         updateQuestion();
