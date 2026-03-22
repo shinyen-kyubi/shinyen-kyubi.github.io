@@ -3,442 +3,349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>心炎九尾（しんえんきゅうび） | 心理テスト</title>
+    <title>心炎九尾 | 真・九箇条の神託</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Shippori+Mincho:wght@600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Noto Sans JP', 'Inter', sans-serif;
-            background-color: #f7fafc;
-            overflow-x: hidden;
-            -webkit-text-size-adjust: 100%;
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #fcfaf8;
+            color: #2d3436;
         }
-        .font-serif {
-            font-family: 'Shippori Mincho', serif;
+        .font-serif { font-family: 'Shippori Mincho', serif; }
+        
+        .fox-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));
         }
-        .fox-icon {
-            display: inline-block;
-            line-height: 1;
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-radius: 40px;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
         }
-        .trait-box {
-            transition: all 0.3s ease;
+
+        .sticky-nav {
+            position: fixed;
+            top: 1rem;
+            right: 1.5rem;
+            z-index: 100;
+            display: flex;
+            gap: 0.5rem;
         }
-        .trait-box:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .grid-item {
+        .nav-btn {
+            background: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            border: 1px solid #e0e0e0;
             cursor: pointer;
-            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        .grid-item:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+        .kanji-stroke {
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .divine-item {
+            border-left: 2px solid rgba(255,255,255,0.2);
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
         }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen text-gray-800 flex flex-col items-center">
+<body class="p-4 md:p-8">
 
-    <div class="w-full max-w-4xl bg-white shadow-2xl rounded-none sm:rounded-xl p-6 sm:p-10 border-t-8 border-red-600 min-h-screen sm:min-h-0 sm:my-8 flex flex-col">
-        <header class="text-center mb-8 sm:mb-10 cursor-pointer flex-none" onclick="location.reload()">
-            <span class="fox-icon text-5xl mb-2">🦊</span>
-            <h1 class="text-3xl sm:text-5xl font-extrabold text-gray-800 mt-2 mb-1 tracking-tight font-serif">心炎九尾<span class="text-lg sm:text-2xl ml-2 font-normal text-gray-500 font-sans">（しんえんきゅうび）</span></h1>
-            <p class="text-base font-bold text-red-600 tracking-widest uppercase mb-4">Foxfire Blueprint</p>
-            <p class="text-sm sm:text-lg text-gray-600 font-semibold mt-4">
-                九つの炎が照らすあなたの魂の煌は？
-            </p>
+    <nav class="sticky-nav">
+        <button onclick="showSection('start-screen')" class="nav-btn">🏠 TOP</button>
+        <button onclick="showSection('catalog-screen')" class="nav-btn">📖 図録</button>
+    </nav>
+
+    <div class="max-w-4xl mx-auto">
+        
+        <header id="header" class="text-center py-12">
+            <div id="main-visual" class="fox-container mb-8"></div>
+            <h1 class="text-6xl font-serif text-orange-900 mb-6 tracking-tighter">心炎九尾</h1>
+            <p class="text-slate-400 tracking-[0.5em] text-[11px] uppercase font-bold">The Nine-Tailed Soul Mirror</p>
         </header>
 
-        <main class="flex-grow w-full">
-            <!-- 質問表示セクション -->
-            <section id="quiz-section" class="mb-8 fade-in">
-                <div id="start-screen" class="text-center py-6 sm:py-10">
-                    <p class="mb-8 text-gray-700 leading-relaxed text-sm sm:text-base font-serif">
-                        「奔流・円環・慈愛・叡智・幻影・深淵・覇道・堅牢・自由」<br>
-                        九つの属性からあなたの深層心理を分析し、<br>
-                        もっとも強く現れている「特性」と、もっとも不足している「潜在色」を導き出します。
+        <main>
+            <!-- スタート画面 -->
+            <section id="start-screen" class="text-center space-y-12">
+                <div class="bg-white/70 p-12 rounded-[4rem] border border-white shadow-inner">
+                    <p class="text-2xl font-serif text-slate-800 mb-8 leading-relaxed">
+                        九つの「属性」と、九つの「色彩」。
                     </p>
-                    <button onclick="startQuiz()" class="px-10 py-4 bg-red-600 text-white font-bold text-xl rounded-full shadow-lg hover:bg-red-700 transition transform hover:scale-105 active:scale-95 touch-manipulation">
-                        診断を開始する
+                    <p class="text-sm text-slate-500 leading-relaxed max-w-lg mx-auto">
+                        あなたが纏う役割としての「属性」と、<br>
+                        心の深淵に眠る宝石のような「色彩」。<br>
+                        その交点に、真実のあなたが浮かび上がります。
+                    </p>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center pt-6">
+                    <button onclick="startQuiz()" class="px-14 py-6 bg-orange-900 text-white rounded-full font-serif text-2xl shadow-2xl hover:bg-black transition-all hover:scale-105 active:scale-95">
+                        深層鑑定を開始する
                     </button>
                 </div>
+            </section>
 
-                <div id="quiz-content" class="hidden">
-                    <h2 class="text-lg sm:text-xl font-bold text-gray-700 border-b-2 border-gray-200 pb-2 mb-6 flex justify-between items-end font-serif">
-                        <span>内なる声に答える</span>
-                        <span id="progress-text" class="text-sm font-normal text-gray-500 font-sans">1 / 81 問</span>
-                    </h2>
-                    
-                    <div class="mb-6 sm:mb-8">
-                        <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
-                            <div id="progress-bar" class="bg-gradient-to-r from-yellow-500 to-red-600 h-2.5 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+            <!-- クイズ画面 -->
+            <section id="quiz-screen" class="hidden">
+                <div class="max-w-xl mx-auto">
+                    <div class="mb-14 text-center">
+                        <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden mb-8">
+                            <div id="progress" class="h-full bg-orange-700 transition-all duration-700 w-0"></div>
                         </div>
+                        <span id="category-label" class="text-[12px] font-bold text-orange-800 tracking-[0.3em] uppercase"></span>
                     </div>
-
-                    <div id="question-container" class="min-h-[160px] p-6 sm:p-10 border-4 border-yellow-400 bg-yellow-50 rounded-xl shadow-inner flex items-center justify-center text-center mb-8">
-                        <p id="current-question-text" class="text-lg sm:text-2xl font-bold text-gray-800 leading-relaxed font-serif">質問内容読み込み中...</p>
+                    <div class="bg-white p-16 rounded-[60px] shadow-sm mb-12 min-h-[250px] flex items-center justify-center border border-slate-50">
+                        <p id="question" class="text-2xl font-serif text-center leading-relaxed text-slate-800"></p>
                     </div>
-                    
-                    <div id="answer-options" class="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto pb-8">
-                        <button type="button" onclick="handleAnswer(true)" class="w-full sm:w-1/2 py-4 bg-red-600 text-white font-bold rounded-lg shadow-md hover:bg-red-700 transition duration-200 transform active:scale-95 text-lg touch-manipulation">
-                            はい
-                        </button>
-                        <button type="button" onclick="handleAnswer(false)" class="w-full sm:w-1/2 py-4 bg-gray-200 text-gray-700 font-bold rounded-lg shadow-md hover:bg-gray-300 transition duration-200 transform active:scale-95 text-lg touch-manipulation">
-                            いいえ
-                        </button>
+                    <div class="grid grid-cols-2 gap-8 px-6">
+                        <button onclick="answer(true)" class="py-8 bg-orange-900 text-white rounded-[2.5rem] font-bold text-xl shadow-xl hover:bg-black transition-transform active:scale-95">あてはまる</button>
+                        <button onclick="answer(false)" class="py-8 bg-white text-slate-400 border-2 border-slate-100 rounded-[2.5rem] font-bold text-xl hover:bg-slate-50 transition-transform active:scale-95">ちがわない</button>
                     </div>
                 </div>
             </section>
 
-            <!-- 結果表示セクション -->
-            <section id="result-section" class="hidden fade-in pb-10">
-                <div class="p-6 sm:p-10 bg-yellow-50 border-4 border-yellow-300 rounded-xl shadow-lg relative overflow-hidden">
-                    <div class="absolute top-0 right-0 text-9xl opacity-5 pointer-events-none select-none">🦊</div>
-
-                    <h2 class="text-xl sm:text-2xl font-bold text-yellow-800 mb-6 text-center border-b-2 border-yellow-300 pb-3 font-serif">
-                        心炎九尾 解析完了
-                    </h2>
-                    
-                    <div id="result-header" class="text-center mb-10">
-                        <div class="mb-4">
-                            <span class="text-xs text-gray-500 font-bold tracking-widest uppercase">FOXFIRE BLUEPRINT</span>
-                        </div>
-                        
-                        <h3 class="text-lg sm:text-2xl font-bold text-gray-600 mb-2">
-                            <span id="result-trait-name" class="text-gray-800 font-serif"></span>の尻尾：<span id="result-color-name" class="text-gray-800 font-serif"></span>
-                        </h3>
-                        
-                        <h2 class="text-4xl sm:text-6xl font-extrabold text-red-700 mb-6 leading-tight font-serif drop-shadow-sm py-2">
-                            <span id="combo-name-display"></span>
-                        </h2>
-
-                        <p class="text-lg sm:text-xl font-bold text-gray-800 mb-2 tracking-wider">
-                            "<span id="soul-core"></span>"
-                        </p>
-                    </div>
-
-                    <div id="overall-description" class="p-6 mb-10 bg-white border-l-4 border-yellow-500 rounded-r-lg shadow-sm text-gray-700 leading-loose text-lg font-serif">
-                    </div>
-                    
-                    <div id="score-analysis-block" class="mb-10">
-                        <h3 class="text-xl font-bold text-gray-800 mb-6 border-b-2 border-gray-200 pb-2 font-serif">全属性・詳細分析</h3>
-                        <div id="full-analysis-container" class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4 md:space-y-0">
+            <!-- 結果画面 -->
+            <section id="result-screen" class="hidden space-y-12 pb-24">
+                <div class="result-card p-12 sm:p-24">
+                    <div class="text-center mb-16">
+                        <div id="result-visual" class="fox-container mb-12"></div>
+                        <h2 id="result-title" class="text-4xl md:text-5xl font-serif mb-10 leading-snug"></h2>
+                        <div id="result-summary" class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left mt-16">
+                            <div class="p-10 bg-slate-50 rounded-[3rem] border border-slate-100">
+                                <h3 class="text-[11px] font-bold text-orange-900 mb-6 tracking-[0.3em] uppercase opacity-60">【属性の真髄】</h3>
+                                <p id="impression-text" class="text-base leading-relaxed text-slate-600 font-serif"></p>
+                            </div>
+                            <div class="p-10 bg-slate-50 rounded-[3rem] border border-slate-100">
+                                <h3 class="text-[11px] font-bold text-orange-900 mb-6 tracking-[0.3em] uppercase opacity-60">【色彩の渇望】</h3>
+                                <p id="desire-text" class="text-base leading-relaxed text-slate-600 font-serif"></p>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="flex flex-col items-center space-y-4 pb-4">
-                        <button id="show-all-button" type="button" onclick="showAllResults()" class="w-full sm:w-auto px-8 py-3 bg-gray-800 text-white font-bold rounded-lg shadow-lg hover:bg-gray-700 transition transform hover:scale-105 flex items-center justify-center touch-manipulation">
-                            <span class="mr-2">💡</span> 全81種の『魂の煌』を見る
-                        </button>
-                        <button id="return-from-detail" type="button" onclick="showMyResult()" class="hidden w-full sm:w-auto px-8 py-3 bg-red-600 text-white font-bold rounded-lg shadow-lg hover:bg-red-700 transition transform hover:scale-105 touch-manipulation">
-                            自分の診断結果に戻る
-                        </button>
-                        <button id="back-to-list-button" type="button" onclick="showAllResults()" class="hidden w-full sm:w-auto px-8 py-3 bg-gray-600 text-white font-bold rounded-lg shadow-lg hover:bg-gray-700 transition transform hover:scale-105 touch-manipulation">
-                            一覧に戻る
-                        </button>
+                    <div id="divine-panel" class="rounded-[4rem] p-8 sm:p-16 text-white overflow-hidden relative">
+                        <div id="bg-glow" class="absolute inset-0 opacity-20 pointer-events-none"></div>
+                        <h3 class="text-3xl font-serif mb-14 border-b border-white/20 pb-8 tracking-[0.2em] relative z-10 text-center">真・九箇条の神託</h3>
+                        <div id="divine-list" class="grid grid-cols-1 md:grid-cols-1 gap-4 relative z-10"></div>
                     </div>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-6">
+                    <button onclick="showSection('start-screen')" class="flex-1 py-6 bg-white border-2 border-orange-900 text-orange-900 rounded-full font-bold hover:bg-orange-50 transition-all">最初からやり直す</button>
+                    <button onclick="showSection('catalog-screen')" class="flex-1 py-6 bg-orange-900 text-white rounded-full font-bold hover:bg-black transition-all">図録を確認する</button>
                 </div>
             </section>
 
-            <!-- 全81種の結果一覧セクション -->
-            <section id="all-results-section" class="hidden fade-in mt-4 mb-10 pb-10">
-                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-xl border border-gray-200">
-                    <div class="text-center mb-8">
-                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-2 font-serif">全81種の【心炎九尾】</h2>
-                        <p class="text-gray-500 text-sm">Foxfire Blueprint Archive</p>
-                    </div>
-                    
-                    <div class="flex flex-wrap justify-center gap-2 mb-8" id="trait-filters">
-                    </div>
-
-                    <div id="full-name-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                    </div>
-
-                    <div class="mt-10 text-center">
-                        <button id="back-to-my-result-btn" type="button" onclick="showMyResult()" class="hidden px-8 py-3 bg-red-600 text-white font-bold rounded-lg shadow-lg hover:bg-red-700 transition duration-200 transform hover:scale-105 touch-manipulation">
-                            自分の診断結果に戻る
-                        </button>
-                    </div>
+            <!-- 図録画面 -->
+            <section id="catalog-screen" class="hidden pb-24">
+                <div class="mb-20 text-center">
+                    <h2 class="text-4xl font-serif text-slate-800 mb-6">九尾の深層図録</h2>
+                    <p class="text-sm text-slate-400">属性と九石の色彩による全パターンの相関</p>
                 </div>
+                <div id="catalog-content" class="space-y-24"></div>
             </section>
         </main>
-
-        <footer class="mt-auto pt-6 border-t text-center text-xs sm:text-sm text-gray-400 pb-4 w-full">
-            <p class="mb-2">心炎九尾 - Foxfire Blueprint</p>
-        </footer>
     </div>
 
     <script>
-        // 九属性定義の修正：名称を「奔流,円環,慈愛,叡智,幻影,深淵,覇道,堅牢,自由」に統一
-        const quizData = [
-            { id: 'I', name: '奔流', questions: [
-                "新しいアイデアを思いついたら、すぐに実行に移す方だ。", "決定を下す際、深く考え込むより直感を重視する。", "障害にぶつかっても、ほとんど躊躇なく乗り越えようとする。", "自分の意見や計画を、周囲に力強く主張できる。", "リスクを伴う挑戦を、むしろ楽しむ傾向がある。", "会議やグループ作業で、自ら進んで主導権を握る。", "困難な状況でも、ポジティブな姿勢を失わない。", "過去の失敗を気にせず、すぐに次の行動に移れる。", "待つことが苦手で、物事を迅速に進めたがる。"
-            ]},
-            { id: 'II', name: '円環', questions: [
-                "グループの意見が対立した際、仲裁役を買って出ることが多い。", "周囲の人々がリラックスできる、居心地の良い雰囲気作りを意識している。", "自分の感情よりも、集団の和を優先して行動する。", "異なる意見を持つ人とも、円滑なコミュニケーションを保てる。", "チームで働くことの方が、一人で働くよりも好きだ。", "誰かの助けが必要な時、すぐに察知して手を差し忘れる。", "自分のルールを押し付けず、周囲に合わせて柔軟に対応する。", "自分の役割を認識し、それを謙虚に果たすことに満足感を得る。", "他人から頼られるよりも、協力し合う関係を大切にする。"
-            ]},
-            { id: 'III', name: '慈愛', questions: [
-                "映画や小説の登場人物に感情移入して涙を流すことがある。", "他人の喜びや悲しみを、自分のことのように感じやすい。", "芸術作品や自然の美しさを見て、深い感動を覚える。", "人の話を聞くとき、その人の非言語的なサインに気づきやすい。", "困っている人を見ると、助けずにはいられない衝動に駆られる。", "自分の感情を言葉で表現するのが得意だ。", "感情の起伏が激しく、気分が変わりやすい。", "小さな優しさや親切に、深く感謝できる心を持っている。", "人生において、論理よりも感情的な繋がりを重視する。"
-            ]},
-            { id: 'IV', name: '叡智', questions: [
-                "物事を判断する際、感情よりも客観的なデータや事実を重視する。", "複雑なシステムや仕組みを理解することに喜びを感じる。", "計画を立てる際、細部にわたる論理的な検証を行う。", "議論では、筋道を立てて矛盾なく話すことを心がけている。", "パズルや論理ゲームを解くのが好きだ。", "未知の事象に対して、まずその原因と結果を分析しようとする。", "感情的な意見を述べる人に対して、やや懐疑的になる。", "誤りや非効率な点を見つけると、それを改善せずにいられない。", "自分の信念よりも、証明された知識を信頼する。"
-            ]},
-            { id: 'V', name: '幻影', questions: [
-                "既存の方法にとらわれず、常に新しいやり方を模索している。", "規則や制約の多い環境よりも、自由な環境を好む。", "自分の個性や考えを、ユニークな方法で表現したいと思う。", "時に「変わっている」「独特だ」と言われることがある。", "暇な時間があると、頭の中で空想や物語を作ってしまう。", "仕事や趣味において、量よりも質、特に独創性を重視する。", "自分のアイデアが受け入れられなくても、気にせず創作を続ける。", "変化のない日常よりも、予測不能な出来事がある方が楽しい。", "誰にも真似できない、自分だけの世界観を持っている。"
-            ]},
-            { id: 'VI', name: '深淵', questions: [
-                "一人で静かに考える時間を、とても大切にしている。", "自分の内面や心の動きについて深く探求することが好きだ。", "表面的な人間関係よりも、深い精神的な繋がりを求める。", "賑やかなパーティーよりも、静かな読書や散歩を好む。", "自分の行動の動機や、人生の意味について考えることが多い。", "他人から理解されなくても、自分の信念を曲げない。", "重要な決断は、周囲の意見ではなく、内なる声に従って行う。", "流行や世間一般の価値観に流されることは少ない。", "真実は言葉よりも沈黙の中にあると感じることがある。"
-            ]},
-            { id: 'VII', name: '覇道', questions: [
-                "困難な目標ほど、達成した時に大きな喜びを感じる。", "競争に負けることを、非常に悔しいと感じる。", "自分のスキルや能力を、常に最高のレベルまで高めたい。", "人生において、明確な成功の証や地位を求めている。", "チーム内でも、誰よりも優れた結果を出そうと努力する。", "常に具体的な目標を設定し、それをクリアするための計画を立てる。", "目標達成のためなら、個人的な犠牲を払うこともいとわない。", "困難に直面したとき、それを乗り越えることに燃える。", "評価や報酬など、自分の努力に見合った対価を強く求める。"
-            ]},
-            { id: 'VIII', name: '堅牢', questions: [
-                "将来の不安に備えて、貯金や資産形成を欠かさない。", "予測不能な事態よりも、安定した日常を好む。", "契約や約束事は、必ず守るべき重要なものだと考えている。", "質の良いものやブランド品など、物質的な豊かさに価値を見出す。", "衝動買いをすることは少なく、購入前に十分検討する。", "住居や職場など、自分の居場所は確固たる基盤の上に築きたい。", "現実的な問題解決が得意で、空想論はあまり信じない。", "計画通りに物事が進まないと、強いストレスを感じる。", "変化の少ない、確実性の高い仕事や環境を選ぶ傾向がある。"
-            ]},
-            { id: 'IX', name: '自由', questions: [
-                "新しい環境やルールに、すぐに慣れることができる。", "予期せぬ変更があっても、楽しんで対応できる。", "様々な分野の新しい知識やスキルを学ぶことに熱心だ。", "決まりきった日常よりも、変化に富んだ毎日を望む。", "状況に応じて、自分の意見や方針を柔軟に変えられる。", "過去の成功体験に固執せず、常に改善点を模索する。", "計画に縛られるよりも、その場の流れに身を任せる方が好きだ。", "飽きっぽい方で、一つのことに長く集中し続けるのが苦手だ。", "異なる文化や価値観を持つ人との交流を歓迎する。"
-            ]}
+        // 属性データ
+        const traits = [
+            { id: 'A', name: '奔流', modern: '改革するリーダー', glyph: 'M20,30 Q50,10 80,30 M20,50 Q50,30 80,50 M20,70 Q50,50 80,70 M40,20 L60,80 M30,20 L50,80 M50,20 L70,80', impression: "常に変化を求め、停滞を打破する力。周囲はあなたの決断に「未来」を感じています。立ち止まることなく進み続ける勇者です。" },
+            { id: 'B', name: '円環', modern: '究極の安定者', glyph: 'M50,15 A35,35 0 1,1 49.9,15 Z M50,30 A20,20 0 1,1 49.9,30 Z M50,15 L50,30 M50,70 L50,85', impression: "調和を重んじ、物事を円滑に収める力。あなたの周りには常に穏やかな秩序が保たれています。すべてを包み込み、循環させる聖域です。" },
+            { id: 'C', name: '慈愛', modern: '慈愛のサポーター', glyph: 'M50,30 C30,30 20,50 50,80 C80,50 70,30 50,30 M35,45 L45,45 M55,45 L65,45 M45,60 L55,60', impression: "他者の痛みを感じ、寄り添う力。誰のことも見捨てない圧倒的な優しさが、人々の心の拠り所となっています。あなたは無償の愛の体現者です。" },
+            { id: 'D', name: '叡智', modern: '冷静な戦略家', glyph: 'M25,25 L75,25 L75,75 L25,75 Z M40,25 L40,75 M60,25 L60,75 M25,50 L75,50 M30,85 L70,85', impression: "物事の本質を論理的に見抜く力。感情に流されず、最適解を導き出すその姿に、人々は絶対的な信頼を寄せています。あなたは静かなる賢者です。" },
+            { id: 'E', name: '幻影', modern: '孤高の表現者', glyph: 'M20,20 L80,80 M80,20 L20,80 M50,10 L50,90 M10,50 L90,50 M30,30 Q50,50 70,30 Q50,50 30,70 Q50,50 70,70', impression: "常識に囚われない独自の感性。捉えどころのない不思議な魅力が、周囲を惹きつけて止みません。あなたが見せているのは、一瞬の夢のような芸術です。" },
+            { id: 'F', name: '深淵', modern: '不屈の探究者', glyph: 'M30,20 L70,20 L50,90 Z M40,40 L60,40 M45,55 L55,55 M48,70 L52,70', impression: "一見静かだが、底知れない情熱を秘める力。一度決めた道を極めるまで妥協しない強さは、時に畏怖の対象となります。あなたは真理を追う隠者です。" },
+            { id: 'G', name: '覇道', modern: '頼れる支配者', glyph: 'M30,20 L70,20 M50,20 L50,80 M25,40 L75,40 M25,60 L75,60 M20,80 L80,80 M40,30 L40,70 M60,30 L60,70', impression: "圧倒的な存在感で場を支配する力。弱きを守り、強きを挫くその背中に、多くの人が希望と勇気を見出しています。あなたは王の器を持つ者です。" },
+            { id: 'H', name: '堅牢', modern: '不屈の守護者', glyph: 'M25,20 L75,20 L75,80 L25,80 Z M25,40 L75,40 M25,60 L75,60 M50,20 L50,80 M35,85 L65,85', impression: "何者にも動じない、誠実で強固な信念。あなたがそこにいるだけで、組織や仲間は決して揺らぐことはありません。あなたは最後の一線を守る盾です。" },
+            { id: 'I', name: '自由', modern: '自由な開拓者', glyph: 'M20,20 Q50,50 80,20 M20,80 Q50,50 80,80 M50,10 C80,10 80,90 50,90 C20,90 20,10 50,10', impression: "枠組みを飛び越え、新しい価値を生み出す力。多才で好奇心旺盛なあなたの行動は、周囲に常に刺激と解放感を与えます。あなたは風のように生きる旅人です。" }
         ];
 
-        // 81通りの結果データ：名称と内容の整合性を修正
-        const soulNarratives = {
-            "I-I": { trait: "奔流", color: "紅玉", name: "炎の開拓者", narrative: "圧倒的なエネルギーと推進力が最高潮に。停滞を打破し、新しい時代や道を切り拓く開拓の旅を歩みます。", core: "止まることのない変化と情熱。" },
-            "I-II": { trait: "奔流", color: "瑠璃", name: "嵐の中の調停", narrative: "推進力を持ちつつも、周囲との調和を潜在的に求めています。強引な前進が摩擦を生むことに無意識に苦しみ、バランスを学びます。", core: "変化の中のバランス。" },
-            "I-III": { trait: "奔流", color: "琥珀", name: "慈愛の先導者", narrative: "情熱的な行動力が、他者の痛みを分かち合う心と結びつきます。愛を動力源にして世界を塗り替える救済の旅人。", core: "熱意ある共感。" },
-            "I-IV": { trait: "奔流", color: "白銀", name: "真実の突撃", narrative: "行動力に客観的な知性が加わります。闇に光を当て、未知を既知へと変える知の探検を高速で進めます。", core: "知的な推進力。" },
-            "I-V": { trait: "奔流", color: "漆黒", name: "幻影の先駆者", narrative: "枠を破る実行力と変幻自在な創造性が融合。既成概念を揺さぶり、心の中に新しい現実を描き出します。", core: "創造的な開拓。" },
-            "I-VI": { trait: "奔流", color: "翡翠", name: "深淵の疾風", narrative: "行動し続けながらも、魂の最奥に触れるための内省を求めます。衝動が深い洞察に基づく実行へと進化する過程。", core: "思考するエネルギー。" },
-            "I-VII": { trait: "奔流", color: "黄金", name: "王道の進撃", narrative: "意志の貫徹と秩序の構築。自らの力で理想を形にし、混乱を治めて王土を築く凱旋の旅。", core: "勝利への渇望。" },
-            "I-VIII": { trait: "奔流", color: "鋼鉄", name: "不変の激流", narrative: "推進力と守護の力が一体化。嵐の中でも揺るがず、大切なものを守りながら前進し続ける不朽の旅。", core: "守りながら攻める意志。" },
-            "I-IX": { trait: "奔流", color: "蒼空", name: "飛翔の導き", narrative: "境界線を越え続け、無限の可能性を証明する。何ものにも縛られない精神で、周囲を新しい世界へ誘います。", core: "自由への突破。" },
+        // 九石の色彩
+        const desires = [
+            { id: 'A', name: '紅玉', modern: '情熱の覚醒', hex: '#e11d48', dark: '#4c0519', wish: "「自分を燃やし尽くすほどの情熱的な何か」に出会いたい" },
+            { id: 'B', name: '瑠璃', modern: '絶対的静寂', hex: '#2563eb', dark: '#172554', wish: "「誰にも邪魔されない、深海のような孤独と平穏」を守り抜きたい" },
+            { id: 'C', name: '琥珀', modern: '永遠の保護', hex: '#d97706', dark: '#451a03', wish: "「大切なものや思い出を、時を止めて永遠に保存」していたい" },
+            { id: 'D', name: '白銀', modern: '無垢な清廉', hex: '#94a3b8', dark: '#0f172a', wish: "「濁りなく、潔く、正しく、美しい精神」であり続けたい" },
+            { id: 'E', name: '漆黒', modern: '支配的深淵', hex: '#1e293b', dark: '#020617', wish: "「すべてを飲み込み、何者にも染まらない絶対の優位」でありたい" },
+            { id: 'F', name: '翡翠', modern: '再生の調和', hex: '#10b981', dark: '#064e3b', wish: "「傷ついた心や環境を、穏やかに再生させ調和」させたい" },
+            { id: 'G', name: '黄金', modern: '至高の栄華', hex: '#fbbf24', dark: '#422006', wish: "「他者から眩しいと仰がれる、最高峰の称賛と価値」を手に入れたい" },
+            { id: 'H', name: '鋼鉄', modern: '不屈の決意', hex: '#64748b', dark: '#1e293b', wish: "「何が起きても決して折れない、強固な意志と肉体」が欲しい" },
+            { id: 'I', name: '蒼空', modern: '無限の解放', hex: '#0ea5e9', dark: '#082f49', wish: "「あらゆる束縛を脱ぎ捨て、どこまでも高く遠く」へ行きたい" }
+        ];
 
-            "II-I": { trait: "円環", color: "紅玉", name: "情熱の輪", narrative: "調和を重んじつつ、内面には激しい変化の炎を秘めています。縁を結び直しながら、新しい命を吹き込む循環の旅。", core: "静かなる情熱の循環。" },
-            "II-II": { trait: "円環", color: "瑠璃", name: "調和の体現者", narrative: "巡り合わせと因果のバランスが完全に統合。散らばった縁を結び、世界の真理を体現する至高の調和者。", core: "終わりと始まりの統合。" },
-            "II-III": { trait: "円環", color: "琥珀", name: "愛の連環", narrative: "受容と癒やしの力が、円環の調和と融合。孤独を溶かし、愛によって世界を再生させる循環する救済。", core: "全てを許す繋がりの心。" },
-            "II-IV": { trait: "円環", color: "白銀", name: "理の回帰", narrative: "調和を論理で支えます。複雑な事象を解き明かし、世界を本来あるべきバランスへと戻す知性の番人。", core: "客観的なバランス。" },
-            "II-V": { trait: "円環", color: "漆黒", name: "美しき輪廻", narrative: "創造的な美学が円環の繋がりと結合。目に見えない縁を、美しい物語や芸術として具現化し続けます。", core: "変幻自在な調和。" },
-            "II-VI": { trait: "円環", color: "翡翠", name: "静寂の理", narrative: "深い沈黙の中で因果を見つめます。表層を捨て、魂の最奥にある本質的な繋がりを理解するための旅。", core: "内省的な調和。" },
-            "II-VII": { trait: "円環", color: "黄金", name: "秩序の円環", narrative: "円環の調和を、覇道の意志で現実化。混乱を治めるための秩序を、優しくも確固たる力で構築します。", core: "調和という名の支配。" },
-            "II-VIII": { trait: "円環", color: "鋼鉄", name: "不朽の土台", narrative: "不動の誠実さで調和を守ります。他者の拠り所となり続け、安定した循環を維持する守護者。", core: "誠実な守護。" },
-            "II-IX": { trait: "円環", color: "蒼空", name: "自由な輪", narrative: "枠組みを超越しながらも、調和を忘れません。何ものにも縛られず、しかし全ての縁を大切にする軽やかな旅人。", core: "自在な繋がり。" },
+        function drawKyuubi(traitId, colorHex, size = 300) {
+            let tails = "";
+            for (let i = 0; i < 9; i++) {
+                const angle = -75 + (i * 18.75);
+                const color = colorHex || desires[i].hex;
+                const opacity = colorHex ? (0.12 + (i * 0.08)) : 0.55;
+                tails += `<g transform="rotate(${angle}, 50, 85)">
+                    <path d="M50,85 C65,65 75,40 50,10 C25,40 35,65 50,85" fill="${color}" fill-opacity="${opacity}" stroke="${color}" stroke-width="0.2"/>
+                </g>`;
+            }
+            const accentColor = colorHex || "#94a3b8";
+            const kanjiContent = traitId ? `
+                <g transform="translate(40, 52) scale(0.2)" stroke="${colorHex}" stroke-width="5" fill="none" class="kanji-stroke">
+                    <path d="${traits.find(t => t.id === traitId).glyph}" />
+                </g>` : "";
 
-            "III-I": { trait: "慈愛", color: "紅玉", name: "熱情の癒やし", narrative: "受容の心に、激しい推進力が加わります。他者のために自らを燃やし、状況を劇的に好転させる愛の闘士。", core: "行動する慈悲。" },
-            "III-II": { trait: "慈愛", color: "瑠璃", name: "共感の輪", narrative: "他者の痛みを分かち合う心が、全体の調和へと繋がります。孤立を癒やし、再び人々を繋ぎ合わせる和の要。", core: "調和に満ちた奉仕。" },
-            "III-III": { trait: "慈愛", color: "琥珀", name: "至高の愛", narrative: "無償の奉仕と共感が最高潮に。その存在そのものが癒やしとなり、周囲の孤独を溶かしていく聖なる旅。", core: "純粋な受容と育み。" },
-            "III-IV": { trait: "慈愛", color: "白銀", name: "叡智の献身", narrative: "鋭い分析力を持って他者を助けます。何が真の救いになるのかを洞察し、論理的な愛を実践する賢者。", core: "見抜く知性と共感。" },
-            "III-V": { trait: "慈愛", color: "漆黒", name: "幻想の救済", narrative: "創造性を活かして癒やしを具現化します。目に見えない祈りや想いを、形ある美しさへと変えて世界を救います。", core: "表現された愛。" },
-            "III-VI": { trait: "慈愛", color: "翡翠", name: "沈黙の祈り", narrative: "深淵の静寂の中で他者に寄り添います。言葉を超えた深いレベルで魂に触れ、再誕を促す静かなる聖母。", core: "内なる愛の探求。" },
-            "III-VII": { trait: "慈愛", color: "黄金", name: "王者の慈悲", narrative: "高い意志で人々を導き、守ります。理想郷を築くための原動力は、他者への深い共感と責任感です。", core: "支配と愛の統合。" },
-            "III-VIII": { trait: "慈愛", color: "鋼鉄", name: "守護の抱擁", narrative: "不変の誠実さで大切な人を守り抜きます。誰が何と言おうと揺るがない、鉄壁の安定感を持つ愛の防壁。", core: "揺るぎない献身。" },
-            "III-IX": { trait: "慈愛", color: "蒼空", name: "自由な博愛", narrative: "何ものにも縛られず、世界中の人々に光を届けます。境界線を越え、偏見なく愛を広める飛翔する心。", core: "執着なき共感。" },
+            return `<svg viewBox="0 0 100 100" width="${size}" height="${size}">
+                <path d="M50,85 Q40,80 38,65 Q38,45 50,40 Q62,45 62,65 Q60,80 50,85" fill="white" stroke="${accentColor}" stroke-width="0.4" />
+                <path d="M42,45 L41,32 L47,43 M58,45 L59,32 L53,43" fill="none" stroke="${accentColor}" stroke-width="0.8"/>
+                ${tails}
+                ${kanjiContent}
+            </svg>`;
+        }
 
-            "IV-I": { trait: "叡智", color: "紅玉", name: "閃光の叡智", narrative: "真理の探求に激しい情熱が宿ります。分析だけでなく実行を伴い、理論を現実のものとする知の革命児。", core: "情熱的な真理探究。" },
-            "IV-II": { trait: "叡智", color: "瑠璃", name: "調和の叡智", narrative: "複雑な事象を解き明かす知性が、全体のバランスのために機能。真理をもって人々の混乱を静める調律師。", core: "知的なバランス感覚。" },
-            "IV-III": { trait: "叡智", color: "琥珀", name: "情愛の賢者", narrative: "知性に心の温かさが加わります。単なる論理ではなく、血の通った知恵によって人を導く慈悲深い探求者。", core: "感情を理解する理性。" },
-            "IV-IV": { trait: "叡智", color: "白銀", name: "絶対真理", narrative: "分析、洞察、学びが極致に到達。あらゆる事象を解き明かし、暗闇に完全な光を当てる知の最高権威。", core: "純粋な論理と洞察。" },
-            "IV-V": { trait: "叡智", color: "漆黒", name: "創造の叡智", narrative: "独創的な発想が知性と融合。既成概念を覆す新しい理論や現実を描き出す、魔法のような思考の持ち主。", core: "独創的な理論構築。" },
-            "IV-VI": { trait: "叡智", color: "翡翠", name: "深遠なる知", narrative: "自己内省と真理の探求が一体化。表層の知識を捨て、魂の最奥にある真実を解き明かすための下降の旅。", core: "内省的な合理主義。" },
-            "IV-VII": { trait: "叡智", color: "黄金", name: "叡智の支配", narrative: "知性をもって秩序を構築。自らの理論によって理想郷を築き、人々を導くための冷徹かつ完璧な戦略家。", core: "知による秩序形成。" },
-            "IV-VIII": { trait: "叡智", color: "鋼鉄", name: "堅牢な知性", narrative: "不変の事実と誠実さを重んじる知性。大切な基盤を論理的に守り抜き、絶対に揺るがない安定を築きます。", core: "確実なデータの番人。" },
-            "IV-IX": { trait: "叡智", color: "蒼空", name: "自在の叡智", narrative: "枠組みに縛られない自由な思考。常に最新の情報を学び、無限の可能性を証明し続ける知の冒険者。", core: "変化する絶対知。" },
-
-            "V-I": { trait: "幻影", color: "紅玉", name: "創造の奔流", narrative: "創造的な美学に、圧倒的な推進力が宿ります。想像を絶するスピードで新しい現実を具現化する表現の先駆者。", core: "形なきものを焼く炎。" },
-            "V-II": { trait: "幻影", color: "瑠璃", name: "美しき円環", narrative: "想像力による創造が、全体の調和と結びつきます。散らばった人々の心を、一つの美しい物語で繋ぎ合わせる。 ", core: "調和を創る魔法。" },
-            "V-III": { trait: "幻影", color: "琥珀", name: "慈しみの幻影", narrative: "目に見えない癒やしを具現化。人々の痛みを美しい物語や芸術に昇華させ、孤独を溶かしていく創造的な救済。 ", core: "愛を描き出す想像力。" },
-            "V-IV": { trait: "幻影", color: "白銀", name: "理の幻想", narrative: "独創性と論理性が高度にバランス。不可能を可能にするロジックを見出し、空想を現実へと変える魔法の設計図。 ", core: "緻密な創造性。" },
-            "V-V": { trait: "幻影", color: "漆黒", name: "幻視の王", narrative: "創造性と虚実のあわいが最高潮。誰も見たことのない世界観を構築し、既成概念を完膚なきまでに揺さぶる魔術師。", core: "無限の想像力。" },
-            "V-VI": { trait: "幻影", color: "翡翠", name: "深淵の幻影", narrative: "自己の深淵から美しきものを汲み上げます。表層的な美しさを捨て、魂の痛みを崇高な芸術へと昇華させる思索者。 ", core: "魂の叫びを形にする。" },
-            "V-VII": { trait: "幻影", color: "黄金", name: "王者の幻想", narrative: "自らの美学によって秩序を構築。理想の世界を己の創造力で塗り替え、人々を魅了しながら導く絶対的な表現者。 ", core: "支配的な美意識。" },
-            "V-VIII": { trait: "幻影", color: "鋼鉄", name: "守護の幻想", narrative: "不変の意志を創造的な形で表現。大切な伝統や絆を、新しい解釈で守り抜き、色褪せない土台を築きます。 ", core: "不変を創る知恵。" },
-            "V-IX": { trait: "幻影", color: "蒼空", name: "自由な幻想", narrative: "何ものにも縛られず、無限の可能性を描き続けます。境界線を軽やかに越え、新しいリアリティを提示する飛翔する心。", core: "執着なき創造。" },
-
-            "VI-I": { trait: "深淵", color: "紅玉", name: "情熱の深淵", narrative: "静寂の底に熱い意志が眠っています。内省の末に導き出された真実を、力強く現実に反映させる静かなる革命家。", core: "底知れぬ推進力。" },
-            "VI-II": { trait: "深淵", color: "瑠璃", name: "円環の深淵", narrative: "因果とバランスを静かに見つめます。バラバラな出来事の底にある繋がりを見出し、調和を再構築する因果の観測者。 ", core: "沈黙の調和。" },
-            "VI-III": { trait: "深淵", color: "琥珀", name: "慈愛の深淵", narrative: "他者の痛みの最奥まで降りていき、共鳴します。孤独の底で手を差し伸べ、魂を再生へと導く、静かなる救済の旅。", core: "寄り添う静寂。" },
-            "VI-IV": { trait: "深淵", color: "白銀", name: "叡智の深淵", narrative: "本質的な問いを論理で突き詰めます。表層の知識を捨て、宇宙の真理や自己の正体に肉薄する、孤高の哲学者。", core: "究極の知性的探求。" },
-            "VI-V": { trait: "深淵", color: "漆黒", name: "幻想の深淵", narrative: "深淵で見つけた真実を、独自の美学で表現。目に見えない魂の震えを具現化し、人々の固定観念を揺さぶる思想家。", core: "内なる真実の具現化。" },
-            "VI-VI": { trait: "深淵", color: "翡翠", name: "絶対静寂", narrative: "本質的な問いと静寂が極致へ。自己内省の果てに、何ものにも依存しない純粋な魂の核へと到達した隠者。", core: "再誕のための下降。" },
-            "VI-VII": { trait: "深淵", color: "黄金", name: "覇道の深淵", narrative: "深い沈黙から導き出した正義で秩序を築きます。自らの意志の根源を完璧に理解し、揺るぎない確信で世界を導く指導者。", core: "確信に満ちた支配。" },
-            "VI-VIII": { trait: "深淵", color: "鋼鉄", name: "堅牢な深淵", narrative: "不変の意志を深淵の底に打ち込みます。何が起きても揺るがない自己の基準を持ち、大切なものを黙って守り続ける守護の盾。 ", core: "不動の自己基準。" },
-            "VI-IX": { trait: "深淵", color: "蒼空", name: "自由な深淵", narrative: "深淵に潜りながらも、どこまでも軽やか。一つの真実に執着せず、境界線を越え続けることで自由を獲得する探求者。", core: "縛られない思索。" },
-
-            "VII-I": { trait: "覇道", color: "紅玉", name: "覇道の奔流", narrative: "意志の貫徹と圧倒的な推進力が融合。自らの力で理想を形にし、瞬く間に世界を塗り替える、猛烈な開拓の王。 ", core: "止まらない支配。" },
-            "VII-II": { trait: "覇道", color: "瑠璃", name: "円環の覇道", narrative: "秩序の構築が全体の調和を目的とします。混乱を治め、人々の間に公平な循環を作り出す、高潔な王道。 ", core: "調和のための力。" },
-            "VII-III": { trait: "覇道", color: "琥珀", name: "慈愛の覇道", narrative: "守るべき存在への愛が力の源。弱きを助け、愛によって理想郷を築き上げる、献身的かつ力強い指導者。", core: "愛を貫く意志。" },
-            "VII-IV": { trait: "覇道", color: "白銀", name: "叡智の覇道", narrative: "論理的な秩序を完璧に構築します。真理に基づいて世界を統治し、混乱を一切許さない、緻密な戦略を持つ勝者。", core: "知的な秩序。" },
-            "VII-V": { trait: "覇道", color: "漆黒", name: "幻想の覇道", narrative: "自らの美学を世界に強いるほどの創造性。新しいリアリティを構築し、既存の秩序を美しく塗り替える革新的な王。", core: "創造による支配。" },
-            "VII-VI": { trait: "覇道", color: "翡翠", name: "深淵の覇道", narrative: "魂の最奥にある確信から秩序を築きます。己の孤独と問いに向き合い続け、本質的な正義を体現する、孤高の指導者。", core: "内なる王土。" },
-            "VII-VII": { trait: "覇道", color: "黄金", name: "絶対覇道", narrative: "意志の貫徹と秩序の構築が極致に。自らの力で完璧な理想を形にし、一切の停滞を許さず凱旋し続ける真の覇者。", core: "理想郷の構築。" },
-            "VII-VIII": { trait: "覇道", color: "鋼鉄", name: "不朽の覇道", narrative: "不変の意志で秩序を守り抜きます。嵐の中でも揺るがず、築き上げた安定を永遠のものとする、鉄壁の統治。 ", core: "不動の秩序。" },
-            "VII-IX": { trait: "覇道", color: "蒼空", name: "自由な覇道", narrative: "境界線を越え続けることで秩序を広げます。何ものにも縛られず、しかし確実に理想を実現していく軽やかな王。 ", core: "執着なき達成。" },
-
-            "VIII-I": { trait: "堅牢", color: "紅玉", name: "奔流の堅牢", narrative: "守るべきもののために激しく戦います。不変の意志を推進力に変え、大切な基盤を脅かすものを徹底的に打破する守護者。 ", core: "動的な防壁。" },
-            "VIII-II": { trait: "堅牢", color: "瑠璃", name: "円環の堅牢", narrative: "全体の調和を誠実に守り抜きます。散らばった縁を結び直し、揺るぎない土台の上で平和を維持し続ける不動の要。", core: "不変のバランス。" },
-            "VIII-III": { trait: "堅牢", color: "琥珀", name: "慈愛の堅牢", narrative: "愛する人を守ることが絶対の使命。無償の奉仕が誠実な基盤となり、誰もが安心して戻れる安息地を築きます。", core: "癒やしの砦。" },
-            "VIII-IV": { trait: "堅牢", color: "白銀", name: "叡智の堅牢", narrative: "不変の事実と論理で基盤を支えます。リスクを徹底的に分析し、確実なデータに基づいて安定を維持する知的な盾。 ", core: "知的な安定。" },
-            "VIII-V": { trait: "堅牢", color: "漆黒", name: "幻想の堅牢", narrative: "独自の美学によって不変の価値を守ります。伝統を創造的に表現し直し、時代が変わっても色褪せない土台を築く芸術家。 ", core: "美しき土台。" },
-            "VIII-VI": { trait: "堅牢", color: "翡翠", name: "深淵の堅牢", narrative: "魂の最奥にある信念を誠実に守り抜きます。孤独の中で見出した自己の真実を、何ものにも譲らない静かなる不朽。 ", core: "内なる基盤。" },
-            "VIII-VII": { trait: "堅牢", color: "黄金", name: "覇道の堅牢", narrative: "自らの意志で築いた秩序を鉄壁の守りで維持。理想郷の基盤を誰にも侵させず、永遠の安定を約束する統治者。", core: "確固たる支配。" },
-            "VIII-VIII": { trait: "堅牢", color: "鋼鉄", name: "絶対堅牢", narrative: "不変の意志と守護の力が極致へ。嵐の中でも微動だにせず、他者の絶対的な拠り所となり続ける不朽の守護神。", core: "誠実、忍耐、安定。" },
-            "VIII-IX": { trait: "堅牢", color: "蒼空", name: "自由な堅牢", narrative: "何ものにも縛られないことで、逆に不変の自己を保ちます。境界線を越えながらも、芯の強さを失わない軽やかな盾。 ", core: "自由な安定。" },
-
-            "IX-I": { trait: "自由", color: "紅玉", name: "奔流の自由", narrative: "枠組みを壊す情熱で前進します。圧倒的なエネルギーで境界線を突破し、無限の可能性を切り拓く、自由なる開拓者。", core: "変化を好む自由。" },
-            "IX-II": { trait: "自由", color: "瑠璃", name: "円環の自由", narrative: "自在な変化が全体の調和に繋がります。縁に執着せず、しかし全ての巡り合わせを愛する軽やかな調律師。", core: "執着なき調和。" },
-            "IX-III": { trait: "自由", color: "琥珀", name: "慈愛の自由", narrative: "愛によって境界線を越え続けます。誰に対しても等しく癒やしを届け、人々の孤独を溶かしていく博愛の旅人。", core: "自由な共感。" },
-            "IX-IV": { trait: "自由", color: "白銀", name: "叡智の自由", narrative: "固定観念を排した純粋な知性。あらゆる枠を超えて学び、世界の真理を自由に解き明かす知の冒険者。", core: "縛られない知性。" },
-            "IX-V": { trait: "自由", color: "漆黒", name: "幻想の自由", narrative: "無限の想像力で新しい現実を次々と描き出します。既存の美学を軽やかに超越し、魔法のような自由を体現する表現者。", core: "変幻自在な創造。" },
-            "IX-VI": { trait: "自由", color: "翡翠", name: "深淵の自由", narrative: "魂の最奥にある真実すらも軽やかに手放し、新しい自分へと再誕し続けます。下降すらも飛翔に変える真理の冒険者。 ", core: "深き自由。" },
-            "IX-VII": { trait: "自由", color: "黄金", name: "覇道の自由", narrative: "理想を形にしながらも、その形に固執しません。常に最高の状態を求めて変革し続け、無限の可能性を実現する王。", core: "支配なき達成。" },
-            "IX-VIII": { trait: "自由", color: "鋼鉄", name: "堅牢な自由", narrative: "不変の意志を持ちながら、環境への適応力に優れます。嵐の中でも自分を見失わず、しかし柔軟に身をこなす、自由なる守護者。 ", core: "しなやかな盾。" },
-            "IX-IX": { trait: "自由", color: "蒼空", name: "絶対自由", narrative: "枠組みを超越する軽やかさが極致へ。何ものにも縛られず、即興性と好奇心で無限の可能性を証明し続ける飛翔の精神。", core: "超越と自在。" }
+        const questions = {
+            'A': ["現状に満足せず常に改善案を探している", "決断の速さが自分の持ち味だ", "古いルールを壊すことに抵抗がない"],
+            'B': ["自分よりも場の空気を優先する", "争いごとは時間の無駄だと思う", "物事がルーチン通りに進むと安心する"],
+            'C': ["困っている人を見過ごせない", "聞き上手だと言われることが多い", "誰かの成長を支えるのが喜びだ"],
+            'D': ["感情よりもデータや論理を信じる", "問題を分析するのが得意だ", "「なぜ？」を突き詰めるのが好きだ"],
+            'E': ["自分にしか分からない世界がある", "人と同じことはしたくない", "空想や夢想に浸ることがよくある"],
+            'F': ["一つのことを深く掘り下げたい", "群れるよりも一人の時間を好む", "自分の弱さを他人に見せない"],
+            'G': ["自分が中心になって進めたい", "他人の期待に応える自信がある", "困難な壁ほど燃えるタイプだ"],
+            'H': ["約束や時間は厳守すべきだ", "不屈の精神を持っている自負がある", "一度始めたことは最後までやり抜く"],
+            'I': ["予定に縛られるのは苦手だ", "新しい体験のために環境を変えたい", "何事も楽しむことが第一だ"]
         };
 
-        const partInterpretations = {
-            'I': { high: { title: '【特性】奔流のエネルギー', desc: '圧倒的な推進力で新しい時代を切り拓きます。' }, medium: { title: '【柔軟性】適度な推進力', desc: '必要に応じてアクセルを踏み、前進できます。' }, low: { title: '【潜在色】静寂への希求', desc: '無理に動くことよりも、立ち止まることを求めているかもしれません。' } },
-            'II': { high: { title: '【特性】円環のバランス', desc: 'あらゆる縁を結び直し、調和をもたらします。' }, medium: { title: '【柔軟性】バランス感覚', desc: '周囲との関係性を適切に維持することができます。' }, low: { title: '【潜在色】個の確立', desc: '和を重んじすぎるあまり、自分の意志を後回しにしていませんか？' } },
-            'III': { high: { title: '【特性】慈愛の抱擁', desc: '他者の痛みを分かち合い、癒やす力を持っています。' }, medium: { title: '【柔軟性】健全な共感', desc: '感情に流されすぎず、相手に寄り添うことができます。' }, low: { title: '【潜在色】理性的距離', desc: '感情よりも論理で世界を捉えようとしている時期かもしれません。' } },
-            'IV': { high: { title: '【特性】叡智の光', desc: '真理を追求し、複雑な事象を鮮やかに解き明かします。' }, medium: { title: '【柔軟性】実用的な知性', desc: '必要な情報を収集し、論理的に判断できます。' }, low: { title: '【潜在色】直感への信頼', desc: '分析することに疲れ、感覚的なものを求めている可能性があります。' } },
-            'V': { high: { title: '【特性】幻影の創造', desc: '独創的な発想で、新しいリアリティを描き出します。' }, medium: { title: '【柔軟性】適度な創造性', desc: '日常の中に遊び心や独自の工夫を取り入れられます。' }, low: { title: '【潜在色】現実的な基盤', desc: '想像の世界よりも、確実な現実を重視している時期です。' } },
-            'VI': { high: { title: '【特性】深淵の洞察', desc: '孤独を友とし、魂の本質的な問いに向き合います。' }, medium: { title: '【柔軟性】健全な内省', desc: '折に触れて自分を見つめ直し、成長の糧にできます。' }, low: { title: '【潜在色】外的な活動', desc: '内面を深く見つめるよりも、外の世界との繋がりを求めています。' } },
-            'VII': { high: { title: '【特性】覇道の意志', desc: '高い理想を掲げ、自らの力で秩序を構築します。' }, medium: { title: '【柔軟性】達成への意欲', desc: '具体的な目標を立て、着実に成果を出すことができます。' }, low: { title: '【潜在色】受容の安らぎ', desc: '競争や支配から離れ、ただ在ることを求めているかもしれません。' } },
-            'VIII': { high: { title: '【特性】堅牢な誠実', desc: '不変の意志で、大切なものを守り抜きます。' }, medium: { title: '【柔軟性】安定した基盤', desc: '計画的に物事を進め、信頼を築くことができます。' }, low: { title: '【潜在色】変化の受容', desc: '保守的になりすぎず、新しい風を取り入れる必要を感じていませんか？' } },
-            'IX': { high: { title: '【特性】自由の飛翔', desc: '枠組みに縛られず、無限の可能性を楽しみます。' }, medium: { title: '【柔軟性】柔軟な対応', desc: '環境の変化に応じて、自分を適応させることができます。' }, low: { title: '【潜在色】不変への憧れ', desc: '変化し続けることに疲れ、定住や不変を求めているかもしれません。' } }
-        };
+        let currentIdx = 0, currentQ = 0, scores = {};
+        const tIds = Object.keys(questions);
 
-        // --- 以下ロジック（前バージョンを踏襲しつつ修正） ---
-        let currentPartIndex = 0; 
-        let currentQIndex = 0;
-        const totalQuestions = quizData.reduce((sum, part) => sum + part.questions.length, 0);
-        let answers = {};
-        let myResultTraitId = '';
-        let myResultColorId = '';
-        let calculatedScores = {};
-        let isQuizCompleted = false;
+        function showSection(id) {
+            ['start-screen', 'quiz-screen', 'result-screen', 'catalog-screen'].forEach(s => {
+                document.getElementById(s).classList.add('hidden');
+            });
+            document.getElementById(id).classList.remove('hidden');
+            if(id === 'catalog-screen') buildCatalog();
+            window.scrollTo(0,0);
+        }
 
         function startQuiz() {
-            answers = {}; currentPartIndex = 0; currentQIndex = 0; calculatedScores = {}; isQuizCompleted = false;
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('quiz-content').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            renderQuestion();
+            currentIdx = 0; currentQ = 0; scores = {};
+            showSection('quiz-screen');
+            renderQ();
         }
 
-        function renderQuestion() {
-            const globalQIndex = currentPartIndex * 9 + currentQIndex;
-            if (globalQIndex >= totalQuestions) { analyze(); return; }
-            const part = quizData[currentPartIndex];
-            document.getElementById('current-question-text').textContent = part.questions[currentQIndex];
-            const progress = ((globalQIndex + 1) / totalQuestions) * 100;
-            document.getElementById('progress-bar').style.width = `${progress}%`;
-            document.getElementById('progress-text').textContent = `${globalQIndex + 1} / ${totalQuestions} 問`;
+        function renderQ() {
+            const tid = tIds[currentIdx];
+            document.getElementById('category-label').textContent = `深層鑑定中：魂の断面`;
+            document.getElementById('question').textContent = questions[tid][currentQ];
+            document.getElementById('progress').style.width = `${((currentIdx * 3 + currentQ + 1) / 27) * 100}%`;
         }
 
-        function handleAnswer(isYes) {
-            const partId = quizData[currentPartIndex].id;
-            if (!answers[partId]) answers[partId] = [];
-            answers[partId][currentQIndex] = isYes;
-            currentQIndex++;
-            if (currentQIndex >= 9) { currentQIndex = 0; currentPartIndex++; }
-            renderQuestion();
+        function answer(isYes) {
+            const tid = tIds[currentIdx];
+            scores[tid] = (scores[tid] || 0) + (isYes ? 1 : 0);
+            currentQ++;
+            if(currentQ >= 3) { currentQ = 0; currentIdx++; }
+            if(currentIdx >= 9) finish(); else renderQ();
         }
 
-        function analyze() {
-            calculatedScores = {};
-            quizData.forEach(p => { calculatedScores[p.id] = (answers[p.id] || []).filter(a => a).length; });
-            let maxScore = -1, minScore = 10, traitId = 'I', colorId = 'I';
-            quizData.forEach(p => {
-                if (calculatedScores[p.id] > maxScore) { maxScore = calculatedScores[p.id]; traitId = p.id; }
-                if (calculatedScores[p.id] < minScore) { minScore = calculatedScores[p.id]; colorId = p.id; }
+        function finish() {
+            let maxT = 'A', minT = 'A', maxV = -1, minV = 10;
+            tIds.forEach(id => {
+                if(scores[id] > maxV) { maxV = scores[id]; maxT = id; }
+                if(scores[id] < minV) { minV = scores[id]; minT = id; }
             });
-            myResultTraitId = traitId; myResultColorId = colorId; isQuizCompleted = true;
-            renderResultView(traitId, colorId, true);
+            if(maxT === minT) minT = tIds.find(id => id !== maxT) || 'B';
+            showResult(maxT, minT);
         }
 
-        function renderResultView(traitId, colorId, isMyResult) {
-            document.getElementById('quiz-section').classList.add('hidden');
-            document.getElementById('all-results-section').classList.add('hidden');
-            document.getElementById('result-section').classList.remove('hidden');
-            setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 10);
+        function showResult(tid, cid) {
+            const t = traits.find(x => x.id === tid);
+            const d = desires.find(x => x.id === cid);
+            showSection('result-screen');
+            document.getElementById('result-visual').innerHTML = drawKyuubi(tid, d.hex);
+            
+            document.getElementById('result-title').innerHTML = `
+                <div class="mb-4">
+                    <span class="text-slate-800">${t.name}（${t.modern}）</span><br>
+                    <span class="text-slate-300 text-3xl my-2 block">×</span>
+                    <span style="color:${d.hex}">${d.name}（${d.modern}）</span>
+                </div>
+            `;
+            
+            document.getElementById('impression-text').textContent = t.impression;
+            document.getElementById('desire-text').textContent = `あなたの内なる輝きは【${d.name}】。それは「${d.wish}」という、魂の深淵に刻まれた渇望を象徴しています。`;
+            document.getElementById('divine-panel').style.backgroundColor = d.dark;
+            document.getElementById('bg-glow').style.background = `radial-gradient(circle, ${d.hex} 0%, transparent 70%)`;
 
-            const soulData = soulNarratives[`${traitId}-${colorId}`];
-            document.getElementById('result-trait-name').textContent = soulData.trait;
-            document.getElementById('result-color-name').textContent = soulData.color;
-            document.getElementById('combo-name-display').textContent = soulData.name;
-            document.getElementById('soul-core').textContent = soulData.core;
-            document.getElementById('overall-description').textContent = soulData.narrative;
+            const list = document.getElementById('divine-list');
+            list.innerHTML = "";
+            
+            const divineTitles = [
+                "其の一：属性の理（ことわり）",
+                "其の二：色彩の真意",
+                "其の三：魂のバランス",
+                "其の四：外界との接触",
+                "其の五：深淵の警告",
+                "其の六：覚醒への鍵",
+                "其の七：運命の転換",
+                "其の八：至福の源泉",
+                "其の九：至上の教え"
+            ];
 
-            if (isMyResult) {
-                document.getElementById('score-analysis-block').classList.remove('hidden');
-                document.getElementById('return-from-detail').classList.add('hidden');
-                document.getElementById('back-to-list-button').classList.add('hidden');
-                renderScoreAnalysis(calculatedScores);
-            } else {
-                document.getElementById('score-analysis-block').classList.add('hidden');
-                document.getElementById('back-to-list-button').classList.remove('hidden');
-                if (isQuizCompleted) document.getElementById('return-from-detail').classList.remove('hidden');
-            }
-        }
+            const divineContents = [
+                `あなたが現世で振るう力は【${t.name}】です。それはあなたが生存のために選んだ最も強力な武器です。`,
+                `心の底に沈む【${d.name}】の色彩は、あなたの行動の裏側にある「本当の理由」を物語っています。`,
+                `【${t.modern}】としての仮面が苦しくなった時、その【${d.name}】の願いを自分自身で認めてあげなさい。`,
+                `他者はあなたの【${t.name}】を頼りにしますが、あなた自身が真に求めているのは【${d.modern}】であることを忘れてはなりません。`,
+                `渇望が強すぎると、【${d.name}】の輝きは影となり、あなた自身を飲み込む迷宮に変わる恐れがあります。`,
+                `日常の中に【${d.name}】を象徴する小さな時間を持ちなさい。それがあなたの【${t.name}】としての力を最大化します。`,
+                `困難が訪れた時こそ、表面的な解決ではなく、あなたの魂が【${d.wish}】としているか自問しなさい。`,
+                `あなたが真の幸福を感じるのは、【${t.name}】としての成功ではなく、【${d.name}】の色彩が満たされた瞬間です。`,
+                `己の「属性」を理解し、その根底にある「色彩」を慈しみなさい。二つの光が重なった時、あなたの人生は真の芸術となります。`
+            ];
 
-        function renderScoreAnalysis(scores) {
-            const container = document.getElementById('full-analysis-container');
-            container.innerHTML = '';
-            quizData.forEach(part => {
-                const s = scores[part.id];
-                const level = s >= 7 ? 'high' : s >= 4 ? 'medium' : 'low';
-                const info = partInterpretations[part.id][level];
-                const colors = level === 'high' ? 'bg-red-50 border-red-500' : level === 'medium' ? 'bg-yellow-50 border-yellow-500' : 'bg-blue-50 border-blue-500';
-                container.insertAdjacentHTML('beforeend', `
-                    <div class="trait-box ${colors} border-l-4 p-4 rounded shadow-sm">
-                        <div class="flex justify-between items-center mb-2"><h4 class="font-bold font-serif">${part.name}</h4><span class="text-xs font-bold">${s}/9</span></div>
-                        <p class="text-sm font-bold text-gray-700 mb-1">${info.title}</p>
-                        <p class="text-xs text-gray-600 leading-relaxed">${info.desc}</p>
-                    </div>
-                `);
-            });
-        }
-
-        function showAllResults() {
-            document.getElementById('result-section').classList.add('hidden');
-            document.getElementById('all-results-section').classList.remove('hidden');
-            setTimeout(() => window.scrollTo({ top: 0, behavior: 'auto' }), 10);
-            if (isQuizCompleted) document.getElementById('back-to-my-result-btn').classList.remove('hidden');
-            renderFilterButtons();
-            filterResults('ALL');
-        }
-
-        function renderFilterButtons() {
-            const container = document.getElementById('trait-filters');
-            container.innerHTML = `<button onclick="filterResults('ALL')" class="px-4 py-2 bg-gray-800 text-white rounded-full text-sm font-bold m-1">ALL</button>`;
-            quizData.forEach(p => {
-                container.insertAdjacentHTML('beforeend', `<button onclick="filterResults('${p.id}')" class="px-3 py-2 bg-white border border-gray-300 rounded-full text-xs font-bold m-1">${p.name}</button>`);
+            divineTitles.forEach((title, i) => {
+                const div = document.createElement('div');
+                div.className = "divine-item";
+                div.innerHTML = `
+                    <h4 class="font-bold mb-2 tracking-widest text-sm uppercase opacity-100" style="color:${d.hex}">${title}</h4>
+                    <p class="text-white opacity-80 text-sm leading-relaxed">${divineContents[i]}</p>
+                `;
+                list.appendChild(div);
             });
         }
 
-        function filterResults(fId) {
-            const container = document.getElementById('full-name-list');
-            container.innerHTML = '';
-            Object.keys(soulNarratives).forEach(key => {
-                const [tId, cId] = key.split('-');
-                if (fId !== 'ALL' && tId !== fId) return;
-                const d = soulNarratives[key];
-                container.insertAdjacentHTML('beforeend', `
-                    <div class="grid-item p-4 border border-gray-200 rounded-lg bg-gray-50 hover:bg-white shadow-sm" onclick="renderResultView('${tId}', '${cId}', false)">
-                        <div class="text-xs text-gray-400 mb-1 font-bold">${d.trait} × ${d.color}</div>
-                        <div class="text-lg font-bold text-gray-800 mb-1 font-serif">【<span class="text-red-700">${d.name}</span>】</div>
-                        <div class="text-xs text-gray-500 line-clamp-1">${d.core}</div>
-                    </div>
-                `);
+        function buildCatalog() {
+            const container = document.getElementById('catalog-content');
+            container.innerHTML = "";
+            traits.forEach(t => {
+                const group = document.createElement('div');
+                group.innerHTML = `<h3 class="text-2xl font-serif mb-10 border-l-8 border-orange-900 pl-6 text-slate-800">${t.name}（${t.modern}）</h3>`;
+                const grid = document.createElement('div');
+                grid.className = "grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-4";
+                desires.forEach(d => {
+                    const item = document.createElement('div');
+                    item.className = "cursor-pointer text-center p-2 hover:bg-slate-50 rounded-xl transition-all";
+                    item.onclick = () => showResult(t.id, d.id);
+                    item.innerHTML = `
+                        <div class="mb-2 flex justify-center">${drawKyuubi(t.id, d.hex, 60)}</div>
+                        <div class="text-[9px] font-serif truncate" style="color:${d.hex}">${d.name}</div>
+                    `;
+                    grid.appendChild(item);
+                });
+                group.appendChild(grid);
+                container.appendChild(group);
             });
         }
 
-        function showMyResult() { if (isQuizCompleted) renderResultView(myResultTraitId, myResultColorId, true); }
+        window.onload = () => {
+            document.getElementById('main-visual').innerHTML = drawKyuubi(null, null, 280);
+        };
     </script>
 </body>
 </html>
