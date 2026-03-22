@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>心炎九尾 | 真・九箇条の神託</title>
+    <title>心炎九尾 | 深層心理と行動特性の分析</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Shippori+Mincho:wght@600&display=swap" rel="stylesheet">
     <style>
@@ -11,23 +11,79 @@
             font-family: 'Noto Sans JP', sans-serif;
             background-color: #fcfaf8;
             color: #2d3436;
+            word-break: normal;
+            overflow-wrap: break-word;
+            line-break: strict;
         }
         .font-serif { font-family: 'Shippori Mincho', serif; }
         
-        .fox-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08));
-        }
-
         .result-card {
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(15px);
             border-radius: 40px;
-            border: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.08);
+        }
+
+        .attr-group {
+            margin-bottom: 3rem;
+            border-left: 4px solid #fb923c;
+            padding-left: 1.5rem;
+            background: #fff;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            border-radius: 0 1rem 1rem 0;
+        }
+
+        .history-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .history-choice {
+            padding: 0.8rem;
+            border-radius: 0.75rem;
+            font-size: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.4;
+        }
+
+        .choice-selected {
+            background: #fff7ed;
+            color: #9a3412;
+            border-color: #fb923c;
+            font-weight: bold;
+        }
+
+        .choice-unselected {
+            background: #f1f5f9;
+            color: #94a3b8;
+            border-color: #f1f5f9;
+        }
+
+        .choice-btn {
+            display: block;
+            width: 100%;
+            padding: 1.8rem 1.2rem;
+            text-align: center;
+            background: white;
+            border: 2px solid #f1f5f9;
+            border-radius: 1.25rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
+            line-height: 1.5;
+        }
+
+        .choice-btn:hover {
+            border-color: #fb923c;
+            background: #fffaf0;
         }
 
         .sticky-nav {
@@ -38,313 +94,704 @@
             display: flex;
             gap: 0.5rem;
         }
+
         .nav-btn {
-            background: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 20px;
-            font-size: 13px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(4px);
+            padding: 0.5rem 1rem;
+            border-radius: 99px;
+            font-size: 12px;
             font-weight: bold;
             border: 1px solid #e0e0e0;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+        }
+        .nav-btn:hover { background: #fff; border-color: #fb923c; color: #fb923c; }
+
+        .theme-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+            display: block;
         }
 
-        .kanji-stroke {
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .divine-item {
-            border-left: 2px solid rgba(255,255,255,0.2);
-            padding-left: 1.5rem;
+        .catalog-row {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            padding: 2.5rem;
+            background: white;
+            border-radius: 2.5rem;
+            border: 1px solid #f1f5f9;
             margin-bottom: 2rem;
-            transition: all 0.3s ease;
+        }
+
+        .catalog-attr-info {
+            flex: 0 0 220px;
+            position: sticky;
+            top: 4rem;
+        }
+
+        .catalog-desire-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .analysis-frame {
+            background: #fffaf5; 
+            border: 2px solid #fed7aa;
+            border-radius: 3rem;
+            padding: 3rem;
+            margin-top: 2rem;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .analysis-item {
+            border-bottom: 1px solid #f9731633;
+            padding: 2rem 0;
+            display: flex;
+            gap: 2rem;
+        }
+        .analysis-item:last-child {
+            border-bottom: none;
+        }
+        .analysis-num {
+            flex: 0 0 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #9a3412;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .analysis-content {
+            flex: 1;
+        }
+        .analysis-label {
+            font-weight: bold;
+            color: #7c2d12;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .analysis-text {
+            color: #4b5563;
+            line-height: 1.8;
+            font-family: 'Shippori Mincho', serif;
+            text-align: justify;
+        }
+
+        @media (max-width: 768px) {
+            .analysis-frame { padding: 1.5rem; }
+            .analysis-item { flex-direction: column; gap: 0.5rem; padding: 1.5rem 0; }
+            .catalog-row { flex-direction: column; padding: 1.5rem; }
+            .catalog-attr-info { flex: none; position: static; width: 100%; margin-bottom: 1.5rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 1rem; }
+            .catalog-desire-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <nav class="sticky-nav">
-        <button onclick="showSection('start-screen')" class="nav-btn">🏠 TOP</button>
-        <button onclick="showSection('catalog-screen')" class="nav-btn">📖 図録</button>
+        <button onclick="showSection('start-screen')" class="nav-btn">TOP</button>
+        <button onclick="showSection('catalog-screen')" class="nav-btn">全タイプ一覧</button>
     </nav>
 
-    <div class="max-w-4xl mx-auto">
-        
+    <div class="max-w-6xl mx-auto">
         <header id="header" class="text-center py-12">
-            <div id="main-visual" class="fox-container mb-8"></div>
-            <h1 class="text-6xl font-serif text-orange-900 mb-6 tracking-tighter">心炎九尾</h1>
-            <p class="text-slate-400 tracking-[0.5em] text-[11px] uppercase font-bold">The Nine-Tailed Soul Mirror</p>
+            <div id="main-visual" class="flex justify-center mb-6"></div>
+            <h1 class="text-5xl font-serif text-orange-900 mb-2">心炎九尾</h1>
+            <p class="text-slate-400 tracking-[0.4em] text-[10px] uppercase font-bold">Your Heart Mirror</p>
         </header>
 
         <main>
-            <!-- スタート画面 -->
-            <section id="start-screen" class="text-center space-y-12">
-                <div class="bg-white/70 p-12 rounded-[4rem] border border-white shadow-inner">
-                    <p class="text-2xl font-serif text-slate-800 mb-8 leading-relaxed">
-                        九つの「属性」と、九つの「色彩」。
-                    </p>
-                    <p class="text-sm text-slate-500 leading-relaxed max-w-lg mx-auto">
-                        あなたが纏う役割としての「属性」と、<br>
-                        心の深淵に眠る宝石のような「色彩」。<br>
-                        その交点に、真実のあなたが浮かび上がります。
-                    </p>
+            <!-- Start Screen -->
+            <section id="start-screen" class="text-center py-10 max-w-4xl mx-auto">
+                <div class="bg-white/90 p-10 md:p-16 rounded-[3.5rem] border border-white mb-10 shadow-sm relative overflow-hidden">
+                    <div class="relative z-10">
+                        <p class="text-2xl font-serif text-slate-800 mb-8 leading-relaxed">
+                            あなたの「本当の姿」を映し出します。
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-left">
+                            <div class="bg-orange-50/50 p-6 rounded-2xl">
+                                <h4 class="font-bold text-orange-900 text-sm mb-2">① 表面的な特徴（属性）</h4>
+                                <p class="text-xs text-slate-600 leading-relaxed">周囲からどう見られているか、日常での振る舞いや行動の傾向を分析します。</p>
+                            </div>
+                            <div class="bg-pink-50/50 p-6 rounded-2xl">
+                                <h4 class="font-bold text-pink-700 text-sm mb-2">② 内なる欲求（色彩）</h4>
+                                <p class="text-xs text-slate-600 leading-relaxed">無意識の内に求めているものや、心の奥底にある本音を導き出します。</p>
+                            </div>
+                            <div class="bg-purple-50/50 p-6 rounded-2xl">
+                                <h4 class="font-bold text-purple-900 text-sm mb-2">③ 81種類の組み合わせ</h4>
+                                <p class="text-xs text-slate-600 leading-relaxed">属性と色彩の組み合わせにより、あなただけの詳細な人物像を明らかにします。</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-500 max-w-md mx-auto leading-relaxed mb-8">
+                            全81問の質問があります。<br>
+                            考え込まず、直感で選んでください。<br>
+                            正解・不正解はありません。
+                        </p>
+                    </div>
+                    <div class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-orange-100/30 rounded-full blur-3xl"></div>
                 </div>
-                <div class="flex flex-col sm:flex-row gap-6 justify-center pt-6">
-                    <button onclick="startQuiz()" class="px-14 py-6 bg-orange-900 text-white rounded-full font-serif text-2xl shadow-2xl hover:bg-black transition-all hover:scale-105 active:scale-95">
-                        深層鑑定を開始する
+                <button onclick="startQuiz()" class="px-16 py-6 bg-orange-900 text-white rounded-full font-serif text-2xl shadow-2xl hover:scale-105 transition-all active:scale-95">
+                    診断を開始する
+                </button>
+            </section>
+
+            <!-- Quiz Screen -->
+            <section id="quiz-screen" class="hidden max-w-xl mx-auto">
+                <div class="mb-10 text-center">
+                    <div class="h-1 bg-slate-100 rounded-full mb-6 overflow-hidden">
+                        <div id="progress" class="h-full bg-orange-600 transition-all duration-300 w-0"></div>
+                    </div>
+                    <div id="q-counter" class="text-[10px] text-slate-400 tracking-widest uppercase">Question</div>
+                </div>
+                
+                <div id="question-box">
+                    <p id="question-text" class="text-center text-slate-800 text-xl font-bold mb-8">どちらの感覚に近いですか？</p>
+                    <button onclick="answer(true)" class="choice-btn">
+                        <p id="choice-a" class="text-base font-serif"></p>
+                    </button>
+                    <button onclick="answer(false)" class="choice-btn">
+                        <p id="choice-b" class="text-base font-serif"></p>
+                    </button>
+                </div>
+
+                <div class="text-center mt-6">
+                    <button id="undo-btn" onclick="undo()" class="text-slate-300 text-xs hover:text-orange-900 transition-colors opacity-0">
+                        ← ひとつ前の質問に戻る
                     </button>
                 </div>
             </section>
 
-            <!-- クイズ画面 -->
-            <section id="quiz-screen" class="hidden">
-                <div class="max-w-xl mx-auto">
-                    <div class="mb-14 text-center">
-                        <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden mb-8">
-                            <div id="progress" class="h-full bg-orange-700 transition-all duration-700 w-0"></div>
+            <!-- Result Screen -->
+            <section id="result-screen" class="hidden pb-20 max-w-4xl mx-auto">
+                <div class="result-card p-10 md:p-20 mb-10">
+                    <div class="text-center mb-12">
+                        <div id="result-visual" class="flex justify-center mb-8"></div>
+                        <div id="result-title-container" class="flex flex-col items-center gap-6 mb-8">
+                            <!-- JS injected detailed titles here -->
                         </div>
-                        <span id="category-label" class="text-[12px] font-bold text-orange-800 tracking-[0.3em] uppercase"></span>
-                    </div>
-                    <div class="bg-white p-16 rounded-[60px] shadow-sm mb-12 min-h-[250px] flex items-center justify-center border border-slate-50">
-                        <p id="question" class="text-2xl font-serif text-center leading-relaxed text-slate-800"></p>
-                    </div>
-                    <div class="grid grid-cols-2 gap-8 px-6">
-                        <button onclick="answer(true)" class="py-8 bg-orange-900 text-white rounded-[2.5rem] font-bold text-xl shadow-xl hover:bg-black transition-transform active:scale-95">あてはまる</button>
-                        <button onclick="answer(false)" class="py-8 bg-white text-slate-400 border-2 border-slate-100 rounded-[2.5rem] font-bold text-xl hover:bg-slate-50 transition-transform active:scale-95">ちがわない</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 結果画面 -->
-            <section id="result-screen" class="hidden space-y-12 pb-24">
-                <div class="result-card p-12 sm:p-24">
-                    <div class="text-center mb-16">
-                        <div id="result-visual" class="fox-container mb-12"></div>
-                        <h2 id="result-title" class="text-4xl md:text-5xl font-serif mb-10 leading-snug"></h2>
-                        <div id="result-summary" class="grid grid-cols-1 md:grid-cols-2 gap-10 text-left mt-16">
-                            <div class="p-10 bg-slate-50 rounded-[3rem] border border-slate-100">
-                                <h3 class="text-[11px] font-bold text-orange-900 mb-6 tracking-[0.3em] uppercase opacity-60">【属性の真髄】</h3>
-                                <p id="impression-text" class="text-base leading-relaxed text-slate-600 font-serif"></p>
+                        <p id="result-catch" class="text-lg font-bold text-orange-900/70 border-y border-orange-50 py-3 mb-8"></p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                            <div class="p-8 bg-slate-50/50 rounded-[2rem] border border-slate-100">
+                                <h3 class="text-[10px] font-bold text-slate-400 mb-4 tracking-widest uppercase">表面的な特徴（属性）</h3>
+                                <p id="text-impression" class="text-sm leading-relaxed text-slate-700 font-serif"></p>
                             </div>
-                            <div class="p-10 bg-slate-50 rounded-[3rem] border border-slate-100">
-                                <h3 class="text-[11px] font-bold text-orange-900 mb-6 tracking-[0.3em] uppercase opacity-60">【色彩の渇望】</h3>
-                                <p id="desire-text" class="text-base leading-relaxed text-slate-600 font-serif"></p>
+                            <div class="p-8 bg-orange-50/30 rounded-[2rem] border border-orange-100">
+                                <h3 class="text-[10px] font-bold text-orange-400 mb-4 tracking-widest uppercase">内なる欲求（色彩）</h3>
+                                <p id="text-desire" class="text-sm leading-relaxed text-slate-700 font-serif"></p>
                             </div>
                         </div>
                     </div>
 
-                    <div id="divine-panel" class="rounded-[4rem] p-8 sm:p-16 text-white overflow-hidden relative">
-                        <div id="bg-glow" class="absolute inset-0 opacity-20 pointer-events-none"></div>
-                        <h3 class="text-3xl font-serif mb-14 border-b border-white/20 pb-8 tracking-[0.2em] relative z-10 text-center">真・九箇条の神託</h3>
-                        <div id="divine-list" class="grid grid-cols-1 md:grid-cols-1 gap-4 relative z-10"></div>
+                    <!-- 9 Categories Deep Analysis -->
+                    <div class="mt-16 pt-12">
+                        <h3 class="text-2xl font-serif text-center mb-2">詳細分析：九箇条</h3>
+                        <p class="text-center text-xs text-slate-500 mb-10">あなたの深層心理を9つの項目から解説します。</p>
+                        
+                        <div id="category-analysis" class="analysis-frame">
+                            <!-- JS injected categories here -->
+                        </div>
                     </div>
-                </div>
-                <div class="flex flex-col sm:flex-row gap-6">
-                    <button onclick="showSection('start-screen')" class="flex-1 py-6 bg-white border-2 border-orange-900 text-orange-900 rounded-full font-bold hover:bg-orange-50 transition-all">最初からやり直す</button>
-                    <button onclick="showSection('catalog-screen')" class="flex-1 py-6 bg-orange-900 text-white rounded-full font-bold hover:bg-black transition-all">図録を確認する</button>
+
+                    <div class="mt-24 pt-10 border-t border-slate-100">
+                        <div class="text-center mb-10">
+                            <h3 class="text-2xl font-serif mb-2">心の構成比</h3>
+                            <p class="text-xs text-slate-500">すべての回答結果から算出された、あなたの特性の割合です。</p>
+                        </div>
+                        
+                        <div id="analysis-summary" class="mb-12 grid grid-cols-3 sm:grid-cols-9 gap-2"></div>
+                        
+                        <div class="text-center mb-6">
+                            <p class="text-sm font-bold text-slate-700">回答の確認・修正</p>
+                            <p class="text-xs text-slate-500 mt-1">選択肢をタップして変更し、下部の「再診断」ボタンを押してください。</p>
+                        </div>
+                        <div id="history-container"></div>
+
+                        <div class="mt-16 text-center">
+                            <button onclick="recalculateAndScroll()" class="px-10 py-5 bg-orange-900 text-white rounded-full font-bold shadow-xl hover:bg-black transition-all">
+                                修正を反映して再診断
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <!-- 図録画面 -->
-            <section id="catalog-screen" class="hidden pb-24">
-                <div class="mb-20 text-center">
-                    <h2 class="text-4xl font-serif text-slate-800 mb-6">九尾の深層図録</h2>
-                    <p class="text-sm text-slate-400">属性と九石の色彩による全パターンの相関</p>
-                </div>
-                <div id="catalog-content" class="space-y-24"></div>
+            <!-- Catalog Screen -->
+            <section id="catalog-screen" class="hidden pb-20">
+                <header class="text-center mb-16">
+                    <h2 class="text-4xl font-serif text-slate-800 mb-2">全タイプ・マトリクス</h2>
+                    <p class="text-slate-400 text-xs tracking-widest uppercase">The Matrix of 81 Souls</p>
+                </header>
+                <div id="catalog-list" class="space-y-12"></div>
             </section>
         </main>
     </div>
 
     <script>
-        // 属性データ
         const traits = [
-            { id: 'A', name: '奔流', modern: '改革するリーダー', glyph: 'M20,30 Q50,10 80,30 M20,50 Q50,30 80,50 M20,70 Q50,50 80,70 M40,20 L60,80 M30,20 L50,80 M50,20 L70,80', impression: "常に変化を求め、停滞を打破する力。周囲はあなたの決断に「未来」を感じています。立ち止まることなく進み続ける勇者です。" },
-            { id: 'B', name: '円環', modern: '究極の安定者', glyph: 'M50,15 A35,35 0 1,1 49.9,15 Z M50,30 A20,20 0 1,1 49.9,30 Z M50,15 L50,30 M50,70 L50,85', impression: "調和を重んじ、物事を円滑に収める力。あなたの周りには常に穏やかな秩序が保たれています。すべてを包み込み、循環させる聖域です。" },
-            { id: 'C', name: '慈愛', modern: '慈愛のサポーター', glyph: 'M50,30 C30,30 20,50 50,80 C80,50 70,30 50,30 M35,45 L45,45 M55,45 L65,45 M45,60 L55,60', impression: "他者の痛みを感じ、寄り添う力。誰のことも見捨てない圧倒的な優しさが、人々の心の拠り所となっています。あなたは無償の愛の体現者です。" },
-            { id: 'D', name: '叡智', modern: '冷静な戦略家', glyph: 'M25,25 L75,25 L75,75 L25,75 Z M40,25 L40,75 M60,25 L60,75 M25,50 L75,50 M30,85 L70,85', impression: "物事の本質を論理的に見抜く力。感情に流されず、最適解を導き出すその姿に、人々は絶対的な信頼を寄せています。あなたは静かなる賢者です。" },
-            { id: 'E', name: '幻影', modern: '孤高の表現者', glyph: 'M20,20 L80,80 M80,20 L20,80 M50,10 L50,90 M10,50 L90,50 M30,30 Q50,50 70,30 Q50,50 30,70 Q50,50 70,70', impression: "常識に囚われない独自の感性。捉えどころのない不思議な魅力が、周囲を惹きつけて止みません。あなたが見せているのは、一瞬の夢のような芸術です。" },
-            { id: 'F', name: '深淵', modern: '不屈の探究者', glyph: 'M30,20 L70,20 L50,90 Z M40,40 L60,40 M45,55 L55,55 M48,70 L52,70', impression: "一見静かだが、底知れない情熱を秘める力。一度決めた道を極めるまで妥協しない強さは、時に畏怖の対象となります。あなたは真理を追う隠者です。" },
-            { id: 'G', name: '覇道', modern: '頼れる支配者', glyph: 'M30,20 L70,20 M50,20 L50,80 M25,40 L75,40 M25,60 L75,60 M20,80 L80,80 M40,30 L40,70 M60,30 L60,70', impression: "圧倒的な存在感で場を支配する力。弱きを守り、強きを挫くその背中に、多くの人が希望と勇気を見出しています。あなたは王の器を持つ者です。" },
-            { id: 'H', name: '堅牢', modern: '不屈の守護者', glyph: 'M25,20 L75,20 L75,80 L25,80 Z M25,40 L75,40 M25,60 L75,60 M50,20 L50,80 M35,85 L65,85', impression: "何者にも動じない、誠実で強固な信念。あなたがそこにいるだけで、組織や仲間は決して揺らぐことはありません。あなたは最後の一線を守る盾です。" },
-            { id: 'I', name: '自由', modern: '自由な開拓者', glyph: 'M20,20 Q50,50 80,20 M20,80 Q50,50 80,80 M50,10 C80,10 80,90 50,90 C20,90 20,10 50,10', impression: "枠組みを飛び越え、新しい価値を生み出す力。多才で好奇心旺盛なあなたの行動は、周囲に常に刺激と解放感を与えます。あなたは風のように生きる旅人です。" }
-        ];
-
-        // 九石の色彩
-        const desires = [
-            { id: 'A', name: '紅玉', modern: '情熱の覚醒', hex: '#e11d48', dark: '#4c0519', wish: "「自分を燃やし尽くすほどの情熱的な何か」に出会いたい" },
-            { id: 'B', name: '瑠璃', modern: '絶対的静寂', hex: '#2563eb', dark: '#172554', wish: "「誰にも邪魔されない、深海のような孤独と平穏」を守り抜きたい" },
-            { id: 'C', name: '琥珀', modern: '永遠の保護', hex: '#d97706', dark: '#451a03', wish: "「大切なものや思い出を、時を止めて永遠に保存」していたい" },
-            { id: 'D', name: '白銀', modern: '無垢な清廉', hex: '#94a3b8', dark: '#0f172a', wish: "「濁りなく、潔く、正しく、美しい精神」であり続けたい" },
-            { id: 'E', name: '漆黒', modern: '支配的深淵', hex: '#1e293b', dark: '#020617', wish: "「すべてを飲み込み、何者にも染まらない絶対の優位」でありたい" },
-            { id: 'F', name: '翡翠', modern: '再生の調和', hex: '#10b981', dark: '#064e3b', wish: "「傷ついた心や環境を、穏やかに再生させ調和」させたい" },
-            { id: 'G', name: '黄金', modern: '至高の栄華', hex: '#fbbf24', dark: '#422006', wish: "「他者から眩しいと仰がれる、最高峰の称賛と価値」を手に入れたい" },
-            { id: 'H', name: '鋼鉄', modern: '不屈の決意', hex: '#64748b', dark: '#1e293b', wish: "「何が起きても決して折れない、強固な意志と肉体」が欲しい" },
-            { id: 'I', name: '蒼空', modern: '無限の解放', hex: '#0ea5e9', dark: '#082f49', wish: "「あらゆる束縛を脱ぎ捨て、どこまでも高く遠く」へ行きたい" }
-        ];
-
-        function drawKyuubi(traitId, colorHex, size = 300) {
-            let tails = "";
-            for (let i = 0; i < 9; i++) {
-                const angle = -75 + (i * 18.75);
-                const color = colorHex || desires[i].hex;
-                const opacity = colorHex ? (0.12 + (i * 0.08)) : 0.55;
-                tails += `<g transform="rotate(${angle}, 50, 85)">
-                    <path d="M50,85 C65,65 75,40 50,10 C25,40 35,65 50,85" fill="${color}" fill-opacity="${opacity}" stroke="${color}" stroke-width="0.2"/>
-                </g>`;
+            { 
+                id: 'A', name: '奔流', desc: '行動的リーダー', theme: '開拓・速度・決断', glyph: 'M20,30 Q50,10 80,30 M20,50 Q50,30 80,50 M40,20 L60,80', 
+                impression: "周囲からは「迷わず行動できる決断力のある人」と思われています。状況の変化に素早く対応し、力強く前に進む姿は、多くの人を惹きつけるでしょう。",
+                details: [
+                    "直感的に状況の全体像を把握し、即座に自分なりの結論を導き出す思考回路を持っています。複雑なデータを長く聞き続けるより、まずは要点をつかむことを優先します。頭の中で深く悩み続けることは少なく、すぐに行動へ移すための情報を集めようとする傾向があります。過去の事例にとらわれず、今この瞬間に何が必要かを素早く見極めることができる、実践的で回転の速い思考スタイルと言えるでしょう。",
+                    "明確な目的が設定されていたり、困難な課題があったりする時に最も強い活力を発揮します。変化のない退屈な日常や、停滞している状況を非常に嫌う性質を持っています。誰かに指示されて動くよりも、自らの意志で目標を定め、それに向かって突き進む過程にこそ喜びを感じるでしょう。新しいことへの挑戦意欲が極めて高く、失敗を恐れずにまず一歩を踏み出すことができる並外れた行動力の持ち主です。",
+                    "集団の中では自然とリーダーシップをとり、迷っている周囲の人々を力強く牽引する役割を担うことが多いでしょう。自分の考えをはっきりと主張し、曖昧な態度をとることは滅多にありません。意見がぶつかることを恐れず、率直な議論を通じて物事を前に進めようとする姿勢を持っています。時には少し強引に見えることもありますが、その決断力と推進力は多くの人から頼りにされ、信頼を集めるはずです。",
+                    "一時的に強い怒りや焦りを感じることはあっても、それを長く引きずることは少ないさっぱりとした性格です。ストレスを感じた時は、じっと耐え忍ぶよりも、体を動かしたりして素早く発散しようとします。不満があれば直接相手に伝えるため、心の中にわだかまりを溜め込むことはあまりありません。感情の起伏は比較的はっきりしていますが、終わったことには執着せず、すぐに次の目標へと切り替えられます。",
+                    "既存の枠組みや安全な道に収まるよりも、自ら新しい道を切り拓いたり、前人未到の分野に挑戦したりすることに価値を見出します。目標達成のためには多少のリスクを背負うことも厭わず、勇敢に立ち向かっていく姿勢を持っています。誰かが敷いたレールの上を歩くことには窮屈さを感じやすく、自分だけのオリジナルな成功を求める傾向があります。高い壁であるほど燃え上がり、持ち前の突破力で乗り越えます。",
+                    "お互いに依存し合ったり常に一緒に過ごしたりする関係より、自立した個人として刺激を与え合える関係性を大切にします。お互いの目標に向かって切磋琢磨できる、良きライバルのようなパートナーを求める傾向があります。自分の時間を確保しつつ、必要な時に力強くサポートし合える風通しの良い距離感が理想的です。過度な束縛や干渉を嫌い、自由に活動できる余白を残すことで深い信頼を築けます。",
+                    "お金や時間を将来のためにひたすら貯め込むことよりも、現在の貴重な体験や自身の成長のために惜しみなく投資することを好みます。興味を持ったことにはすぐにお金を使い、行動範囲を広げるための資金出しを渋ることはあまりありません。長期的な資産運用よりも、短期的な効果や即効性を求める活発な価値観を持っています。直感的にお金を使うことが多いため、時には大胆な出費をすることもあるでしょう。",
+                    "机に向かって静かに本を読む座学よりも、実際に体を動かし、実践を通じて学ぶことで最も素早く知識を吸収します。失敗と成功の経験を繰り返すことで、自分なりのノハウを蓄積していく実践的な学習スタイルです。心から興味を持った対象や、すぐに役に立つ技術に対しては、驚異的な集中力とスピードで習得していきます。目的が曖昧な学習や、興味のない分野に対しては、少しモチベーションが下がりがちです。",
+                    "最終的には周囲の意見や過去のデータよりも、自分自身の直感と感覚を信じて決断を下す強さを持っています。時間をかけて完璧な正解を探すよりも、「まずはやってみよう」というスピード感を何よりも重視します。もし決断が間違っていたとしても、後から軌道修正すれば良いという合理的な考え方をしています。自分の選択から生じる結果に対する責任を、誰かのせいにすることなく自ら負う潔い姿勢が特徴です。"
+                ]
+            },
+            { 
+                id: 'B', name: '円環', desc: '調和をもたらす調整役', theme: '平和・協調・安定', glyph: 'M50,15 A35,35 0 1,1 49.9,15 Z M50,30 A20,20 0 1,1 49.9,30 Z', 
+                impression: "周囲からは「争いを好まない、穏やかで安心感のある人」と思われています。全体の調和を重んじ、場を和ませる潤滑油のような存在でしょう。",
+                details: [
+                    "多様な意見や様々な角度からの情報を客観的に受け止め、全体のバランスを考慮しながら状況を把握することを得意とします。一つの極端な考えに偏ることなく、公平な視点を保ちながら複雑な情報を整理していく思考回路です。他者の感情の動きにも敏感であり、言葉の裏にある本音を察知する能力に優れています。すぐには白黒をつけず、時間をかけて全員が納得できる最適な答えを導き出す慎重さがあります。",
+                    "周囲の人々が平和に、そして笑顔で安心して過ごせている状況に最も強い幸福感とやりがいを感じます。対立や争いを避けるために力を注ぎ、穏やかな環境を維持することが大きな行動の原動力となります。誰かを打ち負かして一番になることよりも、みんなで協力して一つのものを作り上げることに喜びを見出します。誰かの役に立っていると実感できた時、持ち前のサポート能力を最大限に発揮することができます。",
+                    "自身が目立って表舞台に立つことよりも、集団全体が円滑に機能するための裏方やサポート役として、優れた調整能力を発揮します。意見が対立した際には、双方の言い分を丁寧に聞き出し、お互いが納得できる妥協点を見つける仲裁役として重宝されます。聞き上手であり、相手の意見を否定せずに受け止めるため、周囲に安心感を与えます。場を和ませる潤滑油として、どんな集団にも欠かせない存在でしょう。",
+                    "感情が非常に安定しており、パニックに陥ることなく常に穏やかで冷静な状態を保つことができます。緊張感のある場やピリピリとした空気の中でも、あなたの落ち着いた態度はその場の空気を優しく和らげる力を持っています。自身の強い怒りや悲しみを表に出すことは少なく、場の空気を壊さないよう感情をコントロールする術に長けています。ただ他人の感情に影響されやすいため、心を休める時間も重要です。",
+                    "個人の突出した成果や大きな成功を追い求めるよりも、チーム全体が無理なく確実に前進できるような目標設定を好みます。急激な変化やハイリスクな挑戦は避け、現状の良さを維持しながら少しずつ改善を重ねていく堅実な姿勢を持っています。周囲のペースに合わせることを大切にしており、自分だけが先走って目標を達成することにはあまり意味を感じません。みんなで喜びを分かち合える目標を大切にします。",
+                    "ドラマチックで刺激的な関係性よりも、長く安定して付き合える穏やかで平和な関係性を何よりも強く求めます。日常の些細な出来事や静かな時間を共有し、お互いにリラックスして自然体でいられることを大切にするでしょう。相手の欠点も受け入れる寛容さを持っており、一度築いた関係を長く大切に育んでいきます。意見のぶつかり合いは苦手なため、不満があっても優しく遠回しに伝えるような気遣いを見せます。",
+                    "将来の不安をなくすために、お金や時間を計画的かつ堅実に管理し、無駄遣いを控える傾向があります。自分の贅沢のためだけにお金を使うことにはあまり興味がなく、周囲の人と楽しい時間を過ごすための交際費などは大切にします。限られた資源を周囲と適切に分け合い、みんなが平等に恩恵を受けられるよう配慮できます。突発的な出費よりも、長く使える質の良いものを選ぶような堅実な価値観を持っています。",
+                    "人間関係を円滑にするためのコミュニケーション術や、相手の心理を理解するための知識などを自然と学び取っていく才能があります。一人で黙々とテキストに向かうよりも、誰かと教え合ったり、グループで協力して課題に取り組んだりする学習法が得意です。協調性を高めるための学びには特に熱心で、そこで得た知識をすぐに日常に活かすことができます。競争がない環境の方が、リラックスして知識を吸収できます。",
+                    "自分一人の独断で決めることを避け、関係者全員が本当に納得できるかどうかを最も重要な基準として決断を下します。時間をかけてでも最適な折衷案を探り、誰も傷つかない方法を模索する優しさと慎重さを持っています。即断即決を迫られる場面は少し苦手ですが、それは全員の気持ちを大切にしたいという強い思いがあるからです。周囲の意見を丁寧に拾い上げ、最も角が立たない平和的な選択肢を導き出します。"
+                ]
+            },
+            { 
+                id: 'C', name: '慈愛', desc: '共感と思いやりの人', theme: '優しさ・支援・包容', glyph: 'M50,30 C30,30 20,50 50,80 C80,50 70,30 50,30', 
+                impression: "周囲からは「人の痛みがわかる、思いやりにあふれた人」と思われています。困っている人に寄り添い、支えとなる温かい存在でしょう。",
+                details: [
+                    "論理的な正しさや客観的なデータよりも、人の感情や心の機微を敏感に察知し、深く共感する能力に優れています。言葉で説明されなくても、相手の表情や声のトーンから本当に求めていることを感覚的に読み取る思考回路です。効率や合理性だけで物事を割り切ることは好まず、常に関わる人々の心情を最優先に考えます。人間関係の複雑な感情の絡み合いを解きほぐし、温かい解決策を見出すことが得意です。",
+                    "自分が直接誰かの役に立っていると実感できた時に、心からの喜びと最大のモチベーションを得ることができます。見返りを求めることなく、人を支援し、大切に育むことに強い情熱を注ぎます。困っている人や弱っている人を放っておくことができず、手を差し伸べることで自分自身の心も満たされていくのを感じるでしょう。数値的な成果よりも、誰かの笑顔や感謝の言葉が何よりの行動の原動力となります。",
+                    "相手の心を自然と開き、隠された本音や悩みを優しく引き出す、海のような深い包容力を持っています。初対面の人であっても、心理的な距離を素早く縮め、安心感を与えるコミュニケーションが得意です。集団の中では、みんなの心のよりどころとなるような温かい存在になりやすいでしょう。批判や否定から入ることは決してなく、まずは相手のすべてを受け入れる姿勢を人間関係の基本として大切にします。",
+                    "感受性が非常に豊かで、他者の喜びや悲しみをまるで自分のことのように深く受け止めることができます。映画や物語に感情移入して涙を流すことも多く、心が動きやすい繊細な一面を持っています。その豊かな共感力が周囲の癒やしとなりますが、時には他人のネガティブな感情まで吸い込んでしまい、心が疲れてしまうこともあります。意識的に自分と他人の境界線を引いて、心を守る工夫も必要になるでしょう。",
+                    "競争に勝つことや、冷酷な決断を迫られるような厳しい目標よりも、人道的な支援や個人の成長をサポートする目標に惹かれます。他者を蹴落としてまで自分の夢を叶えることには、強い抵抗感を覚えるはずです。みんなで励まし合いながら、一人も取り残されることなく共に成長していけるような、温かい環境づくりを目指します。愛と思いやりをベースにした目標設定において、最も素晴らしい才能を発揮します。",
+                    "表面的な付き合いではなく、心の奥底で深くつながり合える、精神的で親密な関係性を何よりも重視します。大切な相手のためであれば、自分の時間や労力を犠牲にすることもいとわない、非常に献身的な一面があります。相手に尽くすことに幸せを感じますが、無意識のうちに見返りとしての愛情を強く求めてしまうこともあります。お互いを思いやり、対等に支え合える関係を築くことで、心が最も安定します。",
+                    "自分自身を着飾ったり贅沢をしたりするためではなく、大切な人を喜ばせるための贈り物やサプライズに喜んでお金を使います。また、困っている人を助ける活動や、心から共感できるボランティアなどに対して価値を見出し、時間や資源を提供することにためらいがありません。お金を物質的な豊かさの象徴としてではなく、人と人との絆を深めるための温かいツールとして捉える、優しい価値観を持っています。",
+                    "人間の心理や感情のメカニズム、あるいは芸術や文学など、人の内面や心の動きに深く関わる分野に強い関心を持ちます。事実をただ暗記するような学習よりも、なぜ人はそのように感じるのかという背景や物語を理解しようとする姿勢を持っています。人の心に寄り添うためのカウンセリング技術や、コミュニケーションの手法を学ぶ際などに、持ち前の共感力を活かして驚くほど深い理解を得ることができるでしょう。",
+                    "それが論理的に正しいかということよりも、それによって誰かを笑顔にできるか、悲しむ人はいないかという他者への影響を第一に考えて決断を下します。効率が悪かったり、自分が少し損をしたりする選択であっても、関わる人が幸せになれるのであれば、迷わずそちらの道を選びます。人の心を踏みにじるような冷たい決断は決してできず、常に愛と思いやりに満ちた、人間味あふれる選択を心がけています。"
+                ]
+            },
+            { 
+                id: 'D', name: '叡智', desc: '冷静な分析家', theme: '分析・論理・客観', glyph: 'M25,25 L75,25 L75,75 L25,75 Z M25,50 L75,50', 
+                impression: "周囲からは「冷静に物事を分析できる、知的な人」と思われています。客観的な視点から的確な解決策を提示できる、頼もしい存在でしょう。",
+                details: [
+                    "複雑に絡み合った物事を論理的に分解し、原因と結果の因果関係を明確に解明することを得意としています。感情論やあいまいな推測に流されることなく、客観的な事実や正確なデータに基づいた理路整然とした思考を好みます。表面的な事象にとらわれず、なぜそうなったのかという根本的な構造を見抜く洞察力に優れています。物事を順序立てて冷静に分析し、最も合理的な答えを導き出す知的な思考回路です。",
+                    "まだ誰も知らない未知の事象を深く理解し、難解で複雑な問題を見事に解決できた瞬間に、この上ない喜びを感じます。知的な探求心と真理を究めたいという純粋な欲求が、あなたの最も強力な原動力となっています。感情的な励ましや精神論よりも、知的好奇心が刺激されるような挑戦的な課題を与えられた時の方が、自発的に行動を起こします。常に物事をもっと深く知りたい、理解したいという欲求が絶えません。",
+                    "他者とは適切な心理的距離を保ち、過度に感情的になったり依存し合ったりしない、さっぱりとした対人関係を築きます。日常の雑談よりも、お互いの知識を共有し合えるような知的で対等な議論を好む傾向があります。集団の中では、熱くなりやすいメンバーを冷静になだめ、客観的な視点から的確なアドバイスや解決策を提示する参謀のような役割を担うことが多いでしょう。その知的な頼もしさが最大の魅力です。",
+                    "自分自身の感情の揺れ動きに対しても、まるで第三者のように客観的な視点から観察することができます。強いストレスや怒りを感じた際も、感情のままに爆発させることはなく、なぜ自分は今怒っているのかと原因を論理的に分析することで、素早く冷静さを取り戻します。感情のコントロール能力が非常に高く、いかなる緊急事態においても取り乱すことなく、落ち着いて的確な判断を下すことができる精神力です。",
+                    "感情論や個人の気分に左右されない、効率的で合理的なシステムや戦略を構築する分野において、極めて高い能力を発揮します。目標を達成するためには、根性や気合ではなく、緻密に計算された計画と最適化されたプロセスが必要だと考えています。無駄な手順を徹底的に省き、最小の労力で最大の結果を出すための道筋を描くことに長けています。知的な戦略家として、冷徹なまでに正確な目標設定を行います。",
+                    "お互いのプライバシーに過度に干渉することを避け、自立した個人としての自由と精神的な独立性を尊重し合える関係を求めます。感情をぶつけ合うようなドラマチックな恋愛よりも、知的な会話を楽しみ、お互いの成長を静かに認め合えるような、落ち着いたパートナーシップを理想とします。束縛されることを非常に嫌い、一人の静かな時間を十分に確保できることが、良好な関係を維持するための必須条件となります。",
+                    "投じた費用に対してどれだけの効果が得られるかという費用対効果を常に冷静に分析し、無駄のない合理的な支出を心がけます。一時的な感情や周囲の流行に流されて衝動買いをすることは滅多になく、事前にしっかりと情報を収集して比較検討を行います。自身の知識を深めるための書籍やツール、効率を上げるための最新機器など、明確な目的とリターンが期待できるものに対しては、計画的にしっかりと投資します。",
+                    "物事の表面的な知識やテクニックを暗記するだけにとどまらず、その裏にある本質的な構造や原理原則を根本から体系的に学ぼうとする姿勢を持っています。疑問に思ったことはそのまま放置せず、納得のいく答えが見つかるまで徹底的に調べ上げる探求心を備えています。専門書を読み込んだり、論理的なパズルを解いたりするような、知的な刺激に満ちた学習過程そのものを深く楽しむことができる優れた才能があります。",
+                    "その場の雰囲気や他人の意見に流されることなく、客観的なデータや明確な根拠にのみ基づいて、極めて冷静な決断を下します。後から悔やむことがないよう、考えられる全てのリスクと選択肢を事前に十分に吟味してから最終的な判断を下します。一見すると冷淡で機械的な選択に見えることもありますが、それは最も確実で失敗の少ない最善の道を選ぶための、あなたなりの誠実さと責任感の表れと言えるでしょう。"
+                ]
+            },
+            { 
+                id: 'E', name: '幻影', desc: '独自の世界を持つ表現者', theme: '感性・独創・美学', glyph: 'M20,20 L80,80 M80,20 L20,80 M50,10 L50,90', 
+                impression: "周囲からは「独自のセンスと世界観を持つ、魅力的な人」と思われています。他にはない独創的な発想で、人々に新鮮な驚きを与えるでしょう。",
+                details: [
+                    "一般的な常識や世間の基準にとらわれることなく、自分自身の内なる直感や独自の美意識に従って物事を捉える視点を持っています。言葉や理屈ではうまく説明できないような、感覚的で抽象的なイメージを頭の中で膨らませることが得意です。誰も気づかないような隠れた美しさや、物事の裏側にある神秘的な意味を見出す能力に優れています。想像力が非常に豊かで、常に頭の中でユニークな世界が展開しています。",
+                    "自らの中に溢れる想像力や繊細な感性を具体的な形にし、他にはない独自の世界観を表現している時に最も強いエネルギーを感じます。誰かにやらされる単調な作業では全くモチベーションが上がりませんが、自分のクリエイティビティを発揮できる自由な環境を与えられると、寝食を忘れて没頭します。自分の内面にある美しいと感じるものを外の世界に表現し、他者の心を動かしたいという静かな熱意を持っています。",
+                    "集団の意見に無理に迎合したり、周囲と同じように振る舞ったりするよりも、自身の揺るぎない個性を尊重します。大勢の中でワイワイと騒ぐよりは、一歩引いた場所から人間観察をしていることの方が多いかもしれません。内面的な精神世界を非常に大切にしているため、周囲からは少しミステリアスで、何を考えているのかわからない不思議な魅力を持った人物として認識されていることでしょう。独特の存在感を放ちます。",
+                    "感情の起伏は豊かであり、その揺れ動く感情そのものが、あなたの表現活動や創造力の重要な原動力となっています。心の奥底で感じる葛藤や、ふとした瞬間に訪れる繊細な感情の波から、他の誰にも思いつかないような独創的なアイデアを生み出します。時には孤独や悲しみさえも芸術的なインスピレーションに変換してしまう力を持っています。感情を押し殺すのではなく、それを美しく昇華させる術を知っています。",
+                    "マニュアル通りに進める定型的な作業や、厳しい規律で縛られた環境よりも、高い創造性と自由度が求められる分野で特異な才能を発揮します。既存の枠組みや古いルールを軽々と飛び越え、全く新しい発想で目標にアプローチすることが得意です。みんながこうしているからという理由には納得せず、自分自身が心から美しいと信じられる理想のビジョンに向かって、独自のペースで歩みを進めていく傾向があります。",
+                    "自分の独特な感性や複雑な内面を深く理解し、魂のレベルで共鳴し合えるような、非常に特別で運命的な関係性を強く求めます。言葉を多く交わさなくても、空気感や視線だけで通じ合えるようなロマンチックでドラマチックな精神の結びつきを大切にします。誰にでも心を開くわけではありませんが、一度深く惹かれ合った相手に対しては、自分だけの特別な世界を共有し、非常に強い絆で結ばれることを望みます。",
+                    "世間一般的な価値基準や流行、あるいは実用性という指標ではなく、自分の心がどれだけ惹かれるか、それに美しさを感じるかという絶対的な美意識に基づいてお金や時間を使います。他人が見れば無駄に思えるような芸術品や特別な空間での体験などに、惜しみなく資源を注ぎ込むことがあります。物理的な機能よりも、それに宿る物語やデザイン性、精神的な価値を何よりも重んじる独自の価値観を持っています。",
+                    "カリキュラムに沿った体系的な学習よりも、自身の直感が赴くままに、その時々で強く惹かれた興味の対象を深く追求していくスタイルです。教科書通りの正解を暗記するのではなく、芸術、哲学、心理学など、自らの感性を強烈に刺激し、想像力を広げてくれるような分野に強く惹かれる傾向があります。論理的に理解するというよりは、心で感じ取り、自分の中で独自に解釈して吸収していくアーティスティックな学習法です。",
+                    "データに基づいた論理的な正解や、効率が良いかどうかという事実よりも、自分の心がどれだけときめくか、その選択に美しさを感じるかという主観的な感覚を最重要視して決断を下します。周囲から見れば非合理的な選択であっても、自分の感性がこれだと告げた道であれば、迷わずそちらへと進むことができます。自分の直感を信じ抜く強さがあり、その独特の選択が結果として奇跡的な成果を生むこともあります。"
+                ]
+            },
+            { 
+                id: 'F', name: '深淵', desc: '道を極める探求者', theme: '集中・探求・専門', glyph: 'M30,20 L70,20 L50,90 Z M40,40 L60,40', 
+                impression: "周囲からは「高い集中力で物事を極める、職人気質な人」と思われています。妥協を許さない真摯な姿勢は、強い説得力を持っています。",
+                details: [
+                    "物事の表面的な現象や目立つ部分にとらわれることなく、一つの事象を誰よりも深く掘り下げて探求することを得意としています。他の人が見落としてしまうような極めて細部まで注意を払い、物事の深層にある真実を見極めようとする鋭い洞察力を持っています。広い範囲を浅く知るよりも、狭い範囲を徹底的に究めることに喜びを感じる思考回路です。複雑な情報をじっくりと時間をかけて咀嚼し完全に自分のものにします。",
+                    "自分が心から興味を持った特定の分野に誰にも邪魔されずに没頭し、技術や知識をひたすらに磨き上げている静かな時間に、最も確かな充実感と生きる喜びを得ます。他者からの評価や目立つことにはあまり関心がなく、自分自身の中で設定した高い基準をクリアできるかどうかが最大のモチベーションとなります。職人のように黙々と作業に打ち込み、完璧な成果物を生み出すことへの静かで熱い情熱を秘めています。",
+                    "自分から積極的に言葉を発して自己主張をすることは少ないですが、その態度は非常に誠実であり、周囲から深く信頼されています。広く浅い交友関係を築くのは苦手ですが、一度築いた人間関係は決して裏切らず、時間をかけて強固な信頼を構築します。集団の中では、誰もが認める高い専門性を持ったスペシャリストとして、いざという時に頼りにされる重厚な存在感を放っていることでしょう。",
+                    "周囲の喧騒や流行の移り変わり、あるいは他人の慌ただしい感情に流されることのない、山のように盤石で静かな精神力を持っています。予期せぬ困難な状況やトラブルが発生した際でも、自分のペースを一切崩すことなく、冷静に状況を分析して集中力を維持することができます。感情の起伏を外に見せることは滅多になく、内面にどれほど強い思いを抱えていても、表面上は常に静寂で落ち着いた態度を保ち続けます。",
+                    "短期間でのスピードや大量生産が求められる環境よりも、圧倒的な質の高さや完璧さが求められる高度に専門的な領域において、他の追随を許さない圧倒的な成果を上げます。誰にでもできる簡単な目標には興味を示さず、一生をかけて取り組む価値のあるような、深く困難なテーマに挑むことを好みます。妥協を一切許さず、自分自身の限界を常に押し広げながら、真理の探求や技術の極致を目指して静かに歩み続けます。",
+                    "派手な愛情表現や頻繁な連絡のやり取りよりも、共に過ごす時間とともに静かに、しかし確実に深まっていく確かな関係性を求めます。言葉を交わさずとも同じ空間にいるだけで安心できるような、最も信頼できる唯一無二の理解者を大切にします。軽薄な関係を嫌い、お互いの精神の最も深い部分でつながり合えることを望みます。一度心を開いた相手に対しては、生涯にわたって変わらぬ深い愛情と忠誠を注ぎ続けるでしょう。",
+                    "一時的な流行や瞬間的な欲求に流されて無駄遣いをすることはなく、自分が本当に価値があると見定めたものに対してのみ、惜しみなく資源を投資します。長年の使用に耐えうる最高品質の道具や、専門性をさらに深めるための高度な専門書、あるいは自身の探求に必要不可欠な環境づくりなどには、驚くほど大胆にお金を使います。本物を見極める厳しい目を持っており、表面的な飾りに惑わされることのない堅実な価値観です。",
+                    "興味を持った特定の分野に関しては、ただの趣味レベルに留まらず、専門家やプロフェッショナルと同等かそれ以上のレベルまで知識を深めていく徹底的な学習スタイルを持っています。分からないことがあれば、根本的な原因に行き着くまで何時間でも調べ続ける並外れた集中力と探求心を備えています。他のことには一切目もくれず、一つのテーマについて何重にも深く掘り下げていく、非常にストイックな学びの姿勢です。",
+                    "表面的な情報だけで安易に判断を下すことは決してなく、自分自身が心の底から完全に納得できるまで、一人で静かに熟考を重ねます。周囲からどれだけ急かされても、自分の思考プロセスを省略することはありません。そして、一度これが真実だと決断を下した後は、どれほど周囲から反対意見が出ようとも決して揺らぐことはなく、信念を持って最後までその選択を貫き通すという、非常に強靭な意志を持っています。"
+                ]
+            },
+            { 
+                id: 'G', name: '覇道', desc: '輝きを放つ開拓者', theme: '自信・向上・影響', glyph: 'M30,20 L70,20 M50,20 L50,80 M25,40 L75,40', 
+                impression: "周囲からは「自信と活力に満ちた、華やかな存在」と思われています。周囲を明るく照らし、自然と中心に立つカリスマ性を持っているでしょう。",
+                details: [
+                    "常に自身の無限の可能性を強く信じており、現在の状況に決して満足することなく、より高い次元の目標や壮大なビジョンを頭の中に描くことを得意としています。小さな枠に収まることを嫌い、物事のスケールを大きく捉え、全体を俯瞰するダイナミックな思考回路を持っています。細々とした問題に足を取られるよりも、どうすればより大きな成功を掴めるかという前向きで力強い戦略を好んで構築します。",
+                    "他者からの明確な承認や称賛、そして自分の実力が目に見える形で証明される成功体験が、あなたの最も強力な原動力となります。簡単に達成できる目標にはあまり魅力を感じず、非常に高いハードルや強力なライバルが存在するほど、熱い闘志を燃やして立ち向かっていくいでしょう。誰よりも上に立ちたい、歴史に名を刻みたいといった、自己実現への強烈な渇望と尽きることのない向上心を心の奥底に秘めています。",
+                    "生まれ持った華やかなオーラと自信に満ちた振る舞いで、どこにいても自然と周囲の注目を集め、集団の中心に立つカリスマ性を持っています。先頭に立って他者を率い、強力なリーダーシップを発揮して大きな目標へとチームを導いていく姿が最も似合います。人前に出ることを恐れず、むしろスポットライトを浴びることでさらに輝きを増すタイプです。あなたの発する力強い言葉は、多くの人に希望と活力を与えるでしょう。",
+                    "失敗や挫折を恐れることなく、常に前を向いて突き進む極めてポジティブで力強い思考を保ち続けます。たとえ困難な状況や大きな壁にぶつかったとしても、それを単なる不運とは捉えず、自分をさらに強くするための成長の機会として変換し、力強く乗り越えていく強靭な精神力を持っています。落ち込むことがあっても自己回復力が非常に高く、悔しさをバネにして以前よりもさらに大きなエネルギーを生み出します。",
+                    "ぬるま湯のような平和な環境よりも、激しい競争環境や、自身の強力なリーダーシップが求められる勝負の場でこそ最高のパフォーマンスを発揮します。誰かの助けを待つのではなく、自らの圧倒的な実力と行動力で道を切り拓き、力ずくで成功を掴み取ることに大きな価値を見出します。目標達成のためには自身の努力を一切惜しまず、周囲をも巻き込む強烈なエネルギーで、不可能と思えるような目標をも実現に導きます。",
+                    "お互いに慰め合ったり傷を舐め合ったりするような関係ではなく、それぞれの分野で高い目標を持ち、互いに刺激を与えて高め合えるようなハイレベルな関係性を強く求めます。尊敬できる実力や誇りを持った、自身と同等以上の向上心を持つパートナーを大切にします。依存し合うのではなく、それぞれが独立した王として並び立ち、共に成長しながらより大きな成功を目指して歩んでいけるような、力強い絆を理想とします。",
+                    "自身の成功の証として、また自分自身をさらに高いステージへ引き上げるための自己投資として、大胆かつ華やかにお金を使う傾向があります。質の高い衣服や高級な空間での体験など、自らのステータスを向上させ、セルフイメージを高めるための出費を惜しみません。単なる浪費ではなく、それが将来のより大きな利益や人脈を引き寄せるための攻めの投資であるという、非常にスケールの大きな資源の使い方をします。",
+                    "過去の偉人や成功者の哲学、あるいは自身の社会的影響力やリーダーシップをさらに高めるための実践的な知識など、自分自身をより上のステージへと引き上げるための学びに強い関心を持ちます。理論だけを学ぶのではなく、これをどうやって現実の成功に結びつけるかという明確な目的意識を持って知識を吸収します。困難を乗り越え、トップに立つためのマインドセットを学ぶことに、何よりも強い情熱を注ぎます。",
+                    "失敗した時のリスクを恐れて安全な道に逃げるのではなく、より大きな成果や栄光を手に入れるために、勇気を持って大胆な決断を下すことができます。運命は自分の手で切り拓き、コントロールするものだという強い信念を持っており、人生の重要な局面において決して他人に選択を委ねることはありません。自分が信じた道を正解にするための圧倒的な行動力と責任感を伴った、真のリーダーにふさわしい決断力です。"
+                ]
+            },
+            { 
+                id: 'H', name: '堅牢', desc: '責任感の強い実務家', theme: '規律・誠実・堅実', glyph: 'M25,20 L75,20 L75,80 L25,80 Z M25,40 L75,40', 
+                impression: "周囲からは「責任感が強く、最も信頼できる人」と思われています。決めたことを最後までやり抜く誠実な姿勢は、高く評価されているでしょう。",
+                details: [
+                    "決められたルールや正しい手順を正確に守り、見落としのない緻密で間違いのない計画を立てることを非常に得意としています。直感や思いつきで行動することは少なく、常に現実的で実務的な視点から物事を捉える堅実な思考回路です。細かい部分まで確認を怠らず、リスクを事前に想定して対策を講じる能力に優れています。突発的な変化よりも、予定通りに物事が進んでいくことに最も安心感を覚えるタイプです。",
+                    "組織から与えられた役割や、自分自身で引き受けた責任を最後まで全うし、周囲からの期待に確実に応えることに強い使命感とやりがいを感じます。派手な成功や称賛を求めるよりも、自分の仕事が誰かの生活や社会の基盤をしっかりと支えているという静かな自負が原動力となります。誰もやりたがらないような地道な作業であっても、それが重要なことであれば、一切の不満を漏らさずに黙々とやり抜く強さがあります。",
+                    "嘘や誤魔化し、不誠実な態度を強く嫌い、どんな時でも正しく誠実であろうと努めます。その真面目で裏表のない態度は、上司や部下、年代を問わず多くの人々から最も信頼できる人物として高く評価され、厚い信頼を集めるでしょう。集団の中では、チームの規律を守り、全体の進行をしっかりと管理する要のような役割を担います。あなたがそこにいるだけで、組織全体に確かな安心感と安定感がもたらされます。",
+                    "自身の中に湧き上がる感情の波や、突発的な衝動をしっかりとコントロールする、非常に強い自制心を持っています。困難な課題や理不尽な状況に直面しても、感情的に取り乱して周囲に当たり散らすようなことは決してなく、ぐっと忍耐強く耐え忍びながら、着実に解決に向けた取り組みを継続します。ストレスを顔に出さず、常に冷静で落ち着いた大人としての振る舞いを保ち続けることができる、立派な精神力です。",
+                    "創造性やスピードよりも、絶対的な正確性や厳格な規律が求められる環境において、組織を根底から支える最も重要な柱として機能します。一発逆転のギャンブルのような目標設定は好まず、確実に達成可能なマイルストーンを置き、日々の継続的な努力の積み重ねによって確実な成果を上げることを目指します。派手さはありませんが、誰よりも手堅く、最終的には最も大きな信頼と実績を勝ち取っていく堅実なスタイルです。",
+                    "一時的な感情の盛り上がりや、その場限りの甘い言葉に流されることなく、日々の小さな約束を確実に守り合うことで時間をかけて築かれる、誠実で長期的な信頼関係を最も重視します。相手に対する責任感が非常に強く、一度この人を大切にすると心に決めたら、どんな困難な時でも決して裏切ることなく、寄り添い支え続ける深い愛情を持っています。派手なサプライズよりも、変わらない日常を共に過ごすことを愛します。",
+                    "無駄な出費を徹底的に省き、将来の安定やいざという時の備えのために、計画的かつ堅実に資金を管理します。一時の感情で高額なものを衝動買いすることはなく、本当に必要なものかどうかを慎重に見極める、非常に理にかなった資源の使い方をします。自分一人のためだけでなく、家族や組織の将来を見据えて、最も安全で確実な投資や貯蓄を選択する傾向があります。堅実なお金の使い方を助言できる頼もしい存在です。",
+                    "応用からいきなり入るのではなく、基礎や基本から順を追って、着実に知識や技術を一つずつ積み上げていくオーソドックスな学習法を最も得意とします。地味な反復練習や、コツコツとした暗記作業であっても苦にすることなく、目標達成のために必要な努力を淡々と継続する素晴らしい才能を持っています。奇をてらった方法よりも、伝統的で実績のある学習方法を選び、時間をかけて確実な実力を身につけていきます。",
+                    "自身の個人的な好き嫌いやその場の感情ではなく、何が正しいか、社会的あるいは道義的に妥当かどうかという客観的な規律やルールを基準にして、極めて慎重かつ堅実な決断を下します。リスクを最小限に抑え、関わるすべての人に対して責任を持てる、最も安全で確実な選択肢を選び取ります。面白みには欠けるかもしれませんが、その堅実な判断は常に組織や社会の安定を守るための最良の選択となることでしょう。"
+                ]
+            },
+            { 
+                id: 'I', name: '自由', desc: '好奇心あふれる冒険家', theme: '変化・柔軟・探求', glyph: 'M20,20 Q50,50 80,20 M20,80 Q50,50 80,80', 
+                impression: "周囲からは「型にはまらない、好奇心旺盛な冒険家」と思われています。柔軟な発想と行動力で、常に新しい風を吹き込むでしょう。",
+                details: [
+                    "古い固定観念や常識に全く縛られることなく、多様な視点からユニークなアイデアを次々と生み出す、非常に柔軟な思考力を持っています。一つの考え方に固執せず、状況に応じてカメレオンのように自分の考えを変化させることができる適応力の高さが特徴です。複雑な問題に対しても、深刻に考え込みすぎることはなく、ゲームをクリアするような感覚で軽やかに解決策を導き出す知的な瞬発力があります。",
+                    "面白そう、ワクワクする、誰もやったことがないという純粋で子供のような好奇心が、あなたの全ての行動の源泉となっています。変化のないルーティンワークや退屈な日常にはすぐに飽きてしまい、常に新しい刺激や未知の体験を求めて動き回ります。義務感や責任感で動かされるよりも、自分自身の興味の赴くままに活動している時に、信じられないほどの爆発的なエネルギーと集中力を発揮することができるでしょう。",
+                    "誰に対しても心を閉ざすことなく開放的で、年齢や性別、肩書きなどの偏見を一切持たずに、フラットに人と接することができます。特定の狭い集団に固執したり、しがらみに囚われたりすることを嫌い、風のように自由に幅広い交友関係を築いていきます。その明るく気さくな人柄は周囲の人々をリラックスさせ、どんな場所でもすぐに打ち解けて人気者になることができる、天性の愛嬌とコミュニケーション能力を持っています。",
+                    "予期せぬトラブルや突然のハプニングが発生した時すらも、面白い展開になってきたと楽しんでしまうことができる、非常に楽観的でポジティブな精神力を持っています。過去の失敗をいつまでもクヨクヨと引きずることはなく、まあなんとかなるさとすぐに気持ちを切り替えることができます。ストレスを感じても、新しいことに熱中したり環境を変えたりすることで、一瞬で気分をリフレッシュさせるのが得意です。",
+                    "一つの場所や決められたやり方に縛られず、自由度が非常に高く、常に変化に富んだ予測不可能な環境でこそ、持ち前の創造力と臨機応変な適応力を最大限に発揮します。長期的な綿密な計画を立てるよりも、その時の直感とひらめきを信じて、状況に合わせて目標そのものを柔軟に変化させていくスタイルを好みます。枠にはめられることを何よりも嫌い、自分の翼でどこまでも自由に飛んでいける環境を強く求めています。",
+                    "お互いの行動を監視し合ったり、束縛し合ったりするような窮屈な関係を非常に嫌い、お互いの自由と絶え間ない変化を心から尊重し合える、風通しの良い関係性を強く求めます。休日はいつも一緒にいるよりも、それぞれが自分の好きなことを楽しみ、会った時にお互いの冒険話で盛り上がれるような、自立した同志のようなパートナーを好みます。新鮮な驚きや一緒に人生を楽しめる遊び心を共有できる関係が理想的です。",
+                    "物を所有することや見栄を張ることにはあまり執着せず、新しい体験、旅行、まだ見ぬ世界への冒険、あるいは面白いイベントに参加するためになら、軽やかにお金や時間を使います。形として残るものよりも、心に残る思い出や刺激的な経験にこそ、本当の価値があると信じているためです。今この瞬間を楽しむことに重きを置いており、計画的にお金を貯めるよりも、その場のインスピレーションでワクワクするものに投資します。",
+                    "特定の一つの分野だけにこだわらず、興味の赴くままに多種多様なジャンルの知識をスポンジのように素早く吸収していきます。一見すると全く関係のないような複数の知識や要素を頭の中で自由に組み合わせ、全く新しい独自のアイデアを生み出すことが非常に得意です。教科書から学ぶよりも、遊びや実践、人々との会話の中から、面白おかしく生きた知識を獲得していく、天才肌の非常にユニークな学習スタイルを持っています。",
+                    "過去のデータや他人の意見、あるいは論理的な正しさよりも、どちらがより自分の心をワクワクさせるか、どちらが面白いかという、自分自身の直感と純粋な好奇心を最優先して、風のように軽やかに決断を下します。もし選んだ道が行き止まりだったとしても、そこからまた別の面白い道を探せばいいと考えているため、決断に対する恐怖心があまりありません。人生を壮大な遊びとして捉え、常に楽しい方へと舵を切ります。"
+                ]
             }
-            const accentColor = colorHex || "#94a3b8";
-            const kanjiContent = traitId ? `
-                <g transform="translate(40, 52) scale(0.2)" stroke="${colorHex}" stroke-width="5" fill="none" class="kanji-stroke">
-                    <path d="${traits.find(t => t.id === traitId).glyph}" />
-                </g>` : "";
+        ];
 
-            return `<svg viewBox="0 0 100 100" width="${size}" height="${size}">
-                <path d="M50,85 Q40,80 38,65 Q38,45 50,40 Q62,45 62,65 Q60,80 50,85" fill="white" stroke="${accentColor}" stroke-width="0.4" />
-                <path d="M42,45 L41,32 L47,43 M58,45 L59,32 L53,43" fill="none" stroke="${accentColor}" stroke-width="0.8"/>
-                ${tails}
-                ${kanjiContent}
-            </svg>`;
-        }
+        const desires = [
+            { id: 'A', name: '紅玉', desc: '情熱の源泉', theme: '活力・欲望', hex: '#ef4444', wish: "「自身を心から夢中にさせるもの」を全力で追い求めたいという、熱く力強い情熱を無意識の内に秘めています。" },
+            { id: 'B', name: '瑠璃', desc: '静かなる安らぎ', theme: '休息・平穏・静寂', hex: '#1d4ed8', wish: "「誰にも脅かされない、穏やかで平和な環境」を心の底から求めています。精神的な安らぎを何よりも大切にしたい傾向があります。" },
+            { id: 'C', name: '琥珀', desc: '永遠の絆', theme: '記憶・結び・永遠', hex: '#ea580c', wish: "「大切な人との、決して変わることのない深い絆」を願っています。温かい記憶や関係性を永遠に守り抜きたいという欲求があります。" },
+            { id: 'D', name: '桃源', desc: '優しい理想郷', theme: '博愛・理想・平和', hex: '#f472b6', wish: "「他者への思いやりで満ちた、争いのない理想の世界」を夢見ています。純粋な優しさが報われる環境を求めています。" },
+            { id: 'E', name: '漆黒', desc: '孤高の自由', theme: '秘匿・独立・孤高', hex: '#020617', wish: "「他者の干渉を受けない、完全に独立した自分だけの領域」を守り抜きたいと願っています。確固たる自己の確立を求めています。" },
+            { id: 'F', name: '若葉', desc: '自然な調和', theme: '再生・自然・調和', hex: '#16a34a', wish: "「心身ともに調和がとれ、自然体でいられる心地よいバランス」を求めています。自身と周囲に癒やしをもたらしたいと願っています。" },
+            { id: 'G', name: '黄金', desc: '輝かしい成功', theme: '栄光・達成・名誉', hex: '#f59e0b', wish: "「自身の能力を最大限に発揮し、周囲から高く評価される」瞬間を求めています。自己実現と成功への強い渇望を秘めています。" },
+            { id: 'H', name: '紫電', desc: '革新の閃き', theme: '驚嘆・刺激・革新', hex: '#9333ea', wish: "「日常の停滞を打ち破る、革新的なアイデアや刺激」を求めています。世界を驚かせるような劇的な変化を望んでいます。" },
+            { id: 'I', name: '蒼空', desc: '果てなき可能性', theme: '飛躍・解放・無限', hex: '#06b6d4', wish: "「あらゆる制限や枠組みから解放され、どこへでも羽ばたける自由」を渇望しています。無限の可能性を試したいと願っています。" }
+        ];
 
-        const questions = {
-            'A': ["現状に満足せず常に改善案を探している", "決断の速さが自分の持ち味だ", "古いルールを壊すことに抵抗がない"],
-            'B': ["自分よりも場の空気を優先する", "争いごとは時間の無駄だと思う", "物事がルーチン通りに進むと安心する"],
-            'C': ["困っている人を見過ごせない", "聞き上手だと言われることが多い", "誰かの成長を支えるのが喜びだ"],
-            'D': ["感情よりもデータや論理を信じる", "問題を分析するのが得意だ", "「なぜ？」を突き詰めるのが好きだ"],
-            'E': ["自分にしか分からない世界がある", "人と同じことはしたくない", "空想や夢想に浸ることがよくある"],
-            'F': ["一つのことを深く掘り下げたい", "群れるよりも一人の時間を好む", "自分の弱さを他人に見せない"],
-            'G': ["自分が中心になって進めたい", "他人の期待に応える自信がある", "困難な壁ほど燃えるタイプだ"],
-            'H': ["約束や時間は厳守すべきだ", "不屈の精神を持っている自負がある", "一度始めたことは最後までやり抜く"],
-            'I': ["予定に縛られるのは苦手だ", "新しい体験のために環境を変えたい", "何事も楽しむことが第一だ"]
+        const categoryLabels = [
+            "1. 思考・情報の受け取り方",
+            "2. 行動力・モチベーション",
+            "3. 集団での役割・対人関係",
+            "4. 感情のコントロール",
+            "5. 目標に対する姿勢",
+            "6. 1対1の深い人間関係",
+            "7. お金や時間の使い方",
+            "8. 知的好奇心・学びの傾向",
+            "9. 決断・選択の基準"
+        ];
+
+        const attributeQuestions = {
+            'A': [ { yes: "考えるより先に体が動いている", no: "じっくり計画を立ててから動く" }, { yes: "じっとしているより失敗してもいいから動く", no: "失敗したくないから慎重に待つ" }, { yes: "新しいことに挑戦するのが大好き", no: "慣れていることを完璧にこなすのが好き" }, { yes: "決めるのは早いほうだと思う", no: "しっかり考えてから時間をかけて決める" }, { yes: "みんなをリードして引っ張りたい", no: "自分のペースでひとりでやりたい" }, { yes: "変わることは成長だと思う", no: "今の自分を磨き続けるのが成長だと思う" }, { yes: "ハラハラする環境のほうが燃える", no: "落ち着いた環境のほうが力を出せる" }, { yes: "ライバルがいるほうが頑張れる", no: "自分のベストを目指すほうが頑張れる" }, { yes: "「まずはやってみよう！」が口癖", no: "「本当に大丈夫？」と確認するのが口癖" } ],
+            'B': [ { yes: "ケンカになるくらいなら自分がゆずる", no: "正しいと思うことはハッキリ言う" }, { yes: "みんなが納得するまで話し合いたい", no: "サッと多数決などで決めるほうがいい" }, { yes: "場の空気を読むのは得意だ", no: "空気に流されず本音を言うのが得意だ" }, { yes: "相談に乗ったり仲裁したりが多い", no: "自分の意見をリードして伝えるほうだ" }, { yes: "場の雰囲気を壊す人は苦手だ", no: "場の雰囲気を壊しても正しいことをすべきだ" }, { yes: "自分の得より、みんなの幸せが大事", no: "自分の力が、みんなの幸せにつながる" }, { yes: "いつもニコニコしているように気をつけている", no: "必要なときは厳しい顔もする" }, { yes: "なかよく協力することが一番大事", no: "プロ意識や実力があることが一番大事" }, { yes: "場の空気が悪いとソワソワする", no: "空気が悪くても自分のことに集中できる" } ],
+            'C': [ { yes: "友達の悩みを自分のことのように感じる", no: "友達の悩みは客観的にアドバイスする" }, { yes: "「ありがとう」と言われるのが一番うれしい", no: "「すごいね」と言われるのが一番うれしい" }, { yes: "誰かのために頑張るのが好き", no: "みんなで役割分担するのが一番いい" }, { yes: "人のお世話をするのが好き", no: "人に頼られないほうが気が楽だ" }, { yes: "理屈より「気持ち」が大事だと思う", no: "「何が正しいか」をハッキリさせたい" }, { yes: "困っている人は放っておけない", no: "自分で解決するのを見守るほうがいい" }, { yes: "あたたかい人間関係の中で頑張れる", no: "みんなのレベルが高い場所で頑張れる" }, { yes: "聞き上手だねとよく言われる", no: "話し上手だねとよく言われる" }, { yes: "情に流されやすいところがある", no: "理屈が通っていないと納得できない" } ],
+            'D': [ { yes: "証拠がない話はあまり信じない", no: "熱意があればなんとなく信じる" }, { yes: "感情的なケンカは無駄だと思う", no: "感情を出し合うことも大事だと思う" }, { yes: "「なんでこうなるの？」を究めたい", no: "「どうすればいい？」をすぐ実行したい" }, { yes: "いつも落ち着いているねと言われる", no: "熱い人だね、人間味があるねと言われる" }, { yes: "問題を整理したり図にしたりするのが得意", no: "問題を直感的にパッとつかむのが得意" }, { yes: "常に「もっといい方法」を探している", no: "自分が「やりたい方法」を選んでいる" }, { yes: "しっかり準備してから勝負に出る", no: "その場のノリや感覚を武器にする" }, { yes: "間違いを指摘されると「勉強になった」と思う", no: "間違いを指摘されると少しショックだ" }, { yes: "知りたい！という気持ちがやる気になる", no: "勝ちたい！成功したい！がやる気になる" } ],
+            'E': [ { yes: "「普通」と言われるのはうれしくない", no: "「普通」であることに安心する" }, { yes: "自分だけのオリジナルな表現をしたい", no: "誰にでもわかることを大切にしたい" }, { yes: "おしゃれや美しさが判断の基準になる", no: "効率がいいか、役に立つかが基準になる" }, { yes: "一人でぼーっと空想する時間が大切", no: "みんなでワイワイ話し合う時間が大切" }, { yes: "言葉にできない感覚を大事にしたい", no: "言葉でハッキリ説明できるようにしたい" }, { yes: "「センスいい」と言われるのが最高にうれしい", no: "「仕事が早い」と言われるのが最高にうれしい" }, { yes: "夢や理想を語るほうが楽しい", no: "現実的な計画を立てるほうが落ち着く" }, { yes: "不思議な人だねと言われたことがある", no: "わかりやすい人だねと言われる" }, { yes: "ルールを壊して新しいことをしたくなる", no: "ルールを大切に守りながら活動したい" } ],
+            'F': [ { yes: "一つのことをトコトン深く究めたい", no: "いろんなことを広く浅くやりたい" }, { yes: "何時間でも同じことに集中できる", no: "飽きっぽくて、新しい刺激がすぐ欲しくなる" }, { yes: "「プロっぽい」「職人」と言われる", no: "「器用」「世渡り上手」と言われる" }, { yes: "細かいところまでしっかりこだわりたい", no: "とりあえずスピード重視で終わらせたい" }, { yes: "自分なりのルーティン（決まり）を崩したくない", no: "毎日違うことが起きるほうがワクワクする" }, { yes: "黙って集中してやりたい", no: "みんなとお喋りしながらやりたい" }, { yes: "「完璧にやりたい」気持ちが強い", no: "「まずはだいたいでいい」と思える" }, { yes: "一人が好きで、孤独を感じにくい", no: "一人になると寂しくなりやすい" }, { yes: "静かに、長く続くやる気を持っている", no: "爆発的で、まわりに伝わるやる気だ" } ],
+            'G': [ { yes: "やるなら常にトップを目指したい", no: "そこそこの位置で満足できる" }, { yes: "褒められるほど、どんどん伸びるタイプ", no: "陰でこっそり努力するのが好きなタイプ" }, { yes: "自分の名前や存在を世に広めたい", no: "平和に静かに過ごせればいい" }, { yes: "すごい影響力がある人に憧れる", no: "ささやかな幸せを大切にしたい" }, { yes: "競い合うことで強くなれると思う", no: "助け合うことで安心できると思う" }, { yes: "「憧れの人」だと思われたい", no: "「話しやすい人」だと思われたい" }, { yes: "自信を持って堂々と行動できる", no: "控えめに、謙虚に行動する" }, { yes: "ムリだと言われるほど燃える", no: "できると言われることを確実にやる" }, { yes: "自分が中心にいないと寂しい", no: "誰かのサポートをするほうが落ち着く" } ],
+            'H': [ { yes: "約束や時間は絶対に守る", no: "多少の遅れは気にしないでほしい" }, { yes: "ルールは守るためにあると思う", no: "ルールは古くなったら変えるべきだ" }, { yes: "まじめであることが一番大事だと思う", no: "要領がいいことが一番大事だと思う" }, { yes: "一度任されたことは絶対に投げ出さない", no: "しんどくなったら誰かに頼る" }, { yes: "地味なコツコツ作業も続けられる", no: "派手で目立つ仕事のほうが好き" }, { yes: "まじめでしっかりしているねと言われる", no: "自由で楽しそうだねと言われる" }, { yes: "責任感が強すぎて、ひとりで抱え込みがち", no: "甘えるのが上手で、人に頼むのがうまい" }, { yes: "コツコツ土台を作るのが自分の役目だ", no: "一発逆転のすごいことを狙いたい" }, { yes: "生活のリズムが整っている", no: "気分で生活リズムが変わりやすい" } ],
+            'I': [ { yes: "カバンにはいつも旅の準備がある気分", no: "家が一番のお気に入りスポットだ" }, { yes: "予定はあえて決めすぎないほうがいい", no: "予定はきっちり詰まっているほうがいい" }, { yes: "好奇心がすごくて、趣味がたくさんある", no: "一つのことに命をかけている" }, { yes: "「ダメ」と言われると逃げ出したくなる", no: "適度なルールがあるほうが安心する" }, { yes: "ピンときたほうにすぐ決める", no: "過去の例を調べてから慎重に決める" }, { yes: "深刻なときこそ、笑いや遊びがほしい", no: "どんな時でもマジメにやるべきだ" }, { yes: "変わっていくことこそが人生だ", no: "変わらないことこそが大切だ" }, { yes: "なんとかなるさ！と楽天的に考える", no: "最悪のことも考えて心配するほうだ" }, { yes: "どこへでも一人で行ける勇気がある", no: "誰かと一緒じゃないと不安になる" } ]
         };
 
-        let currentIdx = 0, currentQ = 0, scores = {};
-        const tIds = Object.keys(questions);
+        let currentAnswers = []; 
+        let quizQueue = []; 
+        let currentQIdx = 0;
+        let lastScores = {};
 
         function showSection(id) {
             ['start-screen', 'quiz-screen', 'result-screen', 'catalog-screen'].forEach(s => {
-                document.getElementById(s).classList.add('hidden');
+                const el = document.getElementById(s);
+                if(el) el.classList.add('hidden');
             });
-            document.getElementById(id).classList.remove('hidden');
-            if(id === 'catalog-screen') buildCatalog();
-            window.scrollTo(0,0);
+            const target = document.getElementById(id);
+            if(target) target.classList.remove('hidden');
+            if(id === 'catalog-screen') renderCatalog();
+            window.scrollTo(0, 0);
         }
 
         function startQuiz() {
-            currentIdx = 0; currentQ = 0; scores = {};
+            quizQueue = [];
+            Object.keys(attributeQuestions).forEach(attrId => {
+                attributeQuestions[attrId].forEach((q, idx) => {
+                    quizQueue.push({ attrId, ...q, qIdxInAttr: idx });
+                });
+            });
+            for (let i = quizQueue.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [quizQueue[i], quizQueue[j]] = [quizQueue[j], quizQueue[i]];
+            }
+            currentQIdx = 0;
+            currentAnswers = [];
             showSection('quiz-screen');
-            renderQ();
+            renderQuestion();
         }
 
-        function renderQ() {
-            const tid = tIds[currentIdx];
-            document.getElementById('category-label').textContent = `深層鑑定中：魂の断面`;
-            document.getElementById('question').textContent = questions[tid][currentQ];
-            document.getElementById('progress').style.width = `${((currentIdx * 3 + currentQ + 1) / 27) * 100}%`;
+        function renderQuestion() {
+            const q = quizQueue[currentQIdx];
+            if(!q) return;
+            document.getElementById('choice-a').textContent = q.yes;
+            document.getElementById('choice-b').textContent = q.no;
+            document.getElementById('q-counter').textContent = `Question ${currentQIdx + 1} / 81`;
+            document.getElementById('progress').style.width = `${((currentQIdx + 1) / 81) * 100}%`;
+            const undoBtn = document.getElementById('undo-btn');
+            undoBtn.style.opacity = currentAnswers.length > 0 ? "1" : "0";
+            undoBtn.style.pointerEvents = currentAnswers.length > 0 ? "auto" : "none";
         }
 
         function answer(isYes) {
-            const tid = tIds[currentIdx];
-            scores[tid] = (scores[tid] || 0) + (isYes ? 1 : 0);
-            currentQ++;
-            if(currentQ >= 3) { currentQ = 0; currentIdx++; }
-            if(currentIdx >= 9) finish(); else renderQ();
+            const q = quizQueue[currentQIdx];
+            currentAnswers.push({ ...q, isYes });
+            currentQIdx++;
+            if (currentQIdx >= 81) {
+                calculateScoresAndRender();
+                showSection('result-screen');
+            } else {
+                renderQuestion();
+            }
         }
 
-        function finish() {
-            let maxT = 'A', minT = 'A', maxV = -1, minV = 10;
-            tIds.forEach(id => {
-                if(scores[id] > maxV) { maxV = scores[id]; maxT = id; }
-                if(scores[id] < minV) { minV = scores[id]; minT = id; }
+        function undo() {
+            if (currentAnswers.length === 0) return;
+            currentAnswers.pop();
+            currentQIdx--;
+            renderQuestion();
+        }
+
+        function calculateScoresAndRender() {
+            const scores = {};
+            traits.forEach(t => scores[t.id] = 0);
+            currentAnswers.forEach(ans => {
+                if (ans.isYes) scores[ans.attrId]++;
             });
-            if(maxT === minT) minT = tIds.find(id => id !== maxT) || 'B';
-            showResult(maxT, minT);
+            let maxId = 'A', minId = 'A', maxVal = -1, minVal = 10;
+            Object.keys(scores).forEach(id => {
+                if (scores[id] > maxVal) { maxVal = scores[id]; maxId = id; }
+                if (scores[id] < minVal) { minVal = scores[id]; minId = id; }
+            });
+            if (maxId === minId) minId = Object.keys(scores).find(id => id !== maxId) || 'B';
+            
+            lastScores = scores;
+            renderResult(maxId, minId, scores);
         }
 
-        function showResult(tid, cid) {
+        function recalculateAndScroll() {
+            calculateScoresAndRender();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderResult(tid, did, allScores) {
             const t = traits.find(x => x.id === tid);
-            const d = desires.find(x => x.id === cid);
-            showSection('result-screen');
-            document.getElementById('result-visual').innerHTML = drawKyuubi(tid, d.hex);
+            const d = desires.find(x => x.id === did);
             
-            document.getElementById('result-title').innerHTML = `
-                <div class="mb-4">
-                    <span class="text-slate-800">${t.name}（${t.modern}）</span><br>
-                    <span class="text-slate-300 text-3xl my-2 block">×</span>
-                    <span style="color:${d.hex}">${d.name}（${d.modern}）</span>
+            document.getElementById('result-visual').innerHTML = drawFox(tid, d.hex, 250);
+            
+            // UI Update: Detailed titles with desc and theme
+            document.getElementById('result-title-container').innerHTML = `
+                <div class="flex flex-col items-center">
+                    <h2 class="text-3xl md:text-4xl font-serif text-slate-800 mb-1">${t.name}（${t.desc}）</h2>
+                    <span class="text-xs tracking-[0.2em] font-bold text-orange-600 uppercase">${t.theme}</span>
+                </div>
+                <div class="text-slate-300 text-2xl font-serif">×</div>
+                <div class="flex flex-col items-center">
+                    <h2 class="text-3xl md:text-4xl font-serif mb-1" style="color:${d.hex}">${d.name}（${d.desc}）</h2>
+                    <span class="text-xs tracking-[0.2em] font-bold uppercase" style="color:${d.hex}">${d.theme}</span>
                 </div>
             `;
             
-            document.getElementById('impression-text').textContent = t.impression;
-            document.getElementById('desire-text').textContent = `あなたの内なる輝きは【${d.name}】。それは「${d.wish}」という、魂の深淵に刻まれた渇望を象徴しています。`;
-            document.getElementById('divine-panel').style.backgroundColor = d.dark;
-            document.getElementById('bg-glow').style.background = `radial-gradient(circle, ${d.hex} 0%, transparent 70%)`;
+            document.getElementById('result-catch').textContent = getCatchCopy(tid, did);
+            document.getElementById('text-impression').textContent = t.impression;
+            document.getElementById('text-desire').textContent = d.wish;
 
-            const list = document.getElementById('divine-list');
-            list.innerHTML = "";
-            
-            const divineTitles = [
-                "其の一：属性の理（ことわり）",
-                "其の二：色彩の真意",
-                "其の三：魂のバランス",
-                "其の四：外界との接触",
-                "其の五：深淵の警告",
-                "其の六：覚醒への鍵",
-                "其の七：運命の転換",
-                "其の八：至福の源泉",
-                "其の九：至上の教え"
-            ];
-
-            const divineContents = [
-                `あなたが現世で振るう力は【${t.name}】です。それはあなたが生存のために選んだ最も強力な武器です。`,
-                `心の底に沈む【${d.name}】の色彩は、あなたの行動の裏側にある「本当の理由」を物語っています。`,
-                `【${t.modern}】としての仮面が苦しくなった時、その【${d.name}】の願いを自分自身で認めてあげなさい。`,
-                `他者はあなたの【${t.name}】を頼りにしますが、あなた自身が真に求めているのは【${d.modern}】であることを忘れてはなりません。`,
-                `渇望が強すぎると、【${d.name}】の輝きは影となり、あなた自身を飲み込む迷宮に変わる恐れがあります。`,
-                `日常の中に【${d.name}】を象徴する小さな時間を持ちなさい。それがあなたの【${t.name}】としての力を最大化します。`,
-                `困難が訪れた時こそ、表面的な解決ではなく、あなたの魂が【${d.wish}】としているか自問しなさい。`,
-                `あなたが真の幸福を感じるのは、【${t.name}】としての成功ではなく、【${d.name}】の色彩が満たされた瞬間です。`,
-                `己の「属性」を理解し、その根底にある「色彩」を慈しみなさい。二つの光が重なった時、あなたの人生は真の芸術となります。`
-            ];
-
-            divineTitles.forEach((title, i) => {
-                const div = document.createElement('div');
-                div.className = "divine-item";
-                div.innerHTML = `
-                    <h4 class="font-bold mb-2 tracking-widest text-sm uppercase opacity-100" style="color:${d.hex}">${title}</h4>
-                    <p class="text-white opacity-80 text-sm leading-relaxed">${divineContents[i]}</p>
+            const catContainer = document.getElementById('category-analysis');
+            catContainer.innerHTML = "";
+            t.details.forEach((text, i) => {
+                const item = document.createElement('div');
+                item.className = "analysis-item";
+                item.innerHTML = `
+                    <div class="analysis-num">${i+1}</div>
+                    <div class="analysis-content">
+                        <div class="analysis-label">${categoryLabels[i]}</div>
+                        <div class="analysis-text">${text}</div>
+                    </div>
                 `;
-                list.appendChild(div);
+                catContainer.appendChild(item);
+            });
+
+            const summary = document.getElementById('analysis-summary');
+            summary.innerHTML = "";
+            traits.forEach(tr => {
+                const score = (allScores && allScores[tr.id]) || 0;
+                const pct = Math.round((score / 9) * 100);
+                summary.innerHTML += `
+                    <div class="text-center p-2 rounded-xl ${tr.id === tid ? 'bg-orange-100' : 'bg-slate-50'}">
+                        <div class="text-[10px] font-bold text-slate-400 mb-1">${tr.name}</div>
+                        <div class="text-xs font-bold" style="color:${tr.id === tid ? '#9a3412' : '#64748b'}">${pct}%</div>
+                    </div>
+                `;
+            });
+
+            renderHistoryUI();
+            showSection('result-screen'); // Ensure view
+        }
+
+        function renderHistoryUI() {
+            const historyContainer = document.getElementById('history-container');
+            if(!historyContainer) return;
+            historyContainer.innerHTML = "";
+            traits.forEach(tr => {
+                const attrGroup = document.createElement('div');
+                attrGroup.className = "attr-group";
+                attrGroup.innerHTML = `
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h4 class="text-sm font-bold text-slate-700">${tr.name}の側面</h4>
+                                <span class="theme-label">${tr.theme}</span>
+                            </div>
+                            <span class="text-[10px] font-mono text-orange-600 font-bold">${(lastScores && lastScores[tr.id]) || 0} / 9</span>
+                        </div>
+                    </div>
+                `;
+                const attrAnswers = (currentAnswers.length > 0 ? currentAnswers : quizQueue)
+                    .filter(a => a.attrId === tr.id)
+                    .sort((a, b) => a.qIdxInAttr - b.qIdxInAttr);
+
+                attrAnswers.forEach(ans => {
+                    const item = document.createElement('div');
+                    item.className = "history-item";
+                    item.innerHTML = `
+                        <div onclick="toggleHistoryChoice('${ans.attrId}', ${ans.qIdxInAttr}, true)" class="history-choice ${ans.isYes ? 'choice-selected' : 'choice-unselected'}">
+                            ${ans.yes}
+                        </div>
+                        <div onclick="toggleHistoryChoice('${ans.attrId}', ${ans.qIdxInAttr}, false)" class="history-choice ${!ans.isYes ? 'choice-selected' : 'choice-unselected'}">
+                            ${ans.no}
+                        </div>
+                    `;
+                    attrGroup.appendChild(item);
+                });
+                historyContainer.appendChild(attrGroup);
             });
         }
 
-        function buildCatalog() {
-            const container = document.getElementById('catalog-content');
-            container.innerHTML = "";
-            traits.forEach(t => {
-                const group = document.createElement('div');
-                group.innerHTML = `<h3 class="text-2xl font-serif mb-10 border-l-8 border-orange-900 pl-6 text-slate-800">${t.name}（${t.modern}）</h3>`;
-                const grid = document.createElement('div');
-                grid.className = "grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-4";
-                desires.forEach(d => {
-                    const item = document.createElement('div');
-                    item.className = "cursor-pointer text-center p-2 hover:bg-slate-50 rounded-xl transition-all";
-                    item.onclick = () => showResult(t.id, d.id);
-                    item.innerHTML = `
-                        <div class="mb-2 flex justify-center">${drawKyuubi(t.id, d.hex, 60)}</div>
-                        <div class="text-[9px] font-serif truncate" style="color:${d.hex}">${d.name}</div>
-                    `;
-                    grid.appendChild(item);
+        function toggleHistoryChoice(attrId, qIdxInAttr, isYes) {
+            const target = currentAnswers.find(a => a.attrId === attrId && a.qIdxInAttr === qIdxInAttr);
+            if (target && target.isYes !== isYes) {
+                target.isYes = isYes;
+                
+                // スコアの再計算（見た目の点数更新用）
+                const scores = {};
+                traits.forEach(t => scores[t.id] = 0);
+                currentAnswers.forEach(ans => {
+                    if (ans.isYes) scores[ans.attrId]++;
                 });
-                group.appendChild(grid);
-                container.appendChild(group);
+                lastScores = scores;
+                
+                // 履歴部分だけを再描画（画面上部へスクロールしないように）
+                renderHistoryUI();
+            }
+        }
+
+        function getCatchCopy(tid, did) {
+            const prefixes = { 
+                'A': '道を切り拓く', 'B': '調和をもたらす', 'C': '慈愛で包み込む', 
+                'D': '叡智で解き明かす', 'E': '独自の世界を創る', 'F': '深淵を探求する', 
+                'G': '王道を歩む', 'H': '堅実に積み上げる', 'I': '自由を愛する' 
+            };
+            const suffixes = { 
+                'A': '情熱の開拓者', 'B': '静寂の守護者', 'C': '絆を紡ぐ者', 
+                'D': '理想を追う者', 'E': '孤高の表現者', 'F': '癒やしを与える者', 
+                'G': '栄光を掴む者', 'H': '閃きを求める者', 'I': '空を駆ける冒険者' 
+            };
+            return `${prefixes[tid]}${suffixes[did]}`;
+        }
+
+        function drawFox(tid, colorHex, size = 300) {
+            let tails = "";
+            const isMultiColor = !tid && !colorHex; 
+            
+            for (let i = 0; i < 9; i++) {
+                const angle = -80 + (i * 20);
+                const color = isMultiColor ? desires[i].hex : (colorHex || "#cbd5e1");
+                const opacity = (colorHex || isMultiColor) ? (0.3 + (i * 0.05)) : 0.4;
+                tails += `<g transform="rotate(${angle}, 50, 85)">
+                    <path d="M50,85 C65,65 75,40 50,10 C25,40 35,65 50,85" fill="${color}" fill-opacity="${opacity}" stroke="${color}" stroke-width="0.1"/>
+                </g>`;
+            }
+            const trait = traits.find(t => t.id === tid) || { glyph: "" };
+            return `<svg viewBox="0 0 100 100" width="${size}" height="${size}">
+                <path d="M50,85 Q40,80 38,65 Q38,45 50,40 Q62,45 62,65 Q60,80 50,85" fill="white" stroke="#e2e8f0" stroke-width="0.3" />
+                <path d="M42,45 L41,32 L47,43 M58,45 L59,32 L53,43" fill="none" stroke="#94a3b8" stroke-width="0.8"/>
+                ${tails}
+                <g transform="translate(42, 55) scale(0.16)" stroke="${colorHex || '#94a3b8'}" stroke-width="6" fill="none" style="stroke-linecap:round;stroke-linejoin:round;">
+                    <path d="${trait.glyph}" />
+                </g>
+            </svg>`;
+        }
+
+        function renderCatalog() {
+            const list = document.getElementById('catalog-list');
+            if(!list) return;
+            list.innerHTML = "";
+            traits.forEach(t => {
+                const row = document.createElement('div');
+                row.className = "catalog-row";
+                
+                const attrInfo = `
+                    <div class="catalog-attr-info">
+                        <div class="flex flex-col items-center md:items-start">
+                            ${drawFox(t.id, null, 120)}
+                            <div class="mt-4 text-center md:text-left">
+                                <h3 class="text-2xl font-serif text-slate-800">${t.name}</h3>
+                                <p class="text-sm text-slate-500 font-bold mb-1">（${t.desc}）</p>
+                                <span class="text-[10px] text-orange-600 font-bold tracking-[0.2em] uppercase bg-orange-50 px-2 py-1 rounded-md border border-orange-100">${t.theme}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                const desireGrid = `
+                    <div class="catalog-desire-grid">
+                        ${desires.map(d => `
+                            <div onclick="renderResult('${t.id}', '${d.id}', {})" class="group cursor-pointer p-4 bg-slate-50/50 hover:bg-white hover:shadow-lg hover:border-orange-200 border border-transparent rounded-2xl transition-all duration-300">
+                                <div class="flex justify-center mb-3">
+                                    ${drawFox(t.id, d.hex, 60)}
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-[12px] font-bold" style="color:${d.hex}">${d.name}</div>
+                                    <div class="text-[10px] font-normal text-slate-400 mb-2 leading-tight">（${d.desc}）</div>
+                                    <div class="text-[8px] font-bold text-slate-400 tracking-wider uppercase mb-1">${d.theme}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+
+                row.innerHTML = attrInfo + desireGrid;
+                list.appendChild(row);
             });
         }
 
         window.onload = () => {
-            document.getElementById('main-visual').innerHTML = drawKyuubi(null, null, 280);
+            const mainVis = document.getElementById('main-visual');
+            if(mainVis) mainVis.innerHTML = drawFox(null, null, 250);
         };
     </script>
 </body>
