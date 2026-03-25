@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>九尾の暗号 - 心理テスト</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f4f4f9; color: #333; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 90%; max-width: 600px; text-align: center; }
+        h1 { color: #d32f2f; }
+        .question { font-size: 1.2rem; margin-bottom: 1.5rem; display: none; }
+        .question.active { display: block; }
+        button { background: #d32f2f; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 1rem; margin: 5px; transition: 0.3s; }
+        button:hover { background: #b71c1c; }
+        #result { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>九尾の暗号</h1>
+        <div id="quiz">
+            </div>
+        <div id="result">
+            <h2>診断結果</h2>
+            <p id="result-name"></p>
+            <p id="result-desc"></p>
+            <button onclick="location.reload()">もう一度受ける</button>
+        </div>
+    </div>
+
+    <script>
+        // ここに81通りのロジックと質問データを入れます
+        const questions = [
+            { text: "新しいことに挑戦するのが好きだ", category: 0 },
+            // ...本来はここに81問またはロジックに応じた質問が入ります
+        ];
+        // (以前作成したJavaScriptのロジックをここに統合します)
+    </script>
+</body>
+</html>
+
