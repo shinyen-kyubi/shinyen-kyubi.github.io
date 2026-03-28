@@ -302,6 +302,49 @@
                         </div>
                     </div>
 
+                    <!-- AI Analysis Section -->
+                    <div class="mt-16 pt-12">
+                        <h3 class="text-2xl font-serif text-center mb-2">AI特別分析：神託</h3>
+                        <p class="text-center text-xs text-slate-500 mb-10">あなたの深層から導き出した、独自のメッセージです。</p>
+                        
+                        <div class="analysis-frame relative min-h-[150px] flex items-center justify-center">
+                            <div id="ai-loading" class="text-orange-600 font-bold flex flex-col items-center gap-3">
+                                <svg class="animate-spin h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span class="animate-pulse">運命の糸を読み解いています...</span>
+                            </div>
+                            <div id="ai-result" class="text-slate-700 leading-relaxed font-serif text-justify hidden whitespace-pre-wrap w-full"></div>
+                        </div>
+                    </div>
+
+                    <!-- AI Consultation Section (New) -->
+                    <div class="mt-16 pt-12">
+                        <h3 class="text-2xl font-serif text-center mb-2">深層対話：相談窓口</h3>
+                        <p class="text-center text-xs text-slate-500 mb-10">診断結果を踏まえ、AIがあなたの悩みや迷いに寄り添い、助言を紡ぎます。</p>
+                        
+                        <div class="analysis-frame">
+                            <div class="flex flex-col gap-4">
+                                <textarea id="consult-input" rows="3" class="w-full p-4 rounded-2xl border-2 border-orange-100 focus:border-orange-300 focus:outline-none bg-white font-serif text-slate-700 resize-none shadow-sm" placeholder="ここに現在の悩みや、聞いてみたいことを書き記してください..."></textarea>
+                                <div class="text-center mt-2">
+                                    <button onclick="askAI()" class="px-8 py-3 bg-orange-900 text-white rounded-full font-serif shadow-md hover:scale-105 transition-all active:scale-95">
+                                        心を打ち明ける
+                                    </button>
+                                </div>
+                                
+                                <div id="consult-loading" class="hidden text-orange-600 font-bold flex flex-col items-center gap-3 mt-6">
+                                    <svg class="animate-spin h-8 w-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <span class="animate-pulse">言葉を紡いでいます...</span>
+                                </div>
+                                <div id="consult-result" class="text-slate-700 leading-relaxed font-serif text-justify hidden whitespace-pre-wrap w-full mt-6 p-6 bg-white/60 rounded-2xl border border-orange-100"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mt-24 pt-10 border-t border-slate-100">
                         <div class="text-center mb-10">
                             <h3 class="text-2xl font-serif mb-2">心の構成比</h3>
@@ -337,6 +380,8 @@
     </div>
 
     <script>
+        const apiKey = ""; // Gemini API Key
+
         const traits = [
             { 
                 id: 'A', name: '奔流', desc: '行動的リーダー', theme: '開拓・速度・決断', glyph: 'M20,30 Q50,10 80,30 M20,50 Q50,30 80,50 M40,20 L60,80', 
@@ -348,8 +393,8 @@
                     "一時的に強い怒りや焦りを感じることはあっても、それを長く引きずることは少ないさっぱりとした性格です。ストレスを感じた時は、じっと耐え忍ぶよりも、体を動かしたりして素早く発散しようとします。不満があれば直接相手に伝えるため、心の中にわだかまりを溜め込むことはあまりありません。感情の起伏は比較的はっきりしていますが、終わったことには執着せず、すぐに次の目標へと切り替えられます。",
                     "既存の枠組みや安全な道に収まるよりも、自ら新しい道を切り拓いたり、前人未到の分野に挑戦したりすることに価値を見出します。目標達成のためには多少のリスクを背負うことも厭わず、勇敢に立ち向かっていく姿勢を持っています。誰かが敷いたレールの上を歩くことには窮屈さを感じやすく、自分だけのオリジナルな成功を求める傾向があります。高い壁であるほど燃え上がり、持ち前の突破力で乗り越えます。",
                     "お互いに依存し合ったり常に一緒に過ごしたりする関係より、自立した個人として刺激を与え合える関係性を大切にします。お互いの目標に向かって切磋琢磨できる、良きライバルのようなパートナーを求める傾向があります。自分の時間を確保しつつ、必要な時に力強くサポートし合える風通しの良い距離感が理想的です。過度な束縛や干渉を嫌い、自由に活動できる余白を残すことで深い信頼を築けます。",
-                    "お金や時間を将来のためにひたすら貯め込むことよりも、現在の貴重な体験や自身の成長のために惜しみなく投資することを好みます。興味を持ったことにはすぐにお金を使い、行動範囲を広げるための資金出しを渋ることはあまりありません。長期的な資産運用よりも、短期的な効果や即効性を求める活発な価値観を持っています。直感的にお金を使うことが多いため、時には大胆な出費をすることもあるでしょう。",
-                    "机に向かって静かに本を読む座学よりも、実際に体を動かし、実践を通じて学ぶことで最も素早く知識を吸収します。失敗と成功の経験を繰り返すことで、自分なりのノハウを蓄積していく実践的な学習スタイルです。心から興味を持った対象や、すぐに役に立つ技術に対しては、驚異的な集中力とスピードで習得していきます。目的が曖昧な学習や、興味のない分野に対しては、少しモチベーションが下がりがちです。",
+                    "お金や時間を将来のためにひたすら貯め込むことよりも、現在の貴重な体験や自身の成長のために惜しみなく投資することを好みます。興味を持ったことにはすぐにお金を使い、行動範囲を広げるための資金出しを渋ることはあまりありません。長期的な資産運用よりも、短期的な効果や即効性を求める活発な価値観を持っています。直感的に使うことが多いため、時には大胆な出費をすることもあるでしょう。",
+                    "机に向かって静かに本を読む座学よりも、実際に体を動かし、実践を通じて学ぶことで最も素早く知識を吸収します。失敗と成功の経験を繰り返すことで、自分なりのノウハウを蓄積していく実践的な学習スタイルです。心から興味を持った対象や、すぐに役に立つ技術に対しては、驚異的な集中力とスピードで習得していきます。目的が曖昧な学習や、興味のない分野に対しては、少しモチベーションが下がりがちです。",
                     "最終的には周囲の意見や過去のデータよりも、自分自身の直感と感覚を信じて決断を下す強さを持っています。時間をかけて完璧な正解を探すよりも、「まずはやってみよう」というスピード感を何よりも重視します。もし決断が間違っていたとしても、後から軌道修正すれば良いという合理的な考え方をしています。自分の選択から生じる結果に対する責任を、誰かのせいにすることなく自ら負う潔い姿勢が特徴です。"
                 ]
             },
@@ -515,6 +560,103 @@
         let quizQueue = []; 
         let currentQIdx = 0;
         let lastScores = {};
+        
+        // 相談窓口用の状態保存
+        let currentUserTrait = null;
+        let currentUserDesire = null;
+
+        // --- AI Analysis Function ---
+        async function fetchAIAnalysis(trait, desire, scores) {
+            const prompt = `あなたは「心炎九尾」という東洋風の神秘的な心理テストの導き手です。
+ユーザーは81問の質問に答え、表面的な属性が「${trait.name}（${trait.desc}）」、内なる欲求の色彩が「${desire.name}（${desire.desc}）」という結果になりました。
+
+この組み合わせが持つ独自の魅力、直面しやすい葛藤、そして心がけ出すべき未来への指針を、美しく神秘的で、かつ心に寄り添う温かいトーンで300〜400文字程度で語りかけてください。`;
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: "あなたは神秘的で温かい心理テストの導き手です。" }] }
+            };
+
+            let retries = 5;
+            let delay = 1000;
+            
+            while (retries > 0) {
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) throw new Error('API Error');
+                    const data = await response.json();
+                    return data.candidates?.[0]?.content?.parts?.[0]?.text || "分析結果を取得できませんでした。";
+                } catch (error) {
+                    retries--;
+                    if (retries === 0) return "申し訳ありません。現在、運命の糸を読み解くことができません。";
+                    await new Promise(r => setTimeout(r, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        // --- AI Consultation Function ---
+        async function askAI() {
+            const inputEl = document.getElementById('consult-input');
+            const loadingEl = document.getElementById('consult-loading');
+            const resultEl = document.getElementById('consult-result');
+            
+            const userMessage = inputEl.value.trim();
+            if (!userMessage || !currentUserTrait || !currentUserDesire) return;
+
+            loadingEl.classList.remove('hidden');
+            resultEl.classList.add('hidden');
+            
+            const prompt = `あなたは「心炎九尾」という東洋風の神秘的な心理テストの導き手です。
+ユーザーの診断結果は、表面的な属性が「${currentUserTrait.name}」、内なる欲求の色彩が「${currentUserDesire.name}」です。
+
+この性格傾向を持つユーザーから、以下の相談や問いかけがありました。
+「${userMessage}」
+
+ユーザーの診断結果の特徴を踏まえ、神秘的で温かく、心に深く寄り添うトーンで、300文字程度で助言を与えてください。`;
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: "あなたは神秘的で温かい心理テストの導き手です。ユーザーの悩みに優しく答えてください。" }] }
+            };
+
+            let retries = 3;
+            let delay = 1000;
+
+            while (retries > 0) {
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) throw new Error('API Error');
+                    const data = await response.json();
+                    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "言葉を受け取ることができませんでした。";
+                    
+                    loadingEl.classList.add('hidden');
+                    resultEl.textContent = text;
+                    resultEl.classList.remove('hidden');
+                    return;
+                } catch (error) {
+                    retries--;
+                    if (retries === 0) {
+                        loadingEl.classList.add('hidden');
+                        resultEl.textContent = "申し訳ありません。現在、あなたの心に言葉を届けることができません。少し時間を置いてから、もう一度打ち明けてみてください。";
+                        resultEl.classList.remove('hidden');
+                        return;
+                    }
+                    await new Promise(r => setTimeout(r, delay));
+                    delay *= 2;
+                }
+            }
+        }
 
         function showSection(id) {
             ['start-screen', 'quiz-screen', 'result-screen', 'catalog-screen'].forEach(s => {
@@ -601,6 +743,20 @@
             const t = traits.find(x => x.id === tid);
             const d = desires.find(x => x.id === did);
             
+            currentUserTrait = t;
+            currentUserDesire = d;
+            
+            // 相談窓口の初期化
+            const consultInput = document.getElementById('consult-input');
+            const consultResult = document.getElementById('consult-result');
+            const consultLoading = document.getElementById('consult-loading');
+            if(consultInput) consultInput.value = '';
+            if(consultResult) {
+                consultResult.classList.add('hidden');
+                consultResult.textContent = '';
+            }
+            if(consultLoading) consultLoading.classList.add('hidden');
+
             document.getElementById('result-visual').innerHTML = drawFox(tid, d.hex, 250);
             
             // UI Update: Detailed titles with desc and theme
@@ -634,6 +790,21 @@
                 `;
                 catContainer.appendChild(item);
             });
+
+            // --- Reset and Call AI Analysis ---
+            const aiLoading = document.getElementById('ai-loading');
+            const aiResult = document.getElementById('ai-result');
+            if (aiLoading && aiResult) {
+                aiLoading.classList.remove('hidden');
+                aiResult.classList.add('hidden');
+                aiResult.innerHTML = ""; // Clear old text
+                
+                fetchAIAnalysis(t, d, allScores).then(text => {
+                    aiLoading.classList.add('hidden');
+                    aiResult.textContent = text;
+                    aiResult.classList.remove('hidden');
+                });
+            }
 
             const summary = document.getElementById('analysis-summary');
             summary.innerHTML = "";
